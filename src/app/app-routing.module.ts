@@ -32,15 +32,20 @@ import { PagesFaqComponent } from './pages/pages-faq/pages-faq.component';
 import { PagesLoginComponent } from './pages/pages-login/pages-login.component';
 import { PagesRegisterComponent } from './pages/pages-register/pages-register.component';
 import { UsersProfileComponent } from './pages/users-profile/users-profile.component';
-import { ReservationComponent } from './components/form/reservation/reservation.component';
+
 import { GymComponent } from './components/calendar/gym/gym.component';
+import { FacilitiesComponent } from './components/facilities/facilities.component';
+import { DavnorgymComponent } from './components/davnorgym/davnorgym.component';
+import { ResfacilitiesComponent } from './components/resfacilities/resfacilities.component';
 
  
 const routes: Routes = [
   { path: '', component: DashboardComponent },
 
-  { path: 'reservation', component: ReservationComponent},
+  { path: 'resfacilities', component: ResfacilitiesComponent},
   { path: 'gym', component: GymComponent},
+  { path: 'facilities', component: FacilitiesComponent},
+  { path: 'davnorgym', component: DavnorgymComponent},
 
   { path: 'dashboard', component: DashboardComponent },
   { path: 'alerts', component: AlertsComponent },

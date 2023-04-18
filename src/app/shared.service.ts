@@ -11,10 +11,37 @@ export class SharedService {
 
   constructor(private http: HttpClient) { }
 
-  GetListReservationForm():Observable<any[]>{
-    return this.http.get<any[]>(this.APIUrl+'/reservationForms');
+  //resfacilities
+  GetListResFacilities():Observable<any[]>{
+    return this.http.get<any[]>(this.APIUrl+'/resFacilities');
   }
-  AddReservationForm(add:any={}){
-    return this.http.post<any[]>(this.APIUrl+'/reservationForms',add);
+  AddResFacilities(add:any={}){
+    return this.http.post<any[]>(this.APIUrl+'/resFacilities',add);
   }
+
+  //facilities 
+  GetListFacilities():Observable<any[]>{
+    return this.http.get<any[]>(this.APIUrl+'/facilities');
+  }
+  AddFacilities(add:any={}){
+    return this.http.post<any[]>(this.APIUrl+'/facilities',add);
+  }
+  GetListPrices():Observable<any[]>{
+    return this.http.get<any[]>(this.APIUrl+'/prices');
+  }
+
+  //facilitycategories
+  GetListFacilityCategories():Observable<any[]>{
+    return this.http.get<any[]>(this.APIUrl+'/facilityCategories');
+  }
+
+  //davnorgym
+  GetListDavNorGym():Observable<any[]>{
+    return this.http.get<any[]>(this.APIUrl+'/davnorgyms');
+  }
+  AddDavNorGym(add:any={}){
+    return this.http.post<any[]>(this.APIUrl+'/davnorgyms',add);
+  }
+
+
 }

@@ -1,0 +1,79 @@
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>DavNor Gym</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+                <li class="breadcrumb-item">Utility</li>
+                <li class="breadcrumb-item active">DavNor Gym</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title"></h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="row g-3">
+                                <div class="row mt-3">
+                                    <div class="col-md-12"> <label class="form-label">Facility Name: </label>
+                                        <input type="text" class="form-control" name="myData" [(ngModel)]="addData.facilityName">
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-4"> <label class="form-label">w/o Aircon rate/hour: </label>
+                                        <input type="text" class="form-control" name="myData" [(ngModel)]="addData.woAirconRperH">
+                                    </div>
+                                    <div class="col-md-4"> <label class="form-label">Medium Cool rate/hour: </label>
+                                        <input type="text" class="form-control" name="myData" [(ngModel)]="addData.mediumCoolRperH">
+                                    </div>
+                                    <div class="col-md-4"> <label class="form-label">High Cool rate/hour: </label>
+                                        <input type="text" class="form-control" name="myData" [(ngModel)]="addData.highCoolRperH">
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <button (click)="AddDavNorGym()" type="button" class="btn btn-primary">Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="row g-3">
+                                <div class="row mt-3">
+                                    <h1 class="card-title">Rates</h1>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Category</th>
+                                                <th scope="col">Facility Name</th>
+                                                <th scope="col">w/o Aircon rate/hour</th>
+                                                <th scope="col">Medium Cool rate/hour</th>
+                                                <th scope="col">High Cool rate/hour</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let dataItem of dataList; let i = index">
+                                                <td>{{i+1}}</td>
+                                                <td>{{dataItem.categoryName}}</td>
+                                                <td>{{dataItem.facilityName}}</td>
+                                                <td>{{dataItem.woAirconRperH}}</td>
+                                                <td>{{dataItem.mediumCoolRperH}}</td>
+                                                <td>{{dataItem.highCoolRperH}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

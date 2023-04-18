@@ -50,7 +50,8 @@ export class GymComponent implements OnInit {
 
   object :any = {};
   eventszxc: EventInput [] = [];
-  events:any = [{ date: '2023-04-01' , title: 'event 1', id : 11}, { date: '2023-04-02',  title: 'event 2', id : 12},  { date: '2023-04-03',  title: 'event 3' , id : 13}];
+  // events:any = [{ date: '2023-04-01' , title: 'event 1', id : 11}, { date: '2023-04-02',  title: 'event 2', id : 12},  { date: '2023-04-03',  title: 'event 3' , id : 13}];
+  events:any = [];
 
  
 

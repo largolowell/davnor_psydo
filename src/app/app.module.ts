@@ -38,7 +38,6 @@ import { PagesRegisterComponent } from './pages/pages-register/pages-register.co
 import { PagesLoginComponent } from './pages/pages-login/pages-login.component';
 import { PagesError404Component } from './pages/pages-error404/pages-error404.component';
 import { PagesBlankComponent } from './pages/pages-blank/pages-blank.component';
-import { ReservationComponent } from './components/form/reservation/reservation.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
@@ -53,6 +52,9 @@ import { GymComponent } from './components/calendar/gym/gym.component';
 
 import { SharedService } from './shared.service';
 import { HttpClientModule } from '@angular/common/http';
+import { FacilitiesComponent } from './components/facilities/facilities.component';
+import { DavnorgymComponent } from './components/davnorgym/davnorgym.component';
+import { ResfacilitiesComponent } from './components/resfacilities/resfacilities.component';
 
 
 
@@ -96,8 +98,10 @@ import { HttpClientModule } from '@angular/common/http';
     PagesLoginComponent,
     PagesError404Component,
     PagesBlankComponent,
-    ReservationComponent,
-    GymComponent
+    GymComponent,
+    FacilitiesComponent,
+    DavnorgymComponent,
+    ResfacilitiesComponent
 
   ],
   imports: [
