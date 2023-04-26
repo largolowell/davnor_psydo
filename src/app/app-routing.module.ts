@@ -37,12 +37,14 @@ import { GymComponent } from './components/calendar/gym/gym.component';
 import { FacilitiesComponent } from './components/facilities/facilities.component';
 import { DavnorgymComponent } from './components/davnorgym/davnorgym.component';
 import { ResfacilitiesComponent } from './components/resfacilities/resfacilities.component';
+import { ResdavnorgymComponent } from './components/resdavnorgym/resdavnorgym.component';
 
  
 const routes: Routes = [
   { path: '', component: DashboardComponent },
 
   { path: 'resfacilities', component: ResfacilitiesComponent},
+  { path: 'resdavnorgym', component: ResdavnorgymComponent},
   { path: 'gym', component: GymComponent},
   { path: 'facilities', component: FacilitiesComponent},
   { path: 'davnorgym', component: DavnorgymComponent},

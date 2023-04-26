@@ -55,6 +55,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FacilitiesComponent } from './components/facilities/facilities.component';
 import { DavnorgymComponent } from './components/davnorgym/davnorgym.component';
 import { ResfacilitiesComponent } from './components/resfacilities/resfacilities.component';
+import { ResdavnorgymComponent } from './components/resdavnorgym/resdavnorgym.component';
 
 
 
@@ -101,7 +102,8 @@ import { ResfacilitiesComponent } from './components/resfacilities/resfacilities
     GymComponent,
     FacilitiesComponent,
     DavnorgymComponent,
-    ResfacilitiesComponent
+    ResfacilitiesComponent,
+    ResdavnorgymComponent
 
   ],
   imports: [

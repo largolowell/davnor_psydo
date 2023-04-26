@@ -18,6 +18,12 @@ export class SharedService {
   AddResFacilities(add:any={}){
     return this.http.post<any[]>(this.APIUrl+'/resFacilities',add);
   }
+  EditResFacilities(val:any={}){
+    return this.http.put(this.APIUrl+'/resFacilities',val)
+  }
+  ViewListResFacilities():Observable<any[]>{
+    return this.http.get<any[]>(this.APIUrl+'/reservations');
+  }
 
   //facilities 
   GetListFacilities():Observable<any[]>{
@@ -42,6 +48,20 @@ export class SharedService {
   AddDavNorGym(add:any={}){
     return this.http.post<any[]>(this.APIUrl+'/davnorgyms',add);
   }
+  GetListOther():Observable<any[]>{
+    return this.http.get<any[]>(this.APIUrl+'/others');
+  }
+  AddOthers(add:any={}){
+    return this.http.post<any[]>(this.APIUrl+'/others',add);
+  }
 
+  //resdavnorgym
+  GetListResDavNorGym():Observable<any[]>{
+    return this.http.get<any[]>(this.APIUrl+'/resDavNorGyms');
+  }
+
+  AddResDavNorGym(add:any={}){
+    return this.http.post<any[]>(this.APIUrl+'/resDavNorGyms',add);
+  }
 
 }

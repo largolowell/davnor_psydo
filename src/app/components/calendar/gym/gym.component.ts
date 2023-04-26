@@ -3,6 +3,8 @@ import { CalendarOptions, EventInput} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction'; 
 import { FullCalendarComponent } from '@fullcalendar/angular';
+import { SharedService } from 'src/app/shared.service';
+
 
 
 @Component({
@@ -50,17 +52,17 @@ export class GymComponent implements OnInit {
 
   object :any = {};
   eventszxc: EventInput [] = [];
-  // events:any = [{ date: '2023-04-01' , title: 'event 1', id : 11}, { date: '2023-04-02',  title: 'event 2', id : 12},  { date: '2023-04-03',  title: 'event 3' , id : 13}];
+  // events:any = [{ date: "2023-04-01" , title: "event 1"}, { date: '2023-04-02',  title: 'event 2'},  { date: '2023-04-03',  title: 'event 3' }];
   events:any = [];
+  dataListResFacilities:any = [];
 
- 
 
-
-  constructor() {}
+  constructor(private service: SharedService) {}
 
   ngOnInit(): void {
-   
+    this.GetListResFacilities();
   } 
+
 
   calendarOptions: CalendarOptions = {
   initialView: 'dayGridMonth',
@@ -70,6 +72,22 @@ export class GymComponent implements OnInit {
   dateClick: this.handleDateClick.bind(this)
   }; 
 
+  GetListResFacilities(){
+    this.service.GetListResFacilities().subscribe(data=>{
+      console.log(data);
+      this.dataListResFacilities = (<any>data);
+      console.log("reslist", this.dataListResFacilities);
+      this.dataListResFacilities.forEach((item: any) => {
+        this.object.date = item.date;
+        this.object.title = item.title;
+        this.AddEvent();
+
+      });
+      
+      console.log("check", this.events);
+
+    }) 
+  }
 
 
   handleDateClick(arg:any){

@@ -21,7 +21,7 @@
                                     <div class="col-md-12"> <label class="form-label">Category: </label>
                                         <select class="form-select" aria-label="Default select example" name="myData"
                                             [(ngModel)]="addData.categoryId">
-                                            <option value="" disabled selected>Select an option</option>
+                                            <option value="" disabled selected>Select Category</option>
                                             <option *ngFor="let item of dataListFacilityCategories"
                                                 [value]="item.categoryId">
                                                 {{ item.categoryName }}
@@ -57,27 +57,33 @@
                         <div class="card-body">
                             <form class="row g-3">
                                 <div class="row mt-3">
-                                    <h1 class="card-title">Rates</h1>
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Category</th>
-                                                <th scope="col">Facility Name</th>
-                                                <th scope="col">Day rate/hour</th>
-                                                <th scope="col">Night rate/hour</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let dataItem of dataListPrice; let i = index">
-                                                <td>{{i+1}}</td>
-                                                <td>{{dataItem.categoryName}}</td>
-                                                <td>{{dataItem.facilityName}}</td>
-                                                <td>{{dataItem.dayRperH}}</td>
-                                                <td>{{dataItem.nightRperH}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="card-title" style="display: inline-block; margin-bottom: 3px; padding-bottom: 3px;">
+                                        <h2 style="display: inline;">Rates</h2>
+                                        <hr
+                                            style="display: inline-block; border: none; height: 10px; background-color: black; width: 100%; margin: 0; padding: 0;">
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-secondary table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Category</th>
+                                                    <th scope="col">Facility Name</th>
+                                                    <th scope="col">Day rate/hour</th>
+                                                    <th scope="col">Night rate/hour</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let dataItem of dataListPrice; let i = index">
+                                                    <td>{{i+1}}</td>
+                                                    <td>{{dataItem.categoryName}}</td>
+                                                    <td>{{dataItem.facilityName}}</td>
+                                                    <td>{{dataItem.dayRperH}}</td>
+                                                    <td>{{dataItem.nightRperH}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </form>
                         </div>

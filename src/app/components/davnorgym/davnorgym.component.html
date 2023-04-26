@@ -18,23 +18,63 @@
                         <div class="card-body">
                             <form class="row g-3">
                                 <div class="row mt-3">
-                                    <div class="col-md-12"> <label class="form-label">Facility Name: </label>
-                                        <input type="text" class="form-control" name="myData" [(ngModel)]="addData.facilityName">
+                                    <div class="col-md-10"> <label class="form-label">Purpose: </label>
+                                        <input type="text" class="form-control" name="myData"
+                                            [(ngModel)]="purpose">
+                                    </div>
+                                    <div class="col-md-2"> <label class="form-label">&nbsp;</label>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">
+                                            Others
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="row mt-3">
-                                    <div class="col-md-4"> <label class="form-label">w/o Aircon rate/hour: </label>
-                                        <input type="text" class="form-control" name="myData" [(ngModel)]="addData.woAirconRperH">
+                                    <div class="col-md-8"> <label class="form-label">Temperature: </label>
+                                        <select class="form-select" aria-label="Default select example" name="myData"
+                                            [(ngModel)]="temp">
+                                            <option value="" disabled selected>Select Temperature</option>
+                                            <option value="w/o Aircon">w/o Aircon</option>
+                                            <option value="Medium Cool">Medium Cool</option>
+                                            <option value="High Cool">High Cool</option>
+                                        </select>
                                     </div>
-                                    <div class="col-md-4"> <label class="form-label">Medium Cool rate/hour: </label>
-                                        <input type="text" class="form-control" name="myData" [(ngModel)]="addData.mediumCoolRperH">
-                                    </div>
-                                    <div class="col-md-4"> <label class="form-label">High Cool rate/hour: </label>
-                                        <input type="text" class="form-control" name="myData" [(ngModel)]="addData.highCoolRperH">
+                                    <div class="col-md-4"> <label class="form-label">Rate: </label>
+                                        <input type="text" class="form-control" name="myData"
+                                            [(ngModel)]="addData.dayRperH" [(ngModel)]="addData.nightRperH">
                                     </div>
                                 </div>
                                 <div class="">
                                     <button (click)="AddDavNorGym()" type="button" class="btn btn-primary">Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="row g-3">
+                                <div class="row mt-3">
+                                    <div class="card-title" style="display: inline-block; margin-bottom: 3px; padding-bottom: 3px;">
+                                        <h2 style="display: inline;">Others</h2>
+                                        <hr
+                                            style="display: inline-block; border: none; height: 10px; background-color: black; width: 100%; margin: 0; padding: 0;">
+                                    </div>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Equipments</th>
+                                                <th scope="col">Rate</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let dataItem of dataListOthers; let i = index">
+                                                <td>{{i+1}}</td>
+                                                <td>{{dataItem.otherItem}}</td>
+                                                <td>{{dataItem.rate}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </form>
                         </div>
@@ -45,31 +85,31 @@
                         <div class="card-body">
                             <form class="row g-3">
                                 <div class="row mt-3">
-                                    <h1 class="card-title">Rates</h1>
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Category</th>
-                                                <th scope="col">Facility Name</th>
-                                                <th scope="col">w/o Aircon rate/hour</th>
-                                                <th scope="col">Medium Cool rate/hour</th>
-                                                <th scope="col">High Cool rate/hour</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let dataItem of dataList; let i = index">
-                                                <td>{{i+1}}</td>
-                                                <td>{{dataItem.categoryName}}</td>
-                                                <td>{{dataItem.facilityName}}</td>
-                                                <td>{{dataItem.woAirconRperH}}</td>
-                                                <td>{{dataItem.mediumCoolRperH}}</td>
-                                                <td>{{dataItem.highCoolRperH}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="card-title" style="display: inline-block; margin-bottom: 3px; padding-bottom: 3px;">
+                                        <h2 style="display: inline;">Rates</h2>
+                                        <hr
+                                            style="display: inline-block; border: none; height: 10px; background-color: black; width: 100%; margin: 0; padding: 0;">
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-secondary table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th> 
+                                                    <th scope="col">Purpose</th>
+                                                    <th scope="col">Rate/hr</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let dataItem of dataList; let i = index">
+                                                    <td>{{i+1}}</td>
+                                                    <td>{{dataItem.facilityName}}</td>
+                                                    <td>{{dataItem.dayRperH}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                            </form> 
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -77,3 +117,56 @@
         </div>
     </div>
 </main>
+
+
+<!-- Modal -->
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-2" id="exampleModalLabel">Others</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12"> <label class="form-label">Equipments: </label>
+                    <input type="text" class="form-control" name="myData" [(ngModel)]="addDataOthers.otherItem">
+                </div><br>
+                <div class="col-md-4"> <label class="form-label">Rate: </label>
+                    <input type="text" class="form-control" name="myData" [(ngModel)]="addDataOthers.rate">
+                </div> 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button (click)="AddOthers()" type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>  -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-2" id="exampleModalLabel">Others</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mt-1">
+                    <div class="col-md-12"> <label class="form-label">Equipments: </label>
+                        <input type="text" class="form-control" name="myData" [(ngModel)]="addDataOthers.otherItem">
+                    </div>
+                </div><br>
+                <div class="row mt-1">
+                    <div class="col-md-12"> <label class="form-label">Rate: </label>
+                        <input type="text" class="form-control" name="myData" [(ngModel)]="addDataOthers.rate">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

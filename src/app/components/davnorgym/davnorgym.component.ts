@@ -12,23 +12,45 @@ export class DavnorgymComponent implements OnInit {
 
   ngOnInit(): void {
     this.GetListDavNorGym();
+    this.GetListOther();
   }
 
   dataList:any = [];
+  dataListOthers:any = [];
   addData:any = {};
+  addDataOthers:any = {};
+
+  temp:any;
+  purpose:any;
 
   GetListDavNorGym(){
-    this.service.GetListDavNorGym().subscribe(data=>{
+    this.service.GetListPrices().subscribe(data=>{
       this.dataList = (<any>data);
-      console.log("gym", data);
+      console.log("prices", data);
+    }) 
+  }
+
+  GetListOther(){
+    this.service.GetListOther().subscribe(data=>{
+      this.dataListOthers = (<any>data);
+      console.log("other", data);
     }) 
   }
 
   AddDavNorGym(){
-    this.addData.categoryName = "DavNorGym";
-    this.service.AddDavNorGym(this.addData).subscribe(data=>{
+    let result = this.purpose + " " + this.temp;
+    this.addData.facilityName = result;
+    this.addData.categoryId = "C230425161142";
+    this.service.AddFacilities(this.addData).subscribe(data=>{
       console.log("add_davnorgym", data); 
       this.GetListDavNorGym();
+    })
+  }
+
+  AddOthers(){
+    this.service.AddOthers(this.addDataOthers).subscribe(data=>{
+      console.log("add_others", data); 
+      this.GetListOther();
     })
   }
  
