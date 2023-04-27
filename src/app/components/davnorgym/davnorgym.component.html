@@ -59,7 +59,7 @@
                                         <hr
                                             style="display: inline-block; border: none; height: 10px; background-color: black; width: 100%; margin: 0; padding: 0;">
                                     </div>
-                                    <table class="table table-hover">
+                                    <table class="my-table table-striped">
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
@@ -71,7 +71,7 @@
                                             <tr *ngFor="let dataItem of dataListOthers; let i = index">
                                                 <td>{{i+1}}</td>
                                                 <td>{{dataItem.otherItem}}</td>
-                                                <td>{{dataItem.rate}}</td>
+                                                <td>₱ {{dataItem.rate}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -91,7 +91,7 @@
                                             style="display: inline-block; border: none; height: 10px; background-color: black; width: 100%; margin: 0; padding: 0;">
                                     </div>
                                     <div class="table-responsive">
-                                        <table class="table table-secondary table-striped">
+                                        <table class="my-table table">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th> 
@@ -103,7 +103,7 @@
                                                 <tr *ngFor="let dataItem of dataList; let i = index">
                                                     <td>{{i+1}}</td>
                                                     <td>{{dataItem.facilityName}}</td>
-                                                    <td>{{dataItem.dayRperH}}</td>
+                                                    <td>₱ {{dataItem.dayRperH}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

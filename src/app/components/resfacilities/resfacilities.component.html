@@ -45,13 +45,16 @@
                             <option value="DavNorGym">DavNorGym</option>
                         </select>
                     </div> -->
+                    <div class="col-md-4"> <label class="form-label">Nature of Event: </label>
+                        <input type="text" class="form-control" name="myData" [(ngModel)]="addData.title" [ngClass]="validate.title?'is-invalid':''">
+                    </div>
                     <div class="col-md-4"> <label class="form-label">Category: </label>
                         <select class="form-select" aria-label="Default select example" name="myData"
-                        [(ngModel)]="selectedValue"
-                        (ngModelChange)="onSelectChange(selectedValue)" [ngClass]="validate.facilityId?'is-invalid':''">
+                            [(ngModel)]="selectedValue" (ngModelChange)="onSelectChange(selectedValue)"
+                            [ngClass]="validate.facilityId?'is-invalid':''">
                             <option value="" disabled selected>Select Category</option>
                             <option *ngFor="let item of listfacilitycategory" [value]="item.categoryId">
-                                {{ item.categoryName }} 
+                                {{ item.categoryName }}
                             </option>
                         </select>
                     </div>
@@ -83,9 +86,6 @@
                             </option>
                         </select>
                     </div> -->
-                    <div class="col-md-4"> <label class="form-label">Nature of Event: </label>
-                        <input type="text" class="form-control" name="myData" [(ngModel)]="addData.title">
-                    </div>
                     <div *ngIf="purpose" class="col-md-2"><label class="form-label">Other Equipments: </label>
                         <div class="">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -149,7 +149,7 @@
                     style="display: inline-block; border: none; height: 10px; background-color: black; width: 100%; margin: 0; padding: 0;">
             </div>
             <div class="table-responsive">
-                <table class="table table-secondary table-striped">
+                <table class="my-table table">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -160,7 +160,8 @@
                             <th scope="col">Start Time</th>
                             <th scope="col">End Time</th>
                             <th scope="col">Total</th>
-                            <th width="5.5%"></th>
+                            <th width="7.4%"></th>
+                            <!-- <th width="5.2%"></th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -169,7 +170,7 @@
                             <td>{{dataItem.categoryName}}</td>
                             <td>{{dataItem.facilityName}}</td>
                             <td>{{dataItem.otherItem}}</td>
-                            <td>{{dataItem.date}}</td> 
+                            <td>{{dataItem.date}}</td>
                             <td>
                                 <div *ngFor="let item of startTime">
                                     <span *ngIf="item.int === dataItem.startTime"> {{item.type}} </span>
@@ -180,13 +181,15 @@
                                     <span *ngIf="item.int === dataItem.endTime"> {{item.type}} </span>
                                 </div>
                             </td>
-                            <td>{{dataItem.total}}</td>
-                            <button (click)="editData = dataItem" data-toggle="modal" 
-                                data-target="#edit" class="btn btn-primary">
-                                <i class="ri-edit-2-fill "></i></button>&nbsp;
-                            <button class="btn btn-danger" >
-                                <i class="ri-delete-bin-5-line "></i>
-                            </button>
+                            <td>₱ {{dataItem.total}}</td>
+                            <td>
+                                <button (click)="editData = dataItem" data-toggle="modal" data-target="#edit"
+                                    class="btn btn-success">
+                                    <i class="bi bi-pen-fill text-black"></i></button> &nbsp;
+                                <button (click)="editData = dataItem" class="btn btn-danger" (click)="DeleteResFacilities(dataItem.resFacilitiesId)">
+                                    <i class="bi bi-trash text-black"></i>
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -238,10 +241,10 @@
         </div>
     </div>
 </div>
-  
+
 <!-- EDIT -->
 <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-2" id="exampleModalLabel">Reserved</h1>
@@ -249,7 +252,27 @@
             </div>
             <div class="modal-body">
                 <div class="row mt-3">
-                    <div *ngIf="editData.facilityId ?? null" class="col-md-12"> <label class="form-label">Facilities: </label>
+                    <!-- <div class="col-md-4"> <label class="form-label">Category: </label>
+                        <select class="form-select" aria-label="Default select example" name="myData"
+                        [(ngModel)]="editData.categoryId"
+                        (ngModelChange)="onSelectChange(editData.categoryId)" [ngClass]="validate.facilityId?'is-invalid':''">
+                            <option value="" disabled selected>Select Category</option>
+                            <option *ngFor="let item of listfacilitycategory" [value]="item.categoryId">
+                                {{ item.categoryName }} 
+                            </option>
+                        </select>
+                    </div> -->
+                    <!-- <div class="col-md-4"> <label class="form-label">Facilities: </label>
+                        <select class="form-select" aria-label="Default select example" name="myData"
+                            [(ngModel)]="editData.facilityId" [ngClass]="validate.facilityId?'is-invalid':''"  (ngModelChange)="onSelectChange(editData.categoryId)">
+                            <option value="" disabled selected>Select Facility</option>
+                            <option *ngFor="let item of dataListPrice" [value]="item.facilityId">
+                                {{ item.categoryName }} - {{ item.facilityName }}
+                            </option>
+                        </select>
+                    </div> -->
+                    <div *ngIf="editData.facilityId ?? null" class="col-md-12"> <label class="form-label">Facilities:
+                        </label>
                         <select class="form-select" aria-label="Default select example"
                             [(ngModel)]="editData.facilityId" >
                             <option value="" disabled selected>Select Facility</option>
@@ -270,14 +293,13 @@
                     </div> -->
                     <div class="row mt-3">
                         <div class="col-md-12"> <label class="form-label">Event Date: </label>
-                            <input type="date" class="form-control" [(ngModel)]="editData.date" name="date" id="date"
-                                [ngClass]="validate.date?'is-invalid':''">
+                            <input type="date" class="form-control" [(ngModel)]="editData.date" name="date" id="date">
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-6"> <label class="form-label">Start Time: </label>
-                            <select class="form-select" aria-label="Default select example" name="startTime" id="startTime" 
-                                [(ngModel)]="editData.startTime" [ngClass]="validate.startTime?'is-invalid':''">
+                            <select class="form-select" aria-label="Default select example" name="startTime"
+                                id="startTime" [(ngModel)]="editData.startTime">
                                 <option value="" disabled selected>Select time</option>
                                 <option *ngFor="let item of startTime" [value]="item.int">
                                     {{ item.type }}
@@ -286,7 +308,7 @@
                         </div>
                         <div class="col-md-6"> <label class="form-label">End Time: </label>
                             <select class="form-select" aria-label="Default select example" name="endTime" id="endTime"
-                                [(ngModel)]="editData.endTime" [ngClass]="validate.endTime?'is-invalid':''">
+                                [(ngModel)]="editData.endTime">
                                 <option value="" disabled selected>Select time</option>
                                 <option *ngFor="let item of endTime" [value]="item.int">
                                     {{ item.type }}

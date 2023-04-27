@@ -13,13 +13,16 @@ export class SharedService {
 
   //resfacilities
   GetListResFacilities():Observable<any[]>{
-    return this.http.get<any[]>(this.APIUrl+'/resFacilities');
+    return this.http.get<any[]>(this.APIUrl+'/resFacilities'); 
   }
   AddResFacilities(add:any={}){
     return this.http.post<any[]>(this.APIUrl+'/resFacilities',add);
   }
   EditResFacilities(val:any={}){
-    return this.http.put(this.APIUrl+'/resFacilities',val)
+    return this.http.put(this.APIUrl+'/resFacilities',val, {responseType: 'text'})
+  }
+  DeleteResFacilities(id:string){
+    return this.http.delete(this.APIUrl+`/resFacilities/${id}`, {responseType: 'text'})
   }
   ViewListResFacilities():Observable<any[]>{
     return this.http.get<any[]>(this.APIUrl+'/reservations');

@@ -116,8 +116,7 @@ import { ResdavnorgymComponent } from './components/resdavnorgym/resdavnorgym.co
     MatNativeDateModule,
     FullCalendarModule,
     HttpClientModule,
-    ReactiveFormsModule,
-   
+    ReactiveFormsModule
 
   ],
   providers: [SharedService],

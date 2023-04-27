@@ -1,0 +1,9 @@
+.my-table th,
+.my-table td {
+  height: 50px; /* Change this value to whatever height you want */
+  vertical-align: middle;
+}
+
+.my-table thead th {
+  height: 80px; /* Change this value to whatever height you want */
+}

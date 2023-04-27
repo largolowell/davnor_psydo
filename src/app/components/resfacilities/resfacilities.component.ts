@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/shared.service';
 import * as moment from 'moment';
 
+
 @Component({
   selector: 'app-resfacilities',
   templateUrl: './resfacilities.component.html',
@@ -50,7 +51,7 @@ export class ResfacilitiesComponent implements OnInit {
   totalTime: number | any;
   totalPay: number | any;
 
-  // facilities: boolean = false;
+  facilities: boolean = false;
   purpose: boolean = false;
 
   // dataListDavGym:any = [];
@@ -82,15 +83,33 @@ export class ResfacilitiesComponent implements OnInit {
     this.dataListPrice.forEach((item: any) =>{
       if(item.categoryId == event){ 
         this.dropdownPrice.push(item);
+        this.facilities = true;
       }
     })
   }
   EditResFacilities(){
+    // console.log("check edit", this.editData);
+    this.editCategoryFacilities();
+    if(this.editData.facilityId === "C230425161142"){
+      this.totalPurpose();
+    }else{
+      this.total();
+    }
+    this.total();
     console.log("editdata",this.editData);
     this.service.EditResFacilities(this.editData).subscribe(data=>{
       console.log("edited", data); 
+      this.ViewListResFacilities();
     })
 
+  }
+ 
+ 
+  DeleteResFacilities(id: string){
+    this.service.DeleteResFacilities(id).subscribe(data=>{
+      console.log("delete", data); 
+      this.ViewListResFacilities();
+    })
   }
 
   addOthers(){
@@ -186,9 +205,9 @@ export class ResfacilitiesComponent implements OnInit {
   }  
 
   total(){
-    this.sTime = this.addData.startTime;
+    this.sTime = this.addData.startTime || this.editData.startTime;
     console.log("sTime", this.sTime);
-    this.eTime = this.addData.endTime;
+    this.eTime = this.addData.endTime || this.editData.endTime;
     this.totalTime = this.eTime - this.sTime;
     if(this.sTime<17){
       if(this.eTime>17){
@@ -199,27 +218,32 @@ export class ResfacilitiesComponent implements OnInit {
         this.totalPay = this.nRate * this.eTime + dummypay;
         console.log("lapas alas 5", this.totalPay);
         this.addData.total = this.totalPay;
+        this.editData.total = this.totalPay;
         this.totalPay = 0;
       }else{ 
         this.totalPay = this.dRate * this.totalTime;
         console.log("totalPay", this.totalPay);
         this.addData.total = this.totalPay;
+        this.editData.total = this.totalPay;
         this.totalPay = 0;
       }
     }else{
       this.totalPay = this.nRate * this.totalTime;
       console.log("totalPay", this.totalPay);
       this.addData.total = this.totalPay; 
+      this.editData.total = this.totalPay;
       this.totalPay = 0;
     }
     console.log("checktotalhere", this.addData.total);
+    console.log("checktotalhere", this.editData.total);
   }
 
   totalPurpose(){
-    this.sTime = this.addData.startTime;
-    this.eTime = this.addData.endTime;
+    this.sTime = this.addData.startTime || this.editData.startTime;
+    this.eTime = this.addData.endTime || this.editData.endTime;
     this.totalTime = this.eTime - this.sTime;
     this.addData.total = this.dRate * this.totalTime + (this.rateOther * this.totalTime);
+    this.editData.total = this.dRate * this.totalTime + (this.rateOther * this.totalTime);
   }
 
   addCategoryFacilities(){
@@ -235,6 +259,31 @@ export class ResfacilitiesComponent implements OnInit {
         this.dataArray.splice(0, this.dataArray.length);
         console.log("dataList", this.dataList);
         this.addData.facilityId = this.dataList.facilityId;
+        // if(this.selectedValue === "C230425161142"){
+
+        // }
+        // this.addData.categoryId = this.dataList.categoryId;
+        // this.addData.facilityName = this.dataList.facilityName;
+        // this.addData.categoryName = this.dataList.categoryName;
+        this.dRate = this.dataList.dayRperH;
+        this.nRate = this.dataList.nightRperH;  
+      }
+    });
+  }
+
+  editCategoryFacilities(){
+    this.editData.reservationDate = this.formattedDate;
+    console.log("data",this.editData.facilityId); 
+    console.log("prices",this.dataListPrice);
+    this.dataListPrice.forEach((item: any) => {
+      if(item.facilityId == this.editData.facilityId ){
+        this.dataArray.push(item);
+        this.dataList = this.dataArray[0];
+        console.log("addcategorydatalist", this.dataList);
+        //delete the first element in array
+        this.dataArray.splice(0, this.dataArray.length);
+        console.log("dataList", this.dataList);
+        this.editData.facilityId = this.dataList.facilityId;
         // if(this.selectedValue === "C230425161142"){
 
         // }
@@ -278,6 +327,7 @@ export class ResfacilitiesComponent implements OnInit {
   }
 
   validateInput(){
+    this.validate.title = this.addData.title == null? true: false;
     this.validate.selectedValue = this.selectedValue == null? true: false;
     // this.validate.purpose = this.checker == null ? true: false;
     this.validate.facilityId = this.checker == null ? true: false;
