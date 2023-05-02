@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/shared.service';
 import * as moment from 'moment';
+import Swal from 'sweetalert2'
 
 
 @Component({
@@ -20,7 +21,7 @@ export class ResfacilitiesComponent implements OnInit {
   ngOnInit(): void {
     // this.GetListResFacilities();
     this.GetListPrices();
-    // this.GetListDavNorGym();
+    // this.GetListDavNorGym(); 
     this.GetListOther();
     this.ViewListResFacilities();
     this.GetListFacilityCategories();
@@ -106,12 +107,30 @@ export class ResfacilitiesComponent implements OnInit {
  
  
   DeleteResFacilities(id: string){
-    this.service.DeleteResFacilities(id).subscribe(data=>{
-      console.log("delete", data); 
-      this.ViewListResFacilities();
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+        this.service.DeleteResFacilities(id).subscribe(data=>{
+          console.log("delete", data); 
+          this.ViewListResFacilities();
+        })
+      }
     })
-  }
 
+  }
+ 
   addOthers(){
     this.dataListOthers.forEach((item: any) =>{
       if(item.othersId == this.checkerOther){ 
@@ -148,7 +167,19 @@ export class ResfacilitiesComponent implements OnInit {
     this.service.ViewListResFacilities().subscribe(data=>{
       this.viewListReservation = (<any>data);
       console.log("viewlistres", data);
+      this.filter();
     }) 
+  }
+  approvedList: any = [];
+  filter(){
+    console.log("viewlistres_check", this.viewListReservation );
+    this.viewListReservation.forEach((item : any)=>{
+      if(item.status === 1){
+        this.approvedList.push(item);
+      }
+    })
+    console.log("check1",this.approvedList);
+
   }
 
   GetListOther(){
@@ -197,6 +228,14 @@ export class ResfacilitiesComponent implements OnInit {
         this.dataList = {};
         this.dataArray = [];
         this.validator = 0;
+        this.approvedList = [];
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Your work has been saved',
+          showConfirmButton: false,
+          timer: 2000
+        })
         })
     }else{
       console.log("exist");
@@ -322,7 +361,7 @@ export class ResfacilitiesComponent implements OnInit {
       if(item.date === this.addData.date){
         console.log("exist");
         this.validator = 1;
-      }
+      } 
     })
   }
 

@@ -1,11 +1,11 @@
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Reservation</h1>
+        <h1>Form</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-                <li class="breadcrumb-item">Forms</li>
-                <li class="breadcrumb-item active">Reservation</li>
+                <li class="breadcrumb-item">Reservation</li>
+                <li class="breadcrumb-item active">Form</li>
             </ol>
         </nav>
     </div>
@@ -165,7 +165,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let dataItem of viewListReservation; let i = index">
+                        <tr *ngFor="let dataItem of approvedList; let i = index">
                             <td>{{i+1}}</td>
                             <td>{{dataItem.categoryName}}</td>
                             <td>{{dataItem.facilityName}}</td>

@@ -56,6 +56,7 @@ import { FacilitiesComponent } from './components/facilities/facilities.componen
 import { DavnorgymComponent } from './components/davnorgym/davnorgym.component';
 import { ResfacilitiesComponent } from './components/resfacilities/resfacilities.component';
 import { ResdavnorgymComponent } from './components/resdavnorgym/resdavnorgym.component';
+import { ReservationListComponent } from './components/reservation-list/reservation-list.component';
 
 
 
@@ -103,7 +104,8 @@ import { ResdavnorgymComponent } from './components/resdavnorgym/resdavnorgym.co
     FacilitiesComponent,
     DavnorgymComponent,
     ResfacilitiesComponent,
-    ResdavnorgymComponent
+    ResdavnorgymComponent,
+    ReservationListComponent
 
   ],
   imports: [
