@@ -1,50 +1,62 @@
 <main id="main" class="main">
-    <div class="pagetitle">
-       <h1>Reserved</h1>
-       <nav>
-         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-            <li class="breadcrumb-item">Calendar</li>
-            <li class="breadcrumb-item active">Reserved</li>
-         </ol>
-      </nav>
-    </div>
-    <div>
-       <full-calendar  #calendar [options] = "calendarOptions"  [events]="events" ></full-calendar>
-    </div>
- 
- <!-- Button trigger modal -->
- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" #openbutton hidden>
+  <div class="pagetitle">
+    <h1>Reserved</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+        <li class="breadcrumb-item">Calendar</li>
+        <li class="breadcrumb-item active">Reserved</li>
+      </ol>
+    </nav>
+  </div>
+  <div>
+    <full-calendar #calendar [options]="calendarOptions" [events]="events"></full-calendar>
+  </div>
+
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit" #openbutton hidden>
     Launch demo modal
   </button>
- 
+
   <!-- Modal -->
-  <div class="modal fade"  id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+  <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Event</h1>
-          <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h1 class="modal-title fs-3" id="exampleModalLabel" style="color: blue"><i class="bi bi-journal-bookmark"></i>&nbsp;{{object.title}}</h1>
+          <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
+            aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div class="col-lg-8">
-             <label for="exampleFormControlInput1">Event Tittle:</label>
-             <input type="text" class="form-control" id="" placeholder="" [(ngModel)]="object.title"
-           >
-           </div>
-           <div *ngIf="visible" class="col-lg-3">
-             <label for="exampleFormControlInput1">Date:</label>
-             <input type="text" disabled="" class="form-control" id="" placeholder="" [(ngModel)]="object.date"
-           >
-           </div>
-        </div>
+          <div class="">
+            <div class="row mt-3">
+              <div class="col-lg-12">
+                <div class="">
+                  <label for="exampleFormControlInput1" style="font-size: 1.3em;">Facility:</label>
+                </div>
+                <div class="" style="font-size: 1.4em; font-style: italic; font-weight: bold">
+                  <i class="bi bi-house"></i>&nbsp;{{object.categoryName}} - {{object.facilityName}}
+                </div><br>
+                <div class="">
+                  <label for="exampleFormControlInput1" style="font-size: 1.3em;">Reserved Time:</label><br>
+                  <span style="font-size: 1.4em; font-style: italic; font-weight: bold"><i class="bi bi-clock"></i>&nbsp;{{object.s_t}} - {{object.e_t}}</span>
+                </div>
+              </div>
+              <div *ngIf="visible" class="col-lg-3">
+                <label for="exampleFormControlInput1">Date:</label>
+                <input type="text" disabled="" class="form-control" id="" placeholder="" [(ngModel)]="object.date">
+              </div>
+
+            </div>
+          </div>
+        </div><br>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" *ngIf = "visible" class="btn btn-primary" (click)="AddEvent()">Add</button>
-          <button type="button" *ngIf = "not_visible" class="btn btn-success" (click)="EditEvent(object)">Edit</button>
+          <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" *ngIf="visible" class="btn btn-primary" (click)="AddEvent()">Add</button>
+          <button type="button" *ngIf="not_visible" class="btn btn-success" (click)="EditEvent(object)">Edit</button> -->
         </div>
       </div>
     </div>
   </div>
- 
- </main>
+
+</main>

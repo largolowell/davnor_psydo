@@ -25,8 +25,18 @@ export class FacilitiesComponent implements OnInit {
   AddFacilities(){
     this.service.AddFacilities(this.addData).subscribe(data=>{
       console.log("add_facilities", data);
-      this.GetListFacilities();
+      this.clear();
+      this.GetListPrices();
     })
+  }
+
+  clear(){
+    this.dataListFacilities= [];
+    this.dataListFacilityCategories= [];
+    this.dataListPrice = [];
+    this.dataItem ={}; 
+    this.addData = {};
+    this.finalList = [];
   }
 
   GetListFacilities(){
@@ -35,11 +45,17 @@ export class FacilitiesComponent implements OnInit {
       console.log("facility", data);
     }) 
   }
-
+  finalList:any = [];
   GetListPrices(){
     this.service.GetListPrices().subscribe(data=>{
       this.dataListPrice = (<any>data);
       console.log("prices", data);
+      this.dataListPrice.forEach((item:any)=>{
+        if(item.categoryId != "C230425161142"){
+          this.finalList.push(item);
+        }
+      })
+      console.log("finallist", this.finalList);
     }) 
   }
 

@@ -20,7 +20,7 @@ export class ReservationListComponent implements OnInit {
   declinedList: any = [];
   reservedList:any = [];
 
-  // display:any = []
+  validator:any;
 
   viewListReservation:any = [];
   ViewListResFacilities(){
@@ -31,15 +31,13 @@ export class ReservationListComponent implements OnInit {
     }) 
   }
 
-  // selectedStatus:any;
-  // onSelectChange(event:any) {
-  //   console.log(event);
-  //   if(event == 1){
-  //     this.display = this.approvedList;
-  //   }else{
-  //     this.display = this.declinedList;
-  //   }
-  // }
+  dateValidator(){
+    this.approvedList.forEach((item:any)=>{
+      if(item.date ===this.editData.date &&item.facilityId === this.editData.facilityId){
+        this.validator = 1
+      }
+    })
+  }
 
   filter(){
     console.log("viewlistres_check", this.viewListReservation );
@@ -61,27 +59,61 @@ export class ReservationListComponent implements OnInit {
 
   editData:any = {};
   approve(){
-    console.log("editdata", this.editData);
-    this.editData.status = 1;
-     this.service.EditResFacilities(this.editData).subscribe(data=>{
-       console.log("edited", data); 
-       this.approvedList = [];
-       this.declinedList = [];
-       this.reservedList = [];
-       this.ViewListResFacilities();
-     })
+    this.dateValidator();
+    if(this.validator != 1){
+      console.log("editdata", this.editData);
+      this.editData.status = 1;
+       this.service.EditResFacilities(this.editData).subscribe(data=>{
+         console.log("edited", data); 
+         this.approvedList = [];   
+         this.declinedList = [];
+         this.reservedList = [];
+         this.ViewListResFacilities();
+         Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Your work has been saved',
+          showConfirmButton: false,
+          timer: 1500
+        })
+       })
+    }else{
+      console.log("exist");
+      this.validator = 0;
+      Swal.fire({
+        icon: 'warning',
+        title: 'Schedule Conflict'
+      })
+    }
   }
 
   decline(){
-    console.log("editdata", this.editData);
-    this.editData.status = -1;
-     this.service.EditResFacilities(this.editData).subscribe(data=>{
-       console.log("edited", data); 
-       this.approvedList = [];
-       this.declinedList = [];
-       this.reservedList = [];
-       this.ViewListResFacilities();
-     })
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, decline it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log("editdata", this.editData);
+        this.editData.status = -1;
+         this.service.EditResFacilities(this.editData).subscribe(data=>{
+           console.log("edited", data); 
+           this.approvedList = [];
+           this.declinedList = [];
+           this.reservedList = [];
+           this.ViewListResFacilities();
+         })
+        Swal.fire(
+          'Decline!',
+          'The request has been declined.',
+          'success'
+        )
+      }
+    })
   }
 
 }

@@ -18,16 +18,16 @@
                         <div class="card-body">
                             <form class="row g-3">
                                 <div class="row mt-3">
-                                    <div class="col-md-10"> <label class="form-label">Purpose: </label>
+                                    <div class="col-md-12"> <label class="form-label">Purpose: </label>
                                         <input type="text" class="form-control" name="myData"
                                             [(ngModel)]="purpose">
                                     </div>
-                                    <div class="col-md-2"> <label class="form-label">&nbsp;</label>
+                                    <!-- <div class="col-md-2"> <label class="form-label">&nbsp;</label>
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#exampleModal">
                                             Others
                                         </button>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-md-8"> <label class="form-label">Temperature: </label>
@@ -50,7 +50,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="card">
+                    <!-- <div class="card">
                         <div class="card-body">
                             <form class="row g-3">
                                 <div class="row mt-3">
@@ -78,7 +78,7 @@
                                 </div>
                             </form>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="col-md-8">
                     <div class="card">
@@ -100,7 +100,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr *ngFor="let dataItem of dataList; let i = index">
+                                                <tr *ngFor="let dataItem of finalList; let i = index">
                                                     <td>{{i+1}}</td>
                                                     <td>{{dataItem.facilityName}}</td>
                                                     <td>₱ {{dataItem.dayRperH}}</td>

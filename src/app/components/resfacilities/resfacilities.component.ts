@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SharedService } from 'src/app/shared.service';
 import * as moment from 'moment';
 import Swal from 'sweetalert2'
@@ -19,32 +19,31 @@ export class ResfacilitiesComponent implements OnInit {
   constructor(private service: SharedService) { }
 
   ngOnInit(): void {
-    // this.GetListResFacilities();
     this.GetListPrices();
-    // this.GetListDavNorGym(); 
     this.GetListOther();
     this.ViewListResFacilities();
     this.GetListFacilityCategories();
   }
 
+  @ViewChild('closebutton')
+  closebutton!: { nativeElement: { click: () => void; }; };
+
   startTime:any = [{int: 8 , type: `8:00 AM` }, {int: 9 , type: `9:00 AM` }, {int: 10 , type: `10:00 AM` }, {int: 11 , type: `11:00 AM` }, {int: 12 , type: `12:00 PM` }, {int: 13 , type: `1:00 PM` }, {int: 14 , type: `2:00 PM` },
                   {int: 15 , type: `3:00 PM` }, {int: 16 , type: `4:00 PM` }, {int: 17, type: `5:00 PM` }, {int: 18 , type: `6:00 PM` }, {int: 19 , type: `7:00 PM` }, {int: 20 , type: `8:00 PM` }, {int: 21 , type: `9:00 PM` }];
   endTime:any = [{int: 9 , type: `9:00 AM` }, {int: 10 , type: `10:00 AM` }, {int: 11 , type: `11:00 AM` }, {int: 12 , type: `12:00 PM` }, {int: 13 , type: `1:00 PM` }, {int: 14 , type: `2:00 PM` },
                   {int: 15 , type: `3:00 PM` }, {int: 16 , type: `4:00 PM` }, {int: 17, type: `5:00 PM` }, {int: 18 , type: `6:00 PM` }, {int: 19 , type: `7:00 PM` }, {int: 20 , type: `8:00 PM` }, {int: 21 , type: `9:00 PM` }];
-  // dataListResFacilities:any = [];
   addData:any = {};
   editData:any = {};
+  temp:any = {};
   dataListPrice:any = [];
   dataArray:any =[];
   dataList:any = {}; 
   checker:any;
 
   selectedValue: any;
-  // checkedValueElectronic: boolean = false;
-  // checkedValueSound: boolean = false;
- 
-  // checkerdate:any;
+
   validator: number | any;
+  validator_2: number | any;
   dRate: number | any;
   nRate: number | any;
   sTime: number | any;
@@ -55,54 +54,83 @@ export class ResfacilitiesComponent implements OnInit {
   facilities: boolean = false;
   purpose: boolean = false;
 
-  // dataListDavGym:any = [];
   dataListOthers:any = [];
 
   checkerOther:any ;
   rateOther:number = 0;
 
   dataResOther:any = {};
-  // dataResGym:any = {};
 
   dataArrayOther:any = [];
   dataArrayItem:any = [];
 
-  // rate:number | any;  
  
   dropdownPrice:any = [];
+
   onSelectChange(event:any) {
     console.log("selectedValue",event);
     this.dropdownPrice = [];
-    // if(event == "option1"){
-    //   this.facilities = true;
-    //   this.purpose = false;
-    // }
-    // else{
-    //   this.purpose = true;
-    //   this.facilities = false;
-    // }
     this.dataListPrice.forEach((item: any) =>{
       if(item.categoryId == event){ 
         this.dropdownPrice.push(item);
-        this.facilities = true;
+        if(event === "C230425161142"){
+          this.purpose=true;
+        }else{
+          this.purpose=false;
+        }
       }
     })
   }
   EditResFacilities(){
-    // console.log("check edit", this.editData);
-    this.editCategoryFacilities();
-    if(this.editData.facilityId === "C230425161142"){
-      this.totalPurpose();
-    }else{
-      this.total();
-    }
-    this.total();
-    console.log("editdata",this.editData);
-    this.service.EditResFacilities(this.editData).subscribe(data=>{
-      console.log("edited", data); 
-      this.ViewListResFacilities();
-    })
+      this.editValidator();
+      console.log("validator_2", this.validator_2);
+      if(this.validator_2 != 1){
+        this.editCategoryFacilities();
+        if(this.editData.facilityId === "C230425161142"){
+          this.totalPurpose();
+        }else{
+          this.total();
+        }
+        console.log("editdata",this.editData);
+        this.editData.formattedDate = moment(this.editData.date).format('MMM Do YYYY');
+        this.service.EditResFacilities(this.editData).subscribe(data=>{
+          console.log("edited", data); 
+          this.closebutton.nativeElement.click();
+          this.clear();
+          this.ViewListResFacilities();
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Your work has been saved',
+            showConfirmButton: false,
+            timer: 2000
+          })
+        })
+      }else{
+        console.log("exist");
+        this.validator_2 = 0;
+        this.totalTimeValidator =0;
+        this.totalTimeValidatorArray = [];
+        this.sumTime =0;
+        Swal.fire({
+          icon: 'warning',
+          title: 'Invalid!'
+        })
+      }
 
+  }
+  clear(){
+    this.viewListReservation = [];
+    this.tempreserve = [];
+    this.approvedList = [];
+    this.addData = {};
+    this.dataList = {};
+    this.dataArray = [];
+    this.validator = 0;
+    this.validator_2 = 0;
+    this.totalTimeValidator = 0;
+    this.totalTimeValidatorArray = [];
+    this.sumTime = 0;
   }
  
  
@@ -124,53 +152,70 @@ export class ResfacilitiesComponent implements OnInit {
         )
         this.service.DeleteResFacilities(id).subscribe(data=>{
           console.log("delete", data); 
+          this.clear();
           this.ViewListResFacilities();
         })
       }
     })
 
   }
- 
+  isCheckScoreboard: boolean = false;
+  isCheckSound: boolean = false;
+  rateScoreboard:number = 0;
+  rateSound:number = 0;
+  textScoreboard: any ;
+  textSound: any ;
   addOthers(){
-    this.dataListOthers.forEach((item: any) =>{
-      if(item.othersId == this.checkerOther){ 
-        this.dataArrayOther.push(item);
-        this.dataResOther = this.dataArrayOther[0];
-        //delete the first element in array
-        this.dataArrayOther.splice(0, this.dataArrayOther.length);
-        // this.addData.otherItem = this.dataResOther.otherItem;
-        this.dataArrayItem.push(this.dataResOther.otherItem);
-        const combinedData = this.dataArrayItem.join(', ');
-        this.addData.otherItem = combinedData;
-        this.rateOther = this.dataResOther.rate + this.rateOther;
-        console.log("other rate", this.rateOther);
-        console.log("other rate", combinedData);
-      }
-    })
-    // if(this.checkedValueElectronic){
+    console.log(this.isCheckScoreboard);
+    this.rateScoreboard = 0;
+    this.rateSound = 0;
+    if(this.isCheckScoreboard){
+      this.rateScoreboard = 300;
+      this.textScoreboard = "Electronic Scoreboard";
+      this.dataArrayOther.push(this.textScoreboard);
+    }
 
-    // }
-    // if(this.checkedValueSound){
-
-    // }
+    if(this.isCheckSound){
+      this.rateSound = 200;
+      this.textSound = "Sound System";
+      this.dataArrayOther.push(this.textSound);
+    }
+    const combinedData = this.dataArrayOther.join(', ');
+    this.addData.othersId = combinedData;
+    console.log("result", combinedData);
+    this.dataArrayOther = [];
+    this.rateOther = this.rateScoreboard + this.rateSound;
+    console.log("rateother", this.rateOther); 
   }
  
   listfacilitycategory:any = [];
   GetListFacilityCategories(){
     this.service.GetListFacilityCategories().subscribe(data=>{
-      this.listfacilitycategory = (<any>data);
-      console.log("listfacilitycategory", data);
+        this.listfacilitycategory = (<any>data);
+        console.log("listfacilitycategory", data);
     }) 
   }
   viewListReservation:any = [];
+  tempreserve:any = [];
   ViewListResFacilities(){
     this.service.ViewListResFacilities().subscribe(data=>{
       this.viewListReservation = (<any>data);
-      console.log("viewlistres", data);
+      data.forEach((item:any) => {
+        this.tempreserve.push({     
+            date:item.date,
+            endTime:item.endTime,
+            startTime:item.startTime,
+            facilityId:item.facilityId,
+            status:item.status
+        })
+      })
+      console.log("viewlistres", this.tempreserve);
       this.filter();
+      // this.timeValidator();
     }) 
   }
   approvedList: any = [];
+  // tempApprovedList:any = [];
   filter(){
     console.log("viewlistres_check", this.viewListReservation );
     this.viewListReservation.forEach((item : any)=>{
@@ -178,6 +223,7 @@ export class ResfacilitiesComponent implements OnInit {
         this.approvedList.push(item);
       }
     })
+    // this.tempApprovedList = this.approvedList;
     console.log("check1",this.approvedList);
 
   }
@@ -189,30 +235,11 @@ export class ResfacilitiesComponent implements OnInit {
     }) 
   }
 
-  // GetListDavNorGym(){
-  //   this.service.GetListDavNorGym().subscribe(data=>{
-  //     this.dataListDavGym = (<any>data);
-  //     console.log("list", data); 
-  //   }) 
-  // }
-
-
-  // GetListResFacilities(){
-  //   this.service.GetListResFacilities().subscribe(data=>{
-  //     this.dataListResFacilities = (<any>data);
-  //     console.log("reslist", this.dataListResFacilities);
-  //     // this.dataListResFacilities.forEach((item:any)=>{
-  //     //   item.eventDate = moment(item.eventDate).format('MMM Do YYYY');
-  //     // })
-  //   }) 
-  // }
-
   AddResFacilities(){
-    // this.addCategoryFacilities();
-    // this.total();
-    // console.log("checktotalhere", this.addData.total);
+    this.addOthers();
     this.validateInput();
     this.dateValidator();
+    console.log("time validator", this.validator);
     console.log("checkthelist",this.addData);
     if(this.validator != 1){
       this.addCategoryFacilities();
@@ -221,14 +248,11 @@ export class ResfacilitiesComponent implements OnInit {
       }else{
         this.total();
       }
+      this.addData.formattedDate = moment(this.addData.date).format('MMM Do YYYY');
       this.service.AddResFacilities(this.addData).subscribe(data=>{
         console.log("add", data);
+        this.clear();
         this.ViewListResFacilities();
-        this.addData = {};
-        this.dataList = {};
-        this.dataArray = [];
-        this.validator = 0;
-        this.approvedList = [];
         Swal.fire({
           position: 'top-end',
           icon: 'success',
@@ -240,7 +264,14 @@ export class ResfacilitiesComponent implements OnInit {
     }else{
       console.log("exist");
       this.validator = 0;
-    }
+      this.totalTimeValidator =0;
+      this.totalTimeValidatorArray = [];
+      this.sumTime =0;
+      Swal.fire({
+        icon: 'warning',
+        title: 'Invalid!'
+      })
+    } 
   }  
 
   total(){
@@ -278,6 +309,7 @@ export class ResfacilitiesComponent implements OnInit {
   }
 
   totalPurpose(){
+    this.addOthers();
     this.sTime = this.addData.startTime || this.editData.startTime;
     this.eTime = this.addData.endTime || this.editData.endTime;
     this.totalTime = this.eTime - this.sTime;
@@ -298,12 +330,6 @@ export class ResfacilitiesComponent implements OnInit {
         this.dataArray.splice(0, this.dataArray.length);
         console.log("dataList", this.dataList);
         this.addData.facilityId = this.dataList.facilityId;
-        // if(this.selectedValue === "C230425161142"){
-
-        // }
-        // this.addData.categoryId = this.dataList.categoryId;
-        // this.addData.facilityName = this.dataList.facilityName;
-        // this.addData.categoryName = this.dataList.categoryName;
         this.dRate = this.dataList.dayRperH;
         this.nRate = this.dataList.nightRperH;  
       }
@@ -314,7 +340,7 @@ export class ResfacilitiesComponent implements OnInit {
     this.editData.reservationDate = this.formattedDate;
     console.log("data",this.editData.facilityId); 
     console.log("prices",this.dataListPrice);
-    this.dataListPrice.forEach((item: any) => {
+    this.dataListPrice.forEach((item: any) => { 
       if(item.facilityId == this.editData.facilityId ){
         this.dataArray.push(item);
         this.dataList = this.dataArray[0];
@@ -323,52 +349,52 @@ export class ResfacilitiesComponent implements OnInit {
         this.dataArray.splice(0, this.dataArray.length);
         console.log("dataList", this.dataList);
         this.editData.facilityId = this.dataList.facilityId;
-        // if(this.selectedValue === "C230425161142"){
-
-        // }
-        // this.addData.categoryId = this.dataList.categoryId;
-        // this.addData.facilityName = this.dataList.facilityName;
-        // this.addData.categoryName = this.dataList.categoryName;
         this.dRate = this.dataList.dayRperH;
         this.nRate = this.dataList.nightRperH;  
       }
     });
   }
 
-  // addPurpose(){ 
-  //   this.addData.reservationDate = this.formattedDate;
-  //   console.log("data",this.checker);
-  //   this.dataListDavGym.forEach((item: any) => {
-  //     if(item.facilityId == this.checker ){
-  //       this.dataArray.push(item);
-  //       this.dataResGym = this.dataArray[0];
-  //       //delete the first element in array
-  //       this.dataArray.splice(0, this.dataArray.length);
-  //       console.log("dataList", this.dataResGym);
-  //       this.addData.categoryName = this.dataResGym.categoryId;
-  //       this.addData.purposeId = this.dataResGym.facilityId;
-  //       this.addData.purpose = this.dataResGym.purpose;
-  //       this.rate = this.dataResGym.rate;
-  //     }   
-  //   });
-  // }
-
+  totalTimeValidator: number =0;
+  totalTimeValidatorArray:any = [];
+  sumTime:number =0;
   dateValidator(){
     // this.checkerdate = moment(this.addData.eventDate).format('MMM Do YYYY');
     console.log("checker1", this.viewListReservation);
     console.log("checker2", this.addData.date); 
-    this.viewListReservation.forEach((item:any) => {
-      if(item.date === this.addData.date){
+    console.log("edit check", this.editData.facilityId)
+    console.log("checker3", this.checker);
+    this.approvedList.forEach((item:any) => {
+      if(item.date === this.addData.date && item.facilityId === this.checker){
+        console.log("timecheck", this.sumTime)
         console.log("exist");
         this.validator = 1;
-      } 
+        console.log(this.validator);
+      }
+    })
+  }
+
+  editValidator(){   
+    console.log("templist", this.tempreserve);
+    console.log("approvedlist",this.approvedList);
+    console.log(this.editData.facilityId);
+    console.log(this.editData.date);
+    console.log(this.editData.date);
+    this.tempreserve.forEach((item:any) => {
+      if(item.date === this.temp.date && item.facilityId === this.temp.facilityId && item.status === 1){
+        console.log(item.facilityId);
+        console.log(this.temp.facilityId)
+        console.log("timecheck", this.sumTime)
+        console.log("exist");
+        this.validator_2 = 1;
+        console.log("validator ambot", this.validator_2);
+      }
     })
   }
 
   validateInput(){
     this.validate.title = this.addData.title == null? true: false;
     this.validate.selectedValue = this.selectedValue == null? true: false;
-    // this.validate.purpose = this.checker == null ? true: false;
     this.validate.facilityId = this.checker == null ? true: false;
     this.validate.date = this.addData.date == null ? true: false;
     this.validate.startTime = this.addData.startTime == null ? true: false;
