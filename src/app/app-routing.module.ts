@@ -39,6 +39,7 @@ import { DavnorgymComponent } from './components/davnorgym/davnorgym.component';
 import { ResfacilitiesComponent } from './components/resfacilities/resfacilities.component';
 import { ResdavnorgymComponent } from './components/resdavnorgym/resdavnorgym.component';
 import { ReservationListComponent } from './components/reservation-list/reservation-list.component';
+import { LoginComponent } from './components/login/login.component';
 
  
 const routes: Routes = [
@@ -50,6 +51,7 @@ const routes: Routes = [
   { path: 'facilities', component: FacilitiesComponent},
   { path: 'davnorgym', component: DavnorgymComponent},
   { path: 'reservationlist', component: ReservationListComponent},
+  { path: 'login', component: LoginComponent},
 
   { path: 'dashboard', component: DashboardComponent },
   { path: 'alerts', component: AlertsComponent },

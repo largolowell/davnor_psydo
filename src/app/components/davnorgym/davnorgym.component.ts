@@ -33,8 +33,6 @@ export class DavnorgymComponent implements OnInit {
           this.finalList.push(item);
         }
       })
-      console.log("prices", data);
-      console.log("finallist", this.finalList);
     }) 
   }
 
@@ -49,7 +47,6 @@ export class DavnorgymComponent implements OnInit {
   GetListOther(){
     this.service.GetListOther().subscribe(data=>{
       this.dataListOthers = (<any>data);
-      console.log("other", data);
     }) 
   }
 
@@ -58,7 +55,6 @@ export class DavnorgymComponent implements OnInit {
     this.addData.facilityName = result;
     this.addData.categoryId = "C230425161142";
     this.service.AddFacilities(this.addData).subscribe(data=>{
-      console.log("add_davnorgym", data); 
       this.clear();
       this.GetListDavNorGym();
     })
@@ -66,7 +62,6 @@ export class DavnorgymComponent implements OnInit {
 
   AddOthers(){
     this.service.AddOthers(this.addDataOthers).subscribe(data=>{
-      console.log("add_others", data); 
       this.GetListOther();
     })
   }

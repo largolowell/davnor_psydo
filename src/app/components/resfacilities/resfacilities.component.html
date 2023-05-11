@@ -134,7 +134,7 @@
                             <th scope="col">Start Time</th>
                             <th scope="col">End Time</th>
                             <th scope="col">Total</th>
-                            <th width="12.4%"></th>
+                            <th width="12.6%"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -163,7 +163,7 @@
                                 &nbsp;
                                 <button (click)="editData = dataItem" class="btn btn-outline-danger border-0"
                                     (click)="DeleteResFacilities(dataItem.resFacilitiesId)">
-                                    <i class="bi bi-trash "></i>&nbsp;Delete
+                                    <i class="bi bi-x-octagon"></i>&nbsp;Cancel
                                 </button>
                             </td>
                         </tr>
@@ -177,16 +177,16 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-2" id="exampleModalLabel">Reserved</h1>
+                    <h1 class="modal-title fs-2" id="exampleModalLabel">{{editData.title}} - Reserved</h1>
                     <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row mt-3">
-                        <div *ngIf="editData.facilityId ?? null" class="col-md-12"> <label
+                    <div class="">
+                        <div *ngIf="editData.facilityId ?? null" hidden class="col-md-12"> <label
                                 class="form-label">Facilities:
                             </label>
-                            <select class="form-select" aria-label="Default select example"
+                            <select hidden class="form-select" aria-label="Default select example"
                                 [(ngModel)]="editData.facilityId">
                                 <option value="" disabled selected>Select Facility</option>
                                 <option *ngFor="let item of dataListPrice" [value]="item.facilityId">

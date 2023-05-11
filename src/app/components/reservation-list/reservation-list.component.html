@@ -31,7 +31,7 @@
                             <th scope="col">Nature of Event</th>
                             <th scope="col">Event Date</th>
                             <th scope="col">Remarks</th>
-                            <th width="15%"></th>
+                            <th width="13.3%"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,11 +47,18 @@
                             <td>{{dataItem.formattedDate}}</td>
                             <td>{{dataItem.remarks}}</td>
                             <td>
-                                <button (click)="editData = dataItem" (click)="approve()" class="btn btn-outline-success border-0">
+                                <button (click)="editData = dataItem; storage = dataItem.total" type="button"
+                                    class="btn btn-outline-primary border-0" data-bs-toggle="modal"
+                                    data-bs-target="#payment">
                                     <i class="bi bi-check-lg"></i>&nbsp;Approve
                                 </button> &nbsp;
-                                <button (click)="editData = dataItem" (click)="decline()" class="btn btn-outline-danger border-0">
+                                <!-- <button (click)="editData = dataItem" (click)="decline()" class="btn btn-outline-danger border-0">
                                     <i class="bi bi-x-lg"></i>&nbsp;Decline
+                                </button> -->
+                                <button (click)="editData = dataItem" type="button"
+                                    class="btn btn-outline-success border-0" data-bs-toggle="modal"
+                                    data-bs-target="#edit">
+                                    <i class="bi bi-pencil"></i>&nbsp;Edit
                                 </button>
                             </td>
                         </tr>
@@ -74,7 +81,7 @@
                         aria-selected="true">Approved</button>
                     <button class="nav-link font-weight-bold" id="nav-profile-tab" data-bs-toggle="tab"
                         data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile"
-                        aria-selected="false">Declined</button>
+                        aria-selected="false">Canceled</button>
                 </div>
             </nav>
             <div class="tab-content p-3 border bg-light" id="nav-tabContent">
@@ -86,14 +93,17 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Reserved</th>
                                     <th scope="col">Client Name</th>
-                                    <th scope="col">Date of Reservation/Time</th>
+                                    <th width="6%" scope="col">Date of Reservation/Time</th>
                                     <th scope="col">Address</th>
                                     <th scope="col">Contact Person</th>
                                     <th scope="col">Contact Number</th>
                                     <th scope="col">Nature of Event</th>
                                     <th scope="col">Event Date</th>
+                                    <th width="6%" scope="col">Total</th>
                                     <th scope="col">Remarks</th>
+                                    <th scope="col">Approved Date</th>
                                     <th></th>
+                                    <th *ngIf="isNotShow"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -107,8 +117,25 @@
                                     <td>{{dataItem.contactNo}}</td>
                                     <td>{{dataItem.title}}</td>
                                     <td>{{dataItem.formattedDate}}</td>
+                                    <td>₱ {{dataItem.total}}</td>
                                     <td>{{dataItem.remarks}}</td>
-                                    <td><span class="badge bg-success text-white">APPROVED</span></td>
+                                    <td>{{dataItem.approvedDate}}</td>
+                                    <td *ngIf="dataItem.paid === 1"> <span
+                                            class="badge bg-success text-white">PAID</span></td>
+                                    <td *ngIf="dataItem.paid === -1"> <span class="badge bg-danger text-white">DUE FOR
+                                            COLLECTION</span></td>
+                                    <td *ngIf="dataItem.paid === null"> <span class="badge bg-warning text-white">FOR
+                                            PAYMENT</span></td>
+                                    <td *ngIf="dataItem.paid != 1">
+                                        <button (click)="editData = dataItem" data-bs-toggle="modal"
+                                            data-bs-target="#orNo" class="btn btn-outline-primary border-0">
+                                            <i class="bi bi-cash"></i>&nbsp;Paid
+                                        </button>
+                                        <button *ngIf="dataItem.paid != -1" (click)="editData = dataItem"
+                                            (click)="due()" class="btn btn-outline-danger border-0">
+                                            <i class="bi bi-x-octagon"></i>&nbsp;Due
+                                        </button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -144,7 +171,7 @@
                                     <td>{{dataItem.title}}</td>
                                     <td>{{dataItem.formattedDate}}</td>
                                     <td>{{dataItem.remarks}}</td>
-                                    <td><span class="badge bg-danger text-white">DECLINED</span></td>
+                                    <td><span class="badge bg-danger text-white">CANCELED</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -153,4 +180,128 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="payment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-2" id="exampleModalLabel">Payment </h1>
+                    <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label class="font-weight-bold" for="exampleFormControlTextarea1">Mode: </label>&nbsp;
+                        </div>
+                        <div class="col-md-12">
+                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                [(ngModel)]="selectedValue" (ngModelChange)="onSelectChange(selectedValue)">
+                                <option disabled>Open this select menu</option>
+                                <option value="1">Regular payment</option>
+                                <option value="2">Free of use</option>
+                                <option value="3">Donation</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label class="font-weight-bold" for="exampleFormControlTextarea1">Total: </label>
+                            <!-- <span>{{editData.total}}</span> -->
+                            <input *ngIf="isRegular" type="text" class="form-control" name="myData"
+                                [(ngModel)]="editData.total" disabled>
+                            <input *ngIf="isDonation" type="text" class="form-control" name="myData"
+                                [(ngModel)]="editData.total">
+                        </div>
+                    </div>
+                </div><br>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        aria-hidden="true">Close</button>
+                    <button (click)="approve()" type="button" class="btn btn-success"><i
+                            class="bi bi-save2"></i>&nbsp;Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-2" id="exampleModalLabel">{{editData.title}} - Pending</h1>
+                    <button type="button" #closebuttonedit class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="">
+                        <div class="row mt-3">
+                            <div class="col-md-12"> <label class="form-label">Event Date: </label>
+                                <input type="date" class="form-control" [(ngModel)]="editData.date" name="date"
+                                    id="date">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6"> <label class="form-label">Start Time: </label>
+                                <select class="form-select" aria-label="Default select example" name="startTime"
+                                    id="startTime" [(ngModel)]="editData.startTime">
+                                    <option value="" disabled selected>Select time</option>
+                                    <option *ngFor="let item of startTime" [value]="item.int">
+                                        {{ item.type }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-6"> <label class="form-label">End Time: </label>
+                                <select class="form-select" aria-label="Default select example" name="endTime"
+                                    id="endTime" [(ngModel)]="editData.endTime">
+                                    <option value="" disabled selected>Select time</option>
+                                    <option *ngFor="let item of endTime" [value]="item.int">
+                                        {{ item.type }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div><br>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        aria-hidden="true">Close</button>
+                    <button (click)="EditResFacilities()" type="button" class="btn btn-success"><i
+                            class="bi bi-save2"></i>&nbsp;Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="orNo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-2" id="exampleModalLabel">{{editData.clientId}}</h1>
+                    <button type="button" #closebuttonpaid class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="">
+                        <div class="row mt-3">
+                            <div class="col-md-12"> <label class="form-label">OR No. </label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" [(ngModel)]="editData.orNo" name="orNo"
+                                    id="orNo">
+                            </div>
+                        </div>
+                    </div>
+                </div><br>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        aria-hidden="true">Close</button>
+                    <button (click)="paid()" type="button" class="btn btn-success">
+                        <i class="bi bi-cash"></i>&nbsp;Paid</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </main>

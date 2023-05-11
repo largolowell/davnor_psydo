@@ -57,6 +57,7 @@ import { DavnorgymComponent } from './components/davnorgym/davnorgym.component';
 import { ResfacilitiesComponent } from './components/resfacilities/resfacilities.component';
 import { ResdavnorgymComponent } from './components/resdavnorgym/resdavnorgym.component';
 import { ReservationListComponent } from './components/reservation-list/reservation-list.component';
+import { LoginComponent } from './components/login/login.component';
 
 
 
@@ -105,7 +106,8 @@ import { ReservationListComponent } from './components/reservation-list/reservat
     DavnorgymComponent,
     ResfacilitiesComponent,
     ResdavnorgymComponent,
-    ReservationListComponent
+    ReservationListComponent,
+    LoginComponent
 
   ],
   imports: [

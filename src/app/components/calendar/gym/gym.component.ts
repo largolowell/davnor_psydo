@@ -36,13 +36,11 @@ export class GymComponent implements OnInit {
     this.eventszxc.push(newEvent);
     this.calendarComponent.getApi().addEvent(newEvent);
     this.object = {};
-    console.log("add_data", this.eventszxc);
     this.closebutton.nativeElement.click();
       
   }
 
   EditEvent(object:any){
-    console.log("title", object);
     this.handle.event.setProp('title',object.title); 
     this.calendarComponent.getApi().refetchEvents(this.handle.event);
     this.object = {};
@@ -79,9 +77,7 @@ export class GymComponent implements OnInit {
 
   GetListResFacilities(){
     this.service.ViewListResFacilities().subscribe(data=>{
-      console.log(data);
       this.dataListResFacilities = (<any>data);
-      console.log("reslist", this.dataListResFacilities);
       this.filter();
       this.approvedList.forEach((item: any) => {
         this.object.date = item.date;
@@ -90,24 +86,22 @@ export class GymComponent implements OnInit {
         this.object.facilityName = item.facilityName;
         this.object.s_t = item.startTime;
         this.object.e_t = item.endTime;
+        this.object.participantNo = item.participantNo;
         this.AddEvent();
 
       });
       
-      console.log("check", this.events);
 
     }) 
   }
   approvedList:any = [];
   filter(){
-    console.log("viewlistres_check", this.dataListResFacilities );
     this.dataListResFacilities.forEach((item : any)=>{
       if(item.status === 1){
         this.approvedList.push(item);
       }
     })
-    // this.tempApprovedList = this.approvedList;
-    console.log("check1",this.approvedList);
+
 
   }
 
@@ -123,17 +117,16 @@ export class GymComponent implements OnInit {
   // }
 
   
-  handle:any = {};
+  handle:any = {}; 
   timeConverterS_T:any;
   timeConverterE_T:any;
   handleEventClick(arg:any) {
     // alert('date click! ' + arg.dateStr)
-    // console.log(arg.event._def.title);
     this.handle = arg;
     this.object = arg.event._def;
     this.object.categoryName =  arg.event._def.extendedProps.categoryName;
     this.object.facilityName =  arg.event._def.extendedProps.facilityName;
-    console.log("object_checker", arg.event._def.extendedProps);
+    this.object.participantNo = arg.event._def.extendedProps.participantNo;
     this.s_t.forEach((item:any)=>{
       if(arg.event._def.extendedProps.s_t === item.int){
          this.timeConverterS_T = item.type;
@@ -144,8 +137,6 @@ export class GymComponent implements OnInit {
          this.timeConverterE_T = item.type;
       }
     })      
-    console.log(this.timeConverterS_T);
-    console.log(this.timeConverterE_T);
     this.object.s_t = this.timeConverterS_T;
     this.object.e_t = this.timeConverterE_T;
     this.openbutton.nativeElement.click();

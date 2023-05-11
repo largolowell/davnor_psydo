@@ -20,7 +20,6 @@ export class ResfacilitiesComponent implements OnInit {
 
   ngOnInit(): void {
     this.GetListPrices();
-    this.GetListOther();
     this.ViewListResFacilities();
     this.GetListFacilityCategories();
   }
@@ -68,14 +67,14 @@ export class ResfacilitiesComponent implements OnInit {
   dropdownPrice:any = [];
 
   onSelectChange(event:any) {
-    console.log("selectedValue",event);
     this.dropdownPrice = [];
     this.dataListPrice.forEach((item: any) =>{
       if(item.categoryId == event){ 
         this.dropdownPrice.push(item);
         if(event === "C230425161142"){
           this.purpose=true;
-        }else{
+        }
+        else{
           this.purpose=false;
         }
       }
@@ -83,7 +82,6 @@ export class ResfacilitiesComponent implements OnInit {
   }
   EditResFacilities(){
       this.editValidator();
-      console.log("validator_2", this.validator_2);
       if(this.validator_2 != 1){
         this.editCategoryFacilities();
         if(this.editData.facilityId === "C230425161142"){
@@ -91,10 +89,8 @@ export class ResfacilitiesComponent implements OnInit {
         }else{
           this.total();
         }
-        console.log("editdata",this.editData);
         this.editData.formattedDate = moment(this.editData.date).format('MMM Do YYYY');
         this.service.EditResFacilities(this.editData).subscribe(data=>{
-          console.log("edited", data); 
           this.closebutton.nativeElement.click();
           this.clear();
           this.ViewListResFacilities();
@@ -107,7 +103,6 @@ export class ResfacilitiesComponent implements OnInit {
           })
         })
       }else{
-        console.log("exist");
         this.validator_2 = 0;
         this.totalTimeValidator =0;
         this.totalTimeValidatorArray = [];
@@ -142,16 +137,16 @@ export class ResfacilitiesComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: 'Yes, cancel it!'
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
+          'Canceled!',
+          'The schedule has been canceled.',
           'success'
         )
-        this.service.DeleteResFacilities(id).subscribe(data=>{
-          console.log("delete", data); 
+        this.editData.status = -1;
+        this.service.EditResFacilities(this.editData).subscribe(data=>{
           this.clear();
           this.ViewListResFacilities();
         })
@@ -166,7 +161,6 @@ export class ResfacilitiesComponent implements OnInit {
   textScoreboard: any ;
   textSound: any ;
   addOthers(){
-    console.log(this.isCheckScoreboard);
     this.rateScoreboard = 0;
     this.rateSound = 0;
     if(this.isCheckScoreboard){
@@ -182,17 +176,14 @@ export class ResfacilitiesComponent implements OnInit {
     }
     const combinedData = this.dataArrayOther.join(', ');
     this.addData.othersId = combinedData;
-    console.log("result", combinedData);
     this.dataArrayOther = [];
     this.rateOther = this.rateScoreboard + this.rateSound;
-    console.log("rateother", this.rateOther); 
   }
  
   listfacilitycategory:any = [];
   GetListFacilityCategories(){
     this.service.GetListFacilityCategories().subscribe(data=>{
         this.listfacilitycategory = (<any>data);
-        console.log("listfacilitycategory", data);
     }) 
   }
   viewListReservation:any = [];
@@ -209,38 +200,24 @@ export class ResfacilitiesComponent implements OnInit {
             status:item.status
         })
       })
-      console.log("viewlistres", this.tempreserve);
       this.filter();
-      // this.timeValidator();
     }) 
   }
   approvedList: any = [];
-  // tempApprovedList:any = [];
+
   filter(){
-    console.log("viewlistres_check", this.viewListReservation );
     this.viewListReservation.forEach((item : any)=>{
       if(item.status === 1){
         this.approvedList.push(item);
       }
     })
-    // this.tempApprovedList = this.approvedList;
-    console.log("check1",this.approvedList);
-
   }
 
-  GetListOther(){
-    this.service.GetListOther().subscribe(data=>{
-      this.dataListOthers = (<any>data);
-      console.log("other", data);
-    }) 
-  }
 
   AddResFacilities(){
     this.addOthers();
     this.validateInput();
     this.dateValidator();
-    console.log("time validator", this.validator);
-    console.log("checkthelist",this.addData);
     if(this.validator != 1){
       this.addCategoryFacilities();
       if(this.selectedValue === "C230425161142"){
@@ -250,7 +227,6 @@ export class ResfacilitiesComponent implements OnInit {
       }
       this.addData.formattedDate = moment(this.addData.date).format('MMM Do YYYY');
       this.service.AddResFacilities(this.addData).subscribe(data=>{
-        console.log("add", data);
         this.clear();
         this.ViewListResFacilities();
         Swal.fire({
@@ -262,7 +238,6 @@ export class ResfacilitiesComponent implements OnInit {
         })
         })
     }else{
-      console.log("exist");
       this.validator = 0;
       this.totalTimeValidator =0;
       this.totalTimeValidatorArray = [];
@@ -276,7 +251,6 @@ export class ResfacilitiesComponent implements OnInit {
 
   total(){
     this.sTime = this.addData.startTime || this.editData.startTime;
-    console.log("sTime", this.sTime);
     this.eTime = this.addData.endTime || this.editData.endTime;
     this.totalTime = this.eTime - this.sTime;
     if(this.sTime<17){
@@ -286,26 +260,21 @@ export class ResfacilitiesComponent implements OnInit {
         let dummypay: number | any;
         dummypay = this.dRate * this.sTime;
         this.totalPay = this.nRate * this.eTime + dummypay;
-        console.log("lapas alas 5", this.totalPay);
         this.addData.total = this.totalPay;
         this.editData.total = this.totalPay;
         this.totalPay = 0;
       }else{ 
         this.totalPay = this.dRate * this.totalTime;
-        console.log("totalPay", this.totalPay);
         this.addData.total = this.totalPay;
         this.editData.total = this.totalPay;
         this.totalPay = 0;
       }
     }else{
       this.totalPay = this.nRate * this.totalTime;
-      console.log("totalPay", this.totalPay);
       this.addData.total = this.totalPay; 
       this.editData.total = this.totalPay;
       this.totalPay = 0;
     }
-    console.log("checktotalhere", this.addData.total);
-    console.log("checktotalhere", this.editData.total);
   }
 
   totalPurpose(){
@@ -319,16 +288,12 @@ export class ResfacilitiesComponent implements OnInit {
 
   addCategoryFacilities(){
     this.addData.reservationDate = this.formattedDate;
-    console.log("data",this.checker); 
-    console.log("prices",this.dataListPrice);
     this.dataListPrice.forEach((item: any) => {
       if(item.facilityId == this.checker ){
         this.dataArray.push(item);
         this.dataList = this.dataArray[0];
-        console.log("addcategorydatalist", this.dataList);
         //delete the first element in array
         this.dataArray.splice(0, this.dataArray.length);
-        console.log("dataList", this.dataList);
         this.addData.facilityId = this.dataList.facilityId;
         this.dRate = this.dataList.dayRperH;
         this.nRate = this.dataList.nightRperH;  
@@ -338,16 +303,12 @@ export class ResfacilitiesComponent implements OnInit {
 
   editCategoryFacilities(){
     this.editData.reservationDate = this.formattedDate;
-    console.log("data",this.editData.facilityId); 
-    console.log("prices",this.dataListPrice);
     this.dataListPrice.forEach((item: any) => { 
       if(item.facilityId == this.editData.facilityId ){
         this.dataArray.push(item);
         this.dataList = this.dataArray[0];
-        console.log("addcategorydatalist", this.dataList);
         //delete the first element in array
         this.dataArray.splice(0, this.dataArray.length);
-        console.log("dataList", this.dataList);
         this.editData.facilityId = this.dataList.facilityId;
         this.dRate = this.dataList.dayRperH;
         this.nRate = this.dataList.nightRperH;  
@@ -359,35 +320,24 @@ export class ResfacilitiesComponent implements OnInit {
   totalTimeValidatorArray:any = [];
   sumTime:number =0;
   dateValidator(){
-    // this.checkerdate = moment(this.addData.eventDate).format('MMM Do YYYY');
-    console.log("checker1", this.viewListReservation);
-    console.log("checker2", this.addData.date); 
-    console.log("edit check", this.editData.facilityId)
-    console.log("checker3", this.checker);
     this.approvedList.forEach((item:any) => {
       if(item.date === this.addData.date && item.facilityId === this.checker){
-        console.log("timecheck", this.sumTime)
-        console.log("exist");
         this.validator = 1;
-        console.log(this.validator);
       }
     })
   }
 
   editValidator(){   
-    console.log("templist", this.tempreserve);
-    console.log("approvedlist",this.approvedList);
-    console.log(this.editData.facilityId);
-    console.log(this.editData.date);
-    console.log(this.editData.date);
     this.tempreserve.forEach((item:any) => {
       if(item.date === this.temp.date && item.facilityId === this.temp.facilityId && item.status === 1){
-        console.log(item.facilityId);
-        console.log(this.temp.facilityId)
-        console.log("timecheck", this.sumTime)
-        console.log("exist");
-        this.validator_2 = 1;
-        console.log("validator ambot", this.validator_2);
+        if(this.temp.startTime != item.startTime || this.temp.endTime != item.endTime){
+          console.log("proceed");
+          this.validator = 0;
+        }
+        else{
+          this.validator_2 = 1;
+        }
+
       }
     })
   }
@@ -400,7 +350,6 @@ export class ResfacilitiesComponent implements OnInit {
     this.validate.startTime = this.addData.startTime == null ? true: false;
     this.validate.endTime = this.addData.endTime == null ? true: false;
     if(this.validate.facilityId || this.validate.date || this.validate.startTime || this.validate.endTime){
-      console.log("need input");
       this.validator = 1;
     }
   }
@@ -409,7 +358,6 @@ export class ResfacilitiesComponent implements OnInit {
   GetListPrices(){
     this.service.GetListPrices().subscribe(data=>{
       this.dataListPrice = (<any>data);
-      console.log("prices", data);
     }) 
   }
 
