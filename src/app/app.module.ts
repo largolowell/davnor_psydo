@@ -63,6 +63,8 @@ import {NgxPrintModule} from 'ngx-print';
 import { ReservationsheetComponent } from './components/reservationsheet/reservationsheet.component';
 import { CustomInterceptor } from './custom.interceptor';
 
+import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
+
  
 @NgModule({
   declarations: [
@@ -126,7 +128,7 @@ import { CustomInterceptor } from './custom.interceptor';
     NgxPrintModule
 
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi:true}],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi:true}, BnNgIdleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

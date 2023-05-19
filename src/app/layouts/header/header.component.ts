@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2'
 import { timer } from 'rxjs';
 import * as moment from 'moment';
+import { BnNgIdleService } from 'bn-ng-idle'; // import it to your component
 
 @Component({
   selector: 'app-header',
@@ -12,18 +13,28 @@ import * as moment from 'moment';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(@Inject(DOCUMENT) private document: Document, private route: Router) { }
+  constructor(@Inject(DOCUMENT) private document: Document, private route: Router, private bnIdle: BnNgIdleService) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('token')!= null){
+      this.bnIdle.startWatching(3600).subscribe((isTimedOut: boolean) => {
+        if (isTimedOut) {
+          this.logOut();
+          console.log('session expired');
+          this.bnIdle.stopTimer();
+        }
+      });
+    }
     this.performActionWithTimeout();
   }
+
   userName:any = localStorage.getItem('userName');
   sidebarToggle()
   {
     //toggle sidebar function
     this.document.body.classList.toggle('toggle-sidebar');
   }
-
+ 
 
   logOut(){
     localStorage.removeItem('token');
@@ -51,15 +62,10 @@ export class HeaderComponent implements OnInit {
 
   // This method will be called after a timeout of 3 seconds
   performActionWithTimeout(): void {
-    const timeoutDuration = 3600000; // Timeout duration in milliseconds
     const expireDate = new Date().toString();
     const expireDateFinal = moment(expireDate).format('MMM Do YYYY');
     if(localStorage.getItem('token') != null){
-      timer(timeoutDuration).subscribe(() => {
-        this.logOut();
-        // Perform your desired action here
-    });
-    if(localStorage.getItem('expire') != expireDateFinal){
+      if(localStorage.getItem('expire') != expireDateFinal){
       this.logOut();
     }
     }
