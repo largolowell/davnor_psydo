@@ -1,6 +1,16 @@
 <main id="main" class="main">
   <div class="pagetitle">
-    <h1>Reserved</h1>
+        <div class="position-relative">
+          <h1>Reserved</h1>
+          <h1 class="position_facility"><i class="bi bi-house"></i>&nbsp;Select Facility:</h1>
+          <select class="form-select form-select-lg mb-3 col-md-4 position-absolute top-0 end-0" aria-label=".form-select-lg example" name="myData"  
+          [(ngModel)]="selectedValue" (ngModelChange)="onSelectChange(selectedValue)">
+            <option value="" disabled selected>Select Category</option>
+            <option *ngFor="let item of listfacilitycategory" [value]="item.categoryName">
+                {{ item.categoryName }}
+            </option>
+          </select>
+        </div>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
@@ -8,7 +18,7 @@
         <li class="breadcrumb-item active">Reserved</li>
       </ol>
     </nav>
-  </div>
+  </div> 
   <div>
     <full-calendar #calendar [options]="calendarOptions" [events]="events"></full-calendar>
   </div>
@@ -50,7 +60,6 @@
                 <label for="exampleFormControlInput1">Date:</label>
                 <input type="text" disabled="" class="form-control" id="" placeholder="" [(ngModel)]="object.date">
               </div>
-
             </div>
           </div>
         </div><br>

@@ -10,6 +10,17 @@
   height: 80px; /* Change this value to whatever height you want */
 }
 
+.form-line {
+  border: none;
+  border-top: 2px solid black;
+  margin: 0px;
+  margin-left: 100px;
+  margin-right: 200px;
+}
+
+
+
+
 
 
 

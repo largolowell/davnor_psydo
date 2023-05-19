@@ -40,6 +40,7 @@
                     <div class="col-md-4"> <label class="form-label">Nature of Event: </label>
                         <input type="text" class="form-control" name="myData" [(ngModel)]="addData.title"
                             [ngClass]="validate.title?'is-invalid':''">
+                            <div class="invalid-feedback">Please enter the activity.</div>
                     </div>
                     <div class="col-md-4"> <label class="form-label">Category: </label>
                         <select class="form-select" aria-label="Default select example" name="myData"
@@ -50,6 +51,7 @@
                                 {{ item.categoryName }}
                             </option>
                         </select>
+                        <div class="invalid-feedback">Please select.</div>
                     </div>
                     <div class="col-md-4"> <label class="form-label">Facilities: </label>
                         <select class="form-select" aria-label="Default select example" name="myData"
@@ -59,12 +61,14 @@
                                 {{ item.categoryName }} - {{ item.facilityName }}
                             </option>
                         </select>
+                        <div class="invalid-feedback">Please select.</div>
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-2"> <label class="form-label">Event Date: </label>
                         <input type="date" class="form-control" name="myData" [(ngModel)]="addData.date"
                             [ngClass]="validate.date?'is-invalid':''">
+                            <div class="invalid-feedback">Please select date.</div>
                     </div>
                     <div class="col-md-2"> <label class="form-label">Start Time: </label>
                         <select class="form-select" aria-label="Default select example" name="myData"
@@ -74,6 +78,7 @@
                                 {{ item.type }}
                             </option>
                         </select>
+                        <div class="invalid-feedback">Please select time.</div>
                     </div>
                     <div class="col-md-2"> <label class="form-label">End Time: </label>
                         <select class="form-select" aria-label="Default select example" name="myData"
@@ -83,6 +88,7 @@
                                 {{ item.type }}
                             </option>
                         </select>
+                        <div class="invalid-feedback">Please select time.</div>
                     </div>
                     <div class="col-md-2"> <label class="form-label">No. of Participants: </label>
                         <input type="text" class="form-control" name="myData" [(ngModel)]="addData.participantNo">
@@ -109,7 +115,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="">
+                <div *ngIf="account == compAccount? true:false" class="">
                     <button (click)="AddResFacilities()" type="button" class="btn btn-primary "><i class="bi bi-plus-lg"></i>&nbsp;List</button>
                 </div>
             </form>
@@ -134,7 +140,7 @@
                             <th scope="col">Start Time</th>
                             <th scope="col">End Time</th>
                             <th scope="col">Total</th>
-                            <th width="12.6%"></th>
+                            <th *ngIf="account == compAccount? true:false" width="12.6%"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -155,7 +161,7 @@
                                 </div>
                             </td>
                             <td>₱ {{dataItem.total}}</td>
-                            <td>
+                            <td *ngIf="account == compAccount? true:false">
                                 <button (click)="editData = dataItem ; temp = dataItem" type="button"
                                     class="btn btn-outline-success border-0" data-bs-toggle="modal" data-bs-target="#edit">
                                     <i class="bi bi-pencil"></i>&nbsp;Edit
@@ -174,7 +180,7 @@
     </div>
     <!-- EDIT -->
     <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-2" id="exampleModalLabel">{{editData.title}} - Reserved</h1>

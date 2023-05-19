@@ -51,7 +51,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { GymComponent } from './components/calendar/gym/gym.component';
 
 import { SharedService } from './shared.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FacilitiesComponent } from './components/facilities/facilities.component';
 import { DavnorgymComponent } from './components/davnorgym/davnorgym.component';
 import { ResfacilitiesComponent } from './components/resfacilities/resfacilities.component';
@@ -59,8 +59,9 @@ import { ResdavnorgymComponent } from './components/resdavnorgym/resdavnorgym.co
 import { ReservationListComponent } from './components/reservation-list/reservation-list.component';
 import { LoginComponent } from './components/login/login.component';
 
-
-
+import {NgxPrintModule} from 'ngx-print';
+import { ReservationsheetComponent } from './components/reservationsheet/reservationsheet.component';
+import { CustomInterceptor } from './custom.interceptor';
 
  
 @NgModule({
@@ -107,7 +108,8 @@ import { LoginComponent } from './components/login/login.component';
     ResfacilitiesComponent,
     ResdavnorgymComponent,
     ReservationListComponent,
-    LoginComponent
+    LoginComponent,
+    ReservationsheetComponent
 
   ],
   imports: [
@@ -120,10 +122,11 @@ import { LoginComponent } from './components/login/login.component';
     MatNativeDateModule,
     FullCalendarModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPrintModule
 
   ],
-  providers: [SharedService],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

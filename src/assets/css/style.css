@@ -1067,4 +1067,126 @@
 	text-align: center;
 	font-size: 13px;
 	color: #012970;
+  }  
+
+  #details{
+	/* color:green */
+	border-bottom: 2px solid currentColor;
+	font-size: 14px;
+	color:black;
+  }
+
+  #content{
+	font-weight: bold;
+	color:black;
+	font-size: 14px;
+  }
+
+  #headers{
+	color:black;
+  }
+
+  #subheaders{
+	font-size: 14px;
+	color:black;
+	font-weight: normal;
+  }
+
+  #subheaders_2{
+	border-bottom: 2px solid currentColor;
+	color:black;
+	font-weight: normal;
+  }
+
+  #logo{
+	display: block;
+	margin: 0 auto;
+	position:absolute; left: 80px;
+  }
+
+  #policy{
+	border-bottom: 2px solid currentColor;
+	font-size: 10px;
+	color:black;
+	font-weight: bold;
+  }
+
+  #policy_sub{
+	font-size: 11px;
+	color:black;
+	font-weight: normal;
+	text-align: justify;
+	text-justify: inter-word;
+  }
+
+  #box{
+	margin: auto;
+	width: 95%;
+	border: 1px solid black;
+	padding: 5px;
+  }
+
+  #policy_cancel{
+	font-size: 10px;
+	color:black;
+	font-weight: bold;
+  }
+
+  #conforme{
+	font-size: 11px;
+	color:black;
+	font-weight: bold;
+	font-style: italic;
+  }
+
+  #signature{
+	font-size: 11px;
+	color:black;
+	font-weight: bold;
+	border-top: 2px solid currentColor;
+  }
+
+  #conforme_position{
+	display: block;
+	margin: 0 auto;
+	position:absolute; left: 50px;
+  }
+
+  #conforme_position2{
+	display: block;
+	margin: 0 auto;
+	position:absolute; right: 130px;
+  }
+
+  #signatur2{
+	font-size: 11px;
+	color:black;
+	font-weight: normal;
+  }
+
+  #tableRS {
+	border: 1px solid black;
+	border-collapse: collapse;
+	font-weight: bold;
+	color:black;
+	font-size: 14px;
+  }
+
+  /* #numbered-list {
+	counter-reset: my-counter;
+	list-style-type: none;
+	padding-left: 20px;
+	text-align: justify; 
+  }
+  
+  #numbered-list li::before {
+	content: counter(my-counter) ". ";
+	counter-increment: my-counter;
+  } */
+
+  .position_facility{
+	display: block;
+	margin: 0 auto;
+	position:absolute; right: 530px;
+	position:absolute; top: 5px;
   }

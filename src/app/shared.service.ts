@@ -16,7 +16,7 @@ export class SharedService {
     return this.http.get<any[]>(this.APIUrl+'/resFacilities'); 
   }
   AddResFacilities(add:any={}){
-    return this.http.post<any[]>(this.APIUrl+'/resFacilities',add);
+    return this.http.post<any[]>(this.APIUrl+'/resFacilities',add); 
   }
   EditResFacilities(val:any={}){
     return this.http.put(this.APIUrl+'/resFacilities',val, {responseType: 'text'})
@@ -65,6 +65,20 @@ export class SharedService {
 
   AddResDavNorGym(add:any={}){
     return this.http.post<any[]>(this.APIUrl+'/resDavNorGyms',add);
+  }
+
+  //login
+  onLogin(login:any ={}): Observable<any>{
+    return this.http.post<any[]>(this.APIUrl+'/userLogins',login);
+  }
+
+  public isLoggedIn(){
+    // console.log(localStorage.getItem('token'));
+    return localStorage.getItem('token') !==null;
+  }
+
+  GetListUser():Observable<any[]>{
+    return this.http.get<any[]>(this.APIUrl+'/userLogins');
   }
 
 }

@@ -11,11 +11,14 @@ import { B } from '@fullcalendar/core/internal-common';
 })
 export class ReservationListComponent implements OnInit {
 
-  constructor(private service: SharedService) { }
+  constructor(private service: SharedService) {
+    // this.isequal = this.account ===this.compAccount;
+   }
 
   ngOnInit(): void {
     this.ViewListResFacilities();
     this.GetListPrices();
+    this.GetListFacilityCategories();
   }
 
   startTime:any = [{int: 8 , type: `8:00 AM` }, {int: 9 , type: `9:00 AM` }, {int: 10 , type: `10:00 AM` }, {int: 11 , type: `11:00 AM` }, {int: 12 , type: `12:00 PM` }, {int: 13 , type: `1:00 PM` }, {int: 14 , type: `2:00 PM` },
@@ -32,8 +35,15 @@ export class ReservationListComponent implements OnInit {
   @ViewChild('closebuttonpaid')
   closebuttonpaid!: { nativeElement: { click: () => void; }; };
 
+  @ViewChild('printRes')
+  printRes!: { nativeElement: { click: () => void; }; };
+
   myDate = new Date();
   formattedDate = moment(this.myDate).format('MMM Do YYYY');
+
+  account :any = localStorage.getItem('account');
+  compAccount: any = "admin";
+  // isequal :boolean = false;
 
   approvedList: any = [];
   declinedList: any = [];
@@ -81,7 +91,7 @@ export class ReservationListComponent implements OnInit {
       this.editData.total = 0;
       this.editData.remarks = "Donation";
     }
-  }
+  } 
 
  
   isNotShow:boolean = false;
@@ -293,6 +303,30 @@ export class ReservationListComponent implements OnInit {
     this.service.GetListPrices().subscribe(data=>{
       this.dataListPrice = (<any>data);
     }) 
+  }
+
+  listfacilitycategory:any = [];
+  GetListFacilityCategories(){
+    this.service.GetListFacilityCategories().subscribe(data=>{
+        this.listfacilitycategory = (<any>data);
+    }) 
+  }
+
+  print(){
+    Swal.fire({
+      title: 'Print the Reservation Sheet?',
+      text: "",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, print it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.printRes.nativeElement.click();
+      }
+    })
+    
   }
 
 }

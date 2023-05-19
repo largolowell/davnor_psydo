@@ -16,6 +16,9 @@ export class ResfacilitiesComponent implements OnInit {
   myDate = new Date();
   formattedDate = moment(this.myDate).format('MMM Do YYYY, h:mm:ss a');
 
+  account :any = localStorage.getItem('account');
+  compAccount: any = "admin";
+
   constructor(private service: SharedService) { }
 
   ngOnInit(): void {
@@ -331,7 +334,6 @@ export class ResfacilitiesComponent implements OnInit {
     this.tempreserve.forEach((item:any) => {
       if(item.date === this.temp.date && item.facilityId === this.temp.facilityId && item.status === 1){
         if(this.temp.startTime != item.startTime || this.temp.endTime != item.endTime){
-          console.log("proceed");
           this.validator = 0;
         }
         else{

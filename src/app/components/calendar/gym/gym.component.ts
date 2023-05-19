@@ -40,6 +40,37 @@ export class GymComponent implements OnInit {
       
   }
 
+  clear(){
+    this.calendarComponent.getApi().removeAllEvents();
+    this.finalList = [];
+    this.object = {};
+  }
+
+  selectedValue: any ;
+  finalList:any = [];
+  onSelectChange(event:any) {
+    this.clear();
+    this.approvedList.forEach((item: any) => {
+      if(item.categoryName === event){
+        this.finalList.push(item);
+      }
+    });
+    this.finalStep();
+  }
+
+  finalStep(){
+    this.finalList.forEach((item:any)=>{
+      this.object.date = item.date;
+      this.object.title = item.title;
+      this.object.categoryName = item.categoryName;
+      this.object.facilityName = item.facilityName;
+      this.object.s_t = item.startTime;
+      this.object.e_t = item.endTime;
+      this.object.participantNo = item.participantNo;
+      this.AddEvent();
+    })
+  }
+
   EditEvent(object:any){
     this.handle.event.setProp('title',object.title); 
     this.calendarComponent.getApi().refetchEvents(this.handle.event);
@@ -64,6 +95,7 @@ export class GymComponent implements OnInit {
 
   ngOnInit(): void {
     this.GetListResFacilities();
+    this.GetListFacilityCategories();
   } 
 
 
@@ -79,17 +111,17 @@ export class GymComponent implements OnInit {
     this.service.ViewListResFacilities().subscribe(data=>{
       this.dataListResFacilities = (<any>data);
       this.filter();
-      this.approvedList.forEach((item: any) => {
-        this.object.date = item.date;
-        this.object.title = item.title;
-        this.object.categoryName = item.categoryName;
-        this.object.facilityName = item.facilityName;
-        this.object.s_t = item.startTime;
-        this.object.e_t = item.endTime;
-        this.object.participantNo = item.participantNo;
-        this.AddEvent();
+      // this.approvedList.forEach((item: any) => {
+      //   this.object.date = item.date;
+      //   this.object.title = item.title;
+      //   this.object.categoryName = item.categoryName;
+      //   this.object.facilityName = item.facilityName;
+      //   this.object.s_t = item.startTime;
+      //   this.object.e_t = item.endTime;
+      //   this.object.participantNo = item.participantNo;
+      //   this.AddEvent();
 
-      });
+      // });
       
 
     }) 
@@ -101,7 +133,7 @@ export class GymComponent implements OnInit {
         this.approvedList.push(item);
       }
     })
-
+    
 
   }
 
@@ -142,6 +174,13 @@ export class GymComponent implements OnInit {
     this.openbutton.nativeElement.click();
     this.visible = false;
     this.not_visible = true;
+  }
+
+  listfacilitycategory:any = [];
+  GetListFacilityCategories(){
+    this.service.GetListFacilityCategories().subscribe(data=>{
+        this.listfacilitycategory = (<any>data);
+    }) 
   }
 
 

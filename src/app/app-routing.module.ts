@@ -40,18 +40,22 @@ import { ResfacilitiesComponent } from './components/resfacilities/resfacilities
 import { ResdavnorgymComponent } from './components/resdavnorgym/resdavnorgym.component';
 import { ReservationListComponent } from './components/reservation-list/reservation-list.component';
 import { LoginComponent } from './components/login/login.component';
+import { ReservationsheetComponent } from './components/reservationsheet/reservationsheet.component';
+import { AuthGuard } from './auth.guard';
 
  
-const routes: Routes = [
-  { path: '', component: DashboardComponent },
 
-  { path: 'resfacilities', component: ResfacilitiesComponent},
+const routes: Routes = [
+  { path: '', component: DashboardComponent, canActivate:[AuthGuard] },
+
+  { path: 'resfacilities', component: ResfacilitiesComponent, canActivate:[AuthGuard]},
   { path: 'resdavnorgym', component: ResdavnorgymComponent},
-  { path: 'gym', component: GymComponent},
-  { path: 'facilities', component: FacilitiesComponent},
-  { path: 'davnorgym', component: DavnorgymComponent},
-  { path: 'reservationlist', component: ReservationListComponent},
+  { path: 'calendar', component: GymComponent, canActivate:[AuthGuard]},
+  { path: 'facilities', component: FacilitiesComponent, canActivate:[AuthGuard]},
+  { path: 'davnorgym', component: DavnorgymComponent, canActivate:[AuthGuard]},
+  { path: 'reservationlist', component: ReservationListComponent, canActivate:[AuthGuard]},
   { path: 'login', component: LoginComponent},
+  { path: 'reservationsheet', component: ReservationsheetComponent},
 
   { path: 'dashboard', component: DashboardComponent },
   { path: 'alerts', component: AlertsComponent },

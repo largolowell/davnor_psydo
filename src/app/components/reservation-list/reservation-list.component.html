@@ -31,7 +31,7 @@
                             <th scope="col">Nature of Event</th>
                             <th scope="col">Event Date</th>
                             <th scope="col">Remarks</th>
-                            <th width="13.3%"></th>
+                            <th *ngIf="account == compAccount? true:false" width="13.3%"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,7 +46,7 @@
                             <td>{{dataItem.title}}</td>
                             <td>{{dataItem.formattedDate}}</td>
                             <td>{{dataItem.remarks}}</td>
-                            <td>
+                            <td *ngIf="account == compAccount? true:false">
                                 <button (click)="editData = dataItem; storage = dataItem.total" type="button"
                                     class="btn btn-outline-primary border-0" data-bs-toggle="modal"
                                     data-bs-target="#payment">
@@ -90,7 +90,7 @@
                         <table class="my-table table">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
+                                    <th width="5%" scope="col">#</th>
                                     <th scope="col">Reserved</th>
                                     <th scope="col">Client Name</th>
                                     <th width="6%" scope="col">Date of Reservation/Time</th>
@@ -103,12 +103,18 @@
                                     <th scope="col">Remarks</th>
                                     <th scope="col">Approved Date</th>
                                     <th></th>
-                                    <th *ngIf="isNotShow"></th>
+                                    <th *ngIf="isNotShow && account == compAccount? true:false"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let dataItem of approvedList; let i = index">
-                                    <td>{{i+1}}</td>
+                                    <td>{{i+1}}
+                                        <button *ngIf="account == compAccount? true:false" (click)="editData = dataItem" (click)="print()" type="button"
+                                            class="btn btn-outline-danger border-0">
+                                            <i class="bi bi-printer"></i>
+                                        </button>
+                                        <!-- <button styleSheetFile="assets/css/style.css" (click)="editData = dataItem" printSectionId="print-section" ngxPrint>print</button>  -->
+                                    </td>
                                     <td>{{dataItem.categoryName}} - {{dataItem.facilityName}}</td>
                                     <td>{{dataItem.clientId}}</td>
                                     <td>{{dataItem.reservationDate}}</td>
@@ -126,7 +132,7 @@
                                             COLLECTION</span></td>
                                     <td *ngIf="dataItem.paid === null"> <span class="badge bg-warning text-white">FOR
                                             PAYMENT</span></td>
-                                    <td *ngIf="dataItem.paid != 1">
+                                    <td  *ngIf="dataItem.paid != 1 && account == compAccount? true:false ">
                                         <button (click)="editData = dataItem" data-bs-toggle="modal"
                                             data-bs-target="#orNo" class="btn btn-outline-primary border-0">
                                             <i class="bi bi-cash"></i>&nbsp;Paid
@@ -226,7 +232,7 @@
     </div>
 
     <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-2" id="exampleModalLabel">{{editData.title}} - Pending</h1>
@@ -277,7 +283,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-2" id="exampleModalLabel">{{editData.clientId}}</h1>
+                    <h1 class="modal-title fs-2" id="exampleModalLabel"><i
+                            class="bi bi-person-circle"></i>&nbsp;{{editData.clientId}}</h1>
                     <button type="button" #closebuttonpaid class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
                         aria-label="Close"></button>
                 </div>
@@ -303,5 +310,142 @@
         </div>
     </div>
 
+    <div id="print-section" hidden>
+        <div style="text-align: center;" id="headers">
+            <img id="logo" src="assets/img/ddn_logo.png" alt="Logo" width="70" height="70">
+            <h4>Provincial Economic Enterprise Development Office <br>
+                DAVAO DEL NORTE SPORTS AND TOURISM COMPLEX <br>
+                <span id="subheaders">Mankilam, Tagum City, Davao del Norte </span><br><br>
+                <span id="subheaders_2">RESERVATION SHEET</span>
+            </h4>
+        </div>
+        <div>
+            <label id="content">Client Name: </label>&nbsp;<span id="details">{{editData.clientId}}</span>
+            <label id="content" style="padding-left: 10px;">Address: </label>&nbsp;<span
+                id="details">{{editData.address}}</span>
+            <label id="content" style="padding-left: 10px;">Fax No: </label>&nbsp;<span
+                id="details">{{editData.faxNo}}</span>
+        </div> <br>
+        <div>
+            <label id="content">Contact Person:</label>&nbsp;<span id="details">{{editData.contactPerson}}</span>
+            <label id="content" style="padding-left: 10px;">Contact No: </label>&nbsp;<span
+                id="details">{{editData.contactNo}}</span>
+            <label id="content" style="padding-left: 10px;">Event Date: </label>&nbsp;<span
+                id="details">{{editData.formattedDate}}</span>
+        </div> <br>
+        <div>
+            <label id="content">Date of Reservation & Time: </label>&nbsp;<span
+                id="details">{{editData.reservationDate}}</span>
+            <label id="content" style="padding-left: 10px;">Nature of Event: </label>&nbsp;<span
+                id="details">{{editData.title}}</span>
+            <label id="content" style="padding-left: 10px;">No. of Participants: </label>&nbsp;<span
+                id="details">{{editData.participantNo}}</span>
+        </div> <br>
+        <div >
+            <table style="width:100%" id="tableRS">
+                <tr>
+                  <th id="tableRS">FACILITIES</th>
+                  <th id="tableRS">DAY (5am-5pm)</th> 
+                  <th id="tableRS">NIGHT (5pm-9pm)</th>
+                  <th id="tableRS">TOTAL</th>
+                </tr>
+              </table>
+        </div><br><br>
+        <div id="headers">
+            <label id="content">REMARKS/OTHER ARRANGEMENTS:</label>&nbsp;<span id="details">{{editData.remarks}}</span>
+        </div><br>
+        <div>
+            <label> <span id="policy">POLICIES GUIDELINES ON USE OF A SPORTS FACILITY</span><br><br>
+                <span id="policy_sub">1. No person, including the client, his/her representatives or emplyees, sponsors,
+                    guests, organizers, members of the audience or its partcipants, is allowed 
+                    to set up any tent, booth, stall or station at any place within the DNSTC witout securing prior
+                    approval. This should be indicated in the Reservation Sheet.</span><br>
+                <span id="policy_sub">2. The client may bring provisions for the consumption of its own personnel, but,
+                    limited to packed meals in styrofoam or small lunch boxes only. And, no person, including the
+                    client,
+                    his/her representatives or employees, sponsors, guests, organizers, members of the audience or its
+                    participants, shall place, show, offer, distribute, sell, or vend any kind of food,
+                    water or beverage at any place within the DNSTC.</span><br>
+                <span id="policy_sub">3. No streamer, placard, billboard, poster, or sign, notice of advertisement of
+                    any kind shall be placed by the client, its sponsors, organizers or other persons identified with
+                    the
+                    client without prior approval. Signs placed in violation of this rule will be removed by DNSTC
+                    personnel</span><br>
+                <span id="policy_sub">4. Unless otherwise agreed upon, the client shall be responsible for policing its
+                    own security force during the preparations and conduct of its events, and ensuring peace and order
+                    during such times. DNSTC shall not be reponsible for any injury, damage, or loss to the client, its
+                    representatives or employees, sponsors, guets, or other persons.</span><br>
+                <span id="policy_sub">5. The client shall be responsible for its garbage disposal and shall assist in
+                    maintaining order and cleanliness of the facility after the event.
+                </span><br>
+                <span id="policy_sub">6. As a general rule, eating and drinking of any kind of food or liquid, except
+                    water is strictly prohibited inside the oval track, centerfield, swimming pool area and RDR gym.
+                </span><br>
+                <span id="policy_sub">7. All kinds of vehicles should be parked in designated parking areas.
+                </span><br>
+                <span id="policy_sub">8. The DNSTC is a smoke-free-zone. Anybody caught smoking shall be meted
+                    disciplinary action as Civil Service Commission Memorandum Circular No. 17, s. 2009 and/or penalized
+                    according to the provisions of Republic Act No. 9211.
+                </span>
+                <span id="policy_sub">9. Vandalism inside the DNSTC will be dealt with accordingly. The cost to repair,
+                    refabricate, reinstall or reacquire, the damaged sports
+                    facility or sections thereof, equipment and properties, as determnined by the Provincial Engineering
+                    Office(PEO) or the Provincial General Services Office (PGSO),
+                    shall be paid for by the offender.
+                </span>
+            </label>
+            <!-- <ol id="numbered-list">
+                <li>No person, including the client, his/her representatives or emplyees, sponsors,
+                    guests, organizers, members of the audience or its partcipants, is allowed 
+                    to set up any tent, booth, stall or station at any place within the DNSTC witout securing prior
+                    approval. This should be indicated in the Reservation Sheet</li>
+                <li>The client may bring provisions for the consumption of its own personnel, but,
+                    limited to packed meals in styrofoam or small lunch boxes only. And, no person, including the
+                    client,
+                    his/her representatives or employees, sponsors, guests, organizers, members of the audience or its
+                    participants, shall place, show, offer, distribute, sell, or vend any kind of food,
+                    water or beverage at any place within the DNSTC</li>
+                <li>Third item</li>
+              </ol> -->
+        </div><br>
+        <div id="box">
+            <div style="text-align: center;">
+                <label>
+                    <span id="policy_cancel">
+                        CANCELLATION POLICY<br>
+                        The client must notify DNSTC of any cancellation or change in the date of its event at least 
+                        seven days before the scheduled date/s. Non-compliance with this requirements will result in the 
+                        forfeiture of the client's contribution/donation unless reason is valid or due to extraordinary
+                    </span>
+                </label>  
+            </div>
+        </div><br>
+        <div id="conforme_position">
+            <label>
+                <span id="conforme">
+                    CONFORME:
+                </span><br><br><br>
+                <span id="signature">
+                    CLIENT'S SIGNATURE OVER PRINTED NAME
+                </span>
+            </label>
+        </div>
+        <div id="conforme_position2">
+            <label>
+                <span id="conforme">
+                    NOTED BY:
+                </span><br><br><br>
+                <span id="signature">
+                    GIOVANNI I. GULANES
+                </span><br>
+                <span id="signatur2">
+                    PG Department Head, PSYDO 
+                </span>
+            </label>
+        </div>
+    </div>
+
+    <button hidden #printRes styleSheetFile="assets/css/style.css" printSectionId="print-section"
+        ngxPrint>print</button>
 
 </main>

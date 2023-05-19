@@ -12,4 +12,7 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  account :any = localStorage.getItem('account');
+  compAccount: any = "admin";
+
 }
