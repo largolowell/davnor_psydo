@@ -128,9 +128,9 @@
                                     <td>{{dataItem.approvedDate}}</td>
                                     <td *ngIf="dataItem.paid === 1"> <span
                                             class="badge bg-success text-white">PAID</span></td>
-                                    <td *ngIf="dataItem.paid === -1"> <span class="badge bg-danger text-white">DUE FOR
+                                    <td *ngIf="dataItem.paid === -1"> <span class="badge bg-danger text-black">DUE FOR
                                             COLLECTION</span></td>
-                                    <td *ngIf="dataItem.paid === null"> <span class="badge bg-warning text-white">FOR
+                                    <td *ngIf="dataItem.paid === null"> <span class="badge bg-warning text-black">FOR
                                             PAYMENT</span></td>
                                     <td  *ngIf="dataItem.paid != 1 && account == compAccount? true:false ">
                                         <button (click)="editData = dataItem" data-bs-toggle="modal"
@@ -177,7 +177,7 @@
                                     <td>{{dataItem.title}}</td>
                                     <td>{{dataItem.formattedDate}}</td>
                                     <td>{{dataItem.remarks}}</td>
-                                    <td><span class="badge bg-danger text-white">CANCELED</span></td>
+                                    <td><span class="badge bg-danger text-black">CANCELED</span></td>
                                 </tr>
                             </tbody>
                         </table>

@@ -83,6 +83,35 @@ export class ResfacilitiesComponent implements OnInit {
       }
     })
   }
+
+  done(){
+    if(this.editData.done == null){
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Done!',
+            'This schedule has been completed.',
+            'success'
+          )
+          this.editData.done = 1;
+          this.service.EditResFacilities(this.editData).subscribe(data=>{
+            this.clear();
+            this.ViewListResFacilities();
+          })
+        }
+      })
+    }else{
+      console.log("done");
+    }
+  }
   EditResFacilities(){
       this.editValidator();
       if(this.validator_2 != 1){

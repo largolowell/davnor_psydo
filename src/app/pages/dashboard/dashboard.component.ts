@@ -36,35 +36,90 @@ export class DashboardComponent implements OnInit {
       }
     })
   }
-  davnorgymCounter: number =0 ;
-  stComplexCounter:number = 0;
-  clubhouseCounter:number = 0;
-  outsideCounter: number = 0;
-  swimmingCounter: number = 0;
-  footballCounter: number = 0;
-  ovalCounter: number = 0;
+  davnorgymCounter_res: number =0 ;
+  totalCounter_davnorgym:number = 0
+  davnorgymCounter_done: number =0 ;
+
+  stComplexCounter_res:number = 0;
+  totalCounter_stComplex:number = 0
+  stComplexCounter_done:number = 0;
+
+  clubhouseCounter_res:number = 0;
+  totalCounter_clubhouse:number = 0
+  clubhouseCounter_done:number = 0;
+
+  outsideCounter_res: number = 0;
+  totalCounter_outside:number = 0
+  outsideCounter_done: number = 0;
+
+  swimmingCounter_res: number = 0;
+  totalCounter_swimming:number = 0
+  swimmingCounter_done: number = 0;
+
+  footballCounter_res: number = 0;
+  totalCounter_football:number = 0
+  footballCounter_done: number = 0;
+
+  ovalCounter_res: number = 0;
+  totalCounter_oval:number = 0
+  ovalCounter_done:number = 0;
   finalStep(){
     this.approvedList.forEach((item:any)=>{
       if(item.categoryId === "C230425161142"){
-        this.davnorgymCounter ++;
+        this.totalCounter_davnorgym ++;
+        if(item.done == 1){
+          this.davnorgymCounter_done ++;
+        }else{
+          this.davnorgymCounter_res ++;
+        }
       }
       if(item.categoryId === "C230425092351"){
-        this.stComplexCounter ++;
+        this.totalCounter_stComplex ++;
+        if(item.done == 1){
+          this.stComplexCounter_done ++;
+        }else{
+          this.stComplexCounter_res ++;
+        }
       }
       if(item.categoryId === "C230425092314"){
-        this.clubhouseCounter ++;
+        this.totalCounter_clubhouse ++;
+        if(item.done == 1){
+          this.clubhouseCounter_done ++;
+        }else{
+          this.clubhouseCounter_res ++;
+        }
       }
       if(item.categoryId === "C230425092226"){
-        this.outsideCounter ++;
+        this.totalCounter_outside ++;
+        if(item.done == 1){
+          this.outsideCounter_done ++;
+        }else{
+          this.outsideCounter_res ++;
+        }
       }
       if(item.categoryId === "C230425092213"){
-        this.swimmingCounter ++;
+        this.totalCounter_swimming ++;
+        if(item.done == 1){
+          this.swimmingCounter_done ++;
+        }else{
+          this.swimmingCounter_res ++;
+        }
       }
       if(item.categoryId === "C230425092153"){
-        this.footballCounter ++;
+        this.totalCounter_football ++;
+        if(item.done == 1){
+          this.footballCounter_done ++;
+        }else{
+          this.footballCounter_res ++;
+        }
       }
       if(item.categoryId === "C230425092142"){
-        this.ovalCounter ++;
+        this.totalCounter_oval ++;
+        if(item.done == 1){
+          this.ovalCounter_done ++;
+        }else{
+          this.ovalCounter_res ++;
+        }
       }
     })
   }

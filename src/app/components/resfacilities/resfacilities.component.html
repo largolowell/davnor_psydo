@@ -40,7 +40,7 @@
                     <div class="col-md-4"> <label class="form-label">Nature of Event: </label>
                         <input type="text" class="form-control" name="myData" [(ngModel)]="addData.title"
                             [ngClass]="validate.title?'is-invalid':''">
-                            <div class="invalid-feedback">Please enter the activity.</div>
+                        <div class="invalid-feedback">Please enter the activity.</div>
                     </div>
                     <div class="col-md-4"> <label class="form-label">Category: </label>
                         <select class="form-select" aria-label="Default select example" name="myData"
@@ -68,7 +68,7 @@
                     <div class="col-md-2"> <label class="form-label">Event Date: </label>
                         <input type="date" class="form-control" name="myData" [(ngModel)]="addData.date"
                             [ngClass]="validate.date?'is-invalid':''">
-                            <div class="invalid-feedback">Please select date.</div>
+                        <div class="invalid-feedback">Please select date.</div>
                     </div>
                     <div class="col-md-2"> <label class="form-label">Start Time: </label>
                         <select class="form-select" aria-label="Default select example" name="myData"
@@ -116,7 +116,8 @@
                     </div>
                 </div>
                 <div *ngIf="account == compAccount? true:false" class="">
-                    <button (click)="AddResFacilities()" type="button" class="btn btn-primary "><i class="bi bi-plus-lg"></i>&nbsp;List</button>
+                    <button (click)="AddResFacilities()" type="button" class="btn btn-primary "><i
+                            class="bi bi-plus-lg"></i>&nbsp;List</button>
                 </div>
             </form>
         </div>
@@ -132,7 +133,7 @@
                 <table class="my-table table">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <th width="5%" scope="col">#</th>
                             <th scope="col">Category</th>
                             <th scope="col">Facility</th>
                             <th scope="col">Other Equipments</th>
@@ -140,12 +141,18 @@
                             <th scope="col">Start Time</th>
                             <th scope="col">End Time</th>
                             <th scope="col">Total</th>
+                            <th scope="col"></th>
                             <th *ngIf="account == compAccount? true:false" width="12.6%"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let dataItem of approvedList; let i = index">
-                            <td>{{i+1}}</td>
+                            <td>{{i+1}}
+                                <button *ngIf="account == compAccount? true:false" (click)="editData = dataItem"
+                                    (click)="done()" type="button" class="btn btn-outline-danger border-0">
+                                    <i class="bi bi-patch-check"></i>
+                                </button>
+                            </td>
                             <td>{{dataItem.categoryName}}</td>
                             <td>{{dataItem.facilityName}}</td>
                             <td>{{dataItem.othersId}}</td>
@@ -161,9 +168,14 @@
                                 </div>
                             </td>
                             <td>₱ {{dataItem.total}}</td>
+                            <td *ngIf="dataItem.done != null ?true: false"> <span
+                                    class="badge bg-primary text-white">DONE</span> </td>
+                            <td *ngIf="dataItem.done == null ?true: false"> <span
+                                    class="badge bg-warning text-black">RESERVED</span> </td>        
                             <td *ngIf="account == compAccount? true:false">
                                 <button (click)="editData = dataItem ; temp = dataItem" type="button"
-                                    class="btn btn-outline-success border-0" data-bs-toggle="modal" data-bs-target="#edit">
+                                    class="btn btn-outline-success border-0" data-bs-toggle="modal"
+                                    data-bs-target="#edit">
                                     <i class="bi bi-pencil"></i>&nbsp;Edit
                                 </button>
                                 &nbsp;
@@ -231,9 +243,14 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         aria-hidden="true">Close</button>
-                    <button (click)="EditResFacilities()" type="button" class="btn btn-success"><i class="bi bi-save2"></i>&nbsp;Save changes</button>
+                    <button (click)="EditResFacilities()" type="button" class="btn btn-success"><i
+                            class="bi bi-save2"></i>&nbsp;Save changes</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- <ng-template #not_done>
+        <span class="badge bg-primary text-black">RESERVED</span>
+    </ng-template> -->
 </main>
