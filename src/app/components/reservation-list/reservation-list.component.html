@@ -18,7 +18,7 @@
                     style="display: inline-block; border: none; height: 10px; background-color: black; width: 100%; margin: 0; padding: 0;">
             </div>
             <div class="table-responsive">
-                <table class="my-table table">
+                <table class="my-table table" *ngIf="reservedList != 0">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -43,7 +43,7 @@
                             <td>{{dataItem.address}}</td>
                             <td>{{dataItem.contactPerson}}</td>
                             <td>{{dataItem.contactNo}}</td>
-                            <td>{{dataItem.title}}</td>
+                            <td>{{dataItem.title}}</td> 
                             <td>{{dataItem.formattedDate}}</td>
                             <td>{{dataItem.remarks}}</td>
                             <td *ngIf="account == compAccount? true:false">
@@ -64,15 +64,40 @@
                         </tr>
                     </tbody>
                 </table>
+                <div *ngIf="reservedList.length == 0">
+                    <img src="assets/img/document.gif" alt="" width="200" height="200" style="display: block; margin: 0 auto;">
+                    <span style="display: flex; justify-content: center; align-items: center;">
+                        <label><strong>No Data!</strong></label>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
     <div class="card">
         <div class="card-body">
-            <div class="card-title" style="display: inline-block; margin-bottom: 3px; padding-bottom: 3px;">
-                <h2 style="display: inline;">Status</h2>
-                <hr
-                    style="display: inline-block; border: none; height: 10px; background-color: black; width: 100%; margin: 0; padding: 0;">
+            <div class="row">
+                <div class="card-title col-md-2"
+                    style="display: inline-block; margin-bottom: 3px; padding-bottom: 3px;">
+                    <h2 style="display: inline;">Status</h2>
+                    <hr
+                        style="display: inline-block; border: none; height: 10px; background-color: black; width: 100%; margin: 0; padding: 0;">
+                </div>
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label"></label>
+                    <div class="input-group">
+                        <input type="text" placeholder="Search..." class="form-control" name="search" [(ngModel)]="searchText" style="border-right: white;">
+                        <div class="input-group-append">
+                            <span class="input-group-text " style="background-color: white; " >
+                                <i class="bi bi-x text-danger "  (click)="clearSearch()"></i>
+                            </span>
+                            <span class="input-group-text">
+                                <i class="bi bi-search text-primary"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <nav>
                 <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
@@ -87,7 +112,7 @@
             <div class="tab-content p-3 border bg-light" id="nav-tabContent">
                 <div class="tab-pane fade active show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                     <div class="table-responsive">
-                        <table class="my-table table">
+                        <table class="my-table table" *ngIf="approvedList != 0">
                             <thead>
                                 <tr>
                                     <th width="5%" scope="col">#</th>
@@ -107,7 +132,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let dataItem of approvedList; let i = index">
+                                <tr *ngFor="let dataItem of approvedList | filter: searchText; let i = index">
                                     <td>{{i+1}}
                                         <button *ngIf="account == compAccount? true:false" (click)="editData = dataItem" (click)="print()" type="button"
                                             class="btn btn-outline-danger border-0">
@@ -145,11 +170,17 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div *ngIf="approvedList.length == 0">
+                            <img src="assets/img/document.gif" alt="" width="200" height="200" style="display: block; margin: 0 auto;">
+                            <span style="display: flex; justify-content: center; align-items: center;">
+                                <label><strong>No Data!</strong></label>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                     <div class="table-responsive">
-                        <table class="my-table table">
+                        <table class="my-table table" *ngIf="declinedList != 0">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -181,6 +212,12 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div *ngIf="declinedList.length == 0">
+                            <img src="assets/img/document.gif" alt="" width="200" height="200" style="display: block; margin: 0 auto;">
+                            <span style="display: flex; justify-content: center; align-items: center;">
+                                <label><strong>No Data!</strong></label>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -321,24 +358,24 @@
         </div>
         <div>
             <label id="content">Client Name: </label>&nbsp;<span id="details">{{editData.clientId}}</span>
-            <label id="content" style="padding-left: 10px;">Address: </label>&nbsp;<span
+            <label id="content" style="padding-left: 10px;">Address: </label><span
                 id="details">{{editData.address}}</span>
-            <label id="content" style="padding-left: 10px;">Fax No: </label>&nbsp;<span
+            <label id="content" style="padding-left: 10px;">Fax No: </label><span
                 id="details">{{editData.faxNo}}</span>
         </div> <br>
         <div>
             <label id="content">Contact Person:</label>&nbsp;<span id="details">{{editData.contactPerson}}</span>
-            <label id="content" style="padding-left: 10px;">Contact No: </label>&nbsp;<span
+            <label id="content" style="padding-left: 10px;">Contact No: </label><span
                 id="details">{{editData.contactNo}}</span>
-            <label id="content" style="padding-left: 10px;">Event Date: </label>&nbsp;<span
+            <label id="content" style="padding-left: 10px;">Event Date: </label><span
                 id="details">{{editData.formattedDate}}</span>
         </div> <br>
         <div>
-            <label id="content">Date of Reservation & Time: </label>&nbsp;<span
+            <label id="content">Date of Reservation & Time: </label><span
                 id="details">{{editData.reservationDate}}</span>
-            <label id="content" style="padding-left: 10px;">Nature of Event: </label>&nbsp;<span
+            <label id="content" style="padding-left: 10px;">Nature of Event: </label><span
                 id="details">{{editData.title}}</span>
-            <label id="content" style="padding-left: 10px;">No. of Participants: </label>&nbsp;<span
+            <label id="content" style="padding-left: 10px;">No. of Participants: </label><span
                 id="details">{{editData.participantNo}}</span>
         </div> <br>
         <div >

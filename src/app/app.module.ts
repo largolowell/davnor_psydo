@@ -64,6 +64,7 @@ import { ReservationsheetComponent } from './components/reservationsheet/reserva
 import { CustomInterceptor } from './custom.interceptor';
 
 import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
  
 @NgModule({
@@ -125,7 +126,7 @@ import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
     FullCalendarModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgxPrintModule
+    NgxPrintModule, Ng2SearchPipeModule
 
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi:true}, BnNgIdleService],

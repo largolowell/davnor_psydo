@@ -69,6 +69,7 @@ export class ReservationListComponent implements OnInit {
   }
 
   selectedValue :any = 1;
+  searchText: any;
   
   storage: number |any;
   isRegular: boolean = true;
@@ -92,6 +93,10 @@ export class ReservationListComponent implements OnInit {
       this.editData.remarks = "Donation";
     }
   } 
+
+  clearSearch(){
+    this.searchText = "";
+  }
 
  
   isNotShow:boolean = false;

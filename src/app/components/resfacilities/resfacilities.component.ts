@@ -25,6 +25,7 @@ export class ResfacilitiesComponent implements OnInit {
     this.GetListPrices();
     this.ViewListResFacilities();
     this.GetListFacilityCategories();
+    console.log("approvedList",this.approvedList);
   }
 
   @ViewChild('closebutton')
@@ -43,6 +44,8 @@ export class ResfacilitiesComponent implements OnInit {
   checker:any;
 
   selectedValue: any;
+  searchText: any;
+
 
   validator: number | any;
   validator_2: number | any;
@@ -55,6 +58,8 @@ export class ResfacilitiesComponent implements OnInit {
 
   facilities: boolean = false;
   purpose: boolean = false;
+  disableInputForm: boolean = false;
+  isTriggerAddSched: number | any;
 
   dataListOthers:any = [];
 
@@ -68,6 +73,15 @@ export class ResfacilitiesComponent implements OnInit {
 
  
   dropdownPrice:any = [];
+
+  clearSearch(){
+    this.searchText = "";
+  }
+
+  disableForm(){
+    this.disableInputForm = true;
+    this.isTriggerAddSched = 1;
+  }
 
   onSelectChange(event:any) {
     this.dropdownPrice = [];
@@ -84,7 +98,7 @@ export class ResfacilitiesComponent implements OnInit {
     })
   }
 
-  done(){
+  done(){ 
     if(this.editData.done == null){
       Swal.fire({
         title: 'Are you sure?',
@@ -247,6 +261,8 @@ export class ResfacilitiesComponent implements OnInit {
 
 
   AddResFacilities(){
+    this.disableInputForm = true;
+    this.isTriggerAddSched = 1;
     this.addOthers();
     this.validateInput();
     this.dateValidator();

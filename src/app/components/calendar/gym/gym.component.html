@@ -3,7 +3,7 @@
         <div class="position-relative">
           <h1>Reserved</h1>
           <h1 class="position_facility"><i class="bi bi-house"></i>&nbsp;Select Facility:</h1>
-          <select class="form-select form-select-lg mb-3 col-md-4 position-absolute top-0 end-0" aria-label=".form-select-lg example" name="myData"  
+          <select class="form-select form-select-lg mb-3 col-md-4 position-absolute top-0 end-0" aria-label=".form-select-lg example" name="myData"
           [(ngModel)]="selectedValue" (ngModelChange)="onSelectChange(selectedValue)">
             <option value="" disabled selected>Select Category</option>
             <option *ngFor="let item of listfacilitycategory" [value]="item.categoryName">
