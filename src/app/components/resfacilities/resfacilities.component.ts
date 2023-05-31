@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { SharedService } from 'src/app/shared.service';
 import * as moment from 'moment';
 import Swal from 'sweetalert2'
+import { DateRange } from '@angular/material/datepicker';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -19,13 +21,13 @@ export class ResfacilitiesComponent implements OnInit {
   account :any = localStorage.getItem('account');
   compAccount: any = "admin";
 
-  constructor(private service: SharedService) { }
+  constructor(private service: SharedService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.GetListPrices();
     this.ViewListResFacilities();
     this.GetListFacilityCategories();
-    console.log("approvedList",this.approvedList);
+    this.GetClient();
   }
 
   @ViewChild('closebutton')
@@ -78,9 +80,43 @@ export class ResfacilitiesComponent implements OnInit {
     this.searchText = "";
   }
 
-  disableForm(){
-    this.disableInputForm = true;
-    this.isTriggerAddSched = 1;
+  addClient: any = {};
+  staticClient: any = {};
+  AddClient(){
+    this.validateClient();
+    if(this.clientValidator != 1){
+      this.disableInputForm = true;
+      this.isTriggerAddSched = 1;
+      this.service.AddClient(this.addClient).subscribe(data=>{
+        this.staticClient = (<any>data);
+        console.log("addclient",this.staticClient);
+        this.GetClient();
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        
+        Toast.fire({
+          icon: 'success',
+          title: 'Your work has been saved!'
+        })
+        })
+    }
+  }
+
+  getClient: any = [];
+  GetClient(){
+    this.service.GetClient().subscribe(data=>{
+        this.getClient = (<any>data);
+        console.log("client_get",this.getClient);
+    }) 
   }
 
   onSelectChange(event:any) {
@@ -112,7 +148,7 @@ export class ResfacilitiesComponent implements OnInit {
         if (result.isConfirmed) {
           Swal.fire(
             'Done!',
-            'This schedule has been completed.',
+            'This schedule has been completed!',
             'success'
           )
           this.editData.done = 1;
@@ -161,10 +197,15 @@ export class ResfacilitiesComponent implements OnInit {
 
   }
   clear(){
-    this.viewListReservation = [];
+    // this.viewListReservation = [];
     this.tempreserve = [];
     this.approvedList = [];
-    this.addData = {};
+    // this.addData = {};
+    
+    this.checker = "";
+    this.selectedValue = "";
+    this.filterListClient = [];
+
     this.dataList = {};
     this.dataArray = [];
     this.validator = 0;
@@ -172,6 +213,15 @@ export class ResfacilitiesComponent implements OnInit {
     this.totalTimeValidator = 0;
     this.totalTimeValidatorArray = [];
     this.sumTime = 0;
+  }
+
+  clearFields(){
+    this.addData = {};
+    this.addClient = {};
+    this.checker = "";
+    this.selectedValue = "";
+    this.filterListClient = [];
+    this.disableInputForm = false;
   }
  
  
@@ -235,19 +285,25 @@ export class ResfacilitiesComponent implements OnInit {
   viewListReservation:any = [];
   tempreserve:any = [];
   ViewListResFacilities(){
+    // this.service.ViewListResFacilities().subscribe(data=>{
+    //   this.viewListReservation = (<any>data);
+    //   data.forEach((item:any) => {
+    //     this.tempreserve.push({     
+    //         date:item.date,
+    //         endTime:item.endTime,
+    //         startTime:item.startTime,
+    //         facilityId:item.facilityId,
+    //         status:item.status
+    //     })
+    //   })
+    //   this.filter();
+    // }) 
+
     this.service.ViewListResFacilities().subscribe(data=>{
       this.viewListReservation = (<any>data);
-      data.forEach((item:any) => {
-        this.tempreserve.push({     
-            date:item.date,
-            endTime:item.endTime,
-            startTime:item.startTime,
-            facilityId:item.facilityId,
-            status:item.status
-        })
-      })
-      this.filter();
-    }) 
+      this.filterdList();
+      console.log("clientres",this.viewListReservation);
+  }) 
   }
   approvedList: any = [];
 
@@ -259,9 +315,24 @@ export class ResfacilitiesComponent implements OnInit {
     })
   }
 
-
+  filterdList(){
+    console.log("check");
+    console.log("checkList", this.viewListReservation);
+    console.log("static", this.staticClient.clientId);
+    this.viewListReservation.forEach((item : any)=>{
+      if(item.clientId == this.staticClient.clientId){
+        this.filterListClient.push(item);
+      }
+    })
+    console.log("listfilter", this.filterListClient);
+  }
+  filterListClient: any = [];
+  dataRange :number | any;
   AddResFacilities(){
-    this.disableInputForm = true;
+    //extract the month and day only
+    // const dateRange = new Date(this.addData.date);
+    // this.dataRange = this.datePipe.transform(dateRange, 'MM-dd');
+    // console.log("rangeDate", this.dataRange);
     this.isTriggerAddSched = 1;
     this.addOthers();
     this.validateInput();
@@ -273,16 +344,26 @@ export class ResfacilitiesComponent implements OnInit {
       }else{
         this.total();
       }
+      this.addData.clientId = this.staticClient.clientId;
       this.addData.formattedDate = moment(this.addData.date).format('MMM Do YYYY');
       this.service.AddResFacilities(this.addData).subscribe(data=>{
         this.clear();
         this.ViewListResFacilities();
-        Swal.fire({
+        const Toast = Swal.mixin({
+          toast: true,
           position: 'top-end',
-          icon: 'success',
-          title: 'Your work has been saved',
           showConfirmButton: false,
-          timer: 2000
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        
+        Toast.fire({
+          icon: 'success',
+          title: 'Your work has been saved!'
         })
         })
     }else{
@@ -290,10 +371,6 @@ export class ResfacilitiesComponent implements OnInit {
       this.totalTimeValidator =0;
       this.totalTimeValidatorArray = [];
       this.sumTime =0;
-      Swal.fire({
-        icon: 'warning',
-        title: 'Invalid!'
-      })
     } 
   }  
 
@@ -398,6 +475,19 @@ export class ResfacilitiesComponent implements OnInit {
     this.validate.endTime = this.addData.endTime == null ? true: false;
     if(this.validate.facilityId || this.validate.date || this.validate.startTime || this.validate.endTime){
       this.validator = 1;
+    }
+  }
+
+  validateListClient:any = {};
+  clientValidator : number = 0;
+  validateClient(){
+    this.validateListClient.clientName = this.addClient.clientName == null? true: false;
+    this.validateListClient.address = this.addClient.address == null? true: false;
+    this.validateListClient.contactPerson = this.addClient.contactPerson == null ? true: false;
+    this.validateListClient.contactNo = this.addClient.contactNo == null ? true: false;
+    this.validateListClient.emailAd = this.addClient.emailAd == null ? true: false;
+    if(this.validateListClient.clientName || this.validateListClient.address || this.validateListClient.contactPerson || this.validateListClient.contactNo || this.validateListClient.emailAd){
+      this.clientValidator = 1;
     }
   }
 

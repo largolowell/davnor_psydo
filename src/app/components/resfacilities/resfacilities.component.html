@@ -25,7 +25,8 @@
                     <br>
                     <!-- <button (click)="AddResFacilities()" type="button" class="btn btn-primary "><i
                                 class="bi bi-plus-lg"></i>&nbsp;List</button> -->
-                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#facilities">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                        data-bs-target="#facilities">
                         <i class="bi bi-plus-lg"></i>&nbsp;Add Schedule
                     </button>
 
@@ -35,36 +36,41 @@
                 <div class="row mt-3">
                     <div class="col-md-6">
                         <label class="form-label">Client Name:</label>
-                        <input type="text" class="form-control" name="myData" [(ngModel)]="addData.clientId"
+                        <input type="text" class="form-control" name="myData" [(ngModel)]="addClient.clientName " [ngClass]="validateListClient.clientName?'is-invalid':''"
                             oninput="this.value = this.value.toUpperCase()" [disabled]="disableInputForm">
+                        <div class="invalid-feedback">Please input.</div>    
                     </div>
                     <div class="col-md-6"> <label class="form-label">Address: </label>
-                        <input type="text" class="form-control" name="myData" [(ngModel)]="addData.address"
+                        <input type="text" class="form-control" name="myData" [(ngModel)]="addClient.address" [ngClass]="validateListClient.address?'is-invalid':''"
                             oninput="this.value = this.value.toUpperCase()">
-                    </div>
-                </div> 
-                <div class="row mt-3">
-                    <div class="col-md-6"> <label class="form-label">Authorized Representative/ Contact Person: </label>
-                        <input type="text" class="form-control" name="myData" [(ngModel)]="addData.contactPerson"
-                            oninput="this.value = this.value.toUpperCase()">
-                    </div>
-                    <div class="col-md-4"> <label class="form-label">Contact Nos.</label>
-                        <input type="text" class="form-control" name="myData" [(ngModel)]="addData.contactNo"
-                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')">
-                    </div>
-                    <div class="col-md-2"> <label class="form-label">Fax No.</label>
-                        <input type="number" class="form-control" name="myData" [(ngModel)]="addData.faxNo">
+                        <div class="invalid-feedback">Please input.</div>      
                     </div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-4"> <label class="form-label">Nature of Event: </label>
+                    <div class="col-md-4"> <label class="form-label">Authorized Representative/ Contact Person: </label>
+                        <input type="text" class="form-control" name="myData" [(ngModel)]="addClient.contactPerson" [ngClass]="validateListClient.contactPerson?'is-invalid':''"
+                            oninput="this.value = this.value.toUpperCase()">
+                        <div class="invalid-feedback">Please input.</div>   
+                    </div>
+                    <div class="col-md-4"> <label class="form-label">Contact Nos.</label> 
+                        <input type="text" class="form-control" name="myData" [(ngModel)]="addClient.contactNo" [ngClass]="validateListClient.contactNo?'is-invalid':''"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')">
+                        <div class="invalid-feedback">Please input.</div>   
+                    </div>
+                    <div class="col-md-4"> <label class="form-label">Email Address: </label>
+                        <input type="text" class="form-control" name="myData" [(ngModel)]="addClient.emailAd" [ngClass]="validateListClient.emailAd?'is-invalid':''">
+                    <div class="invalid-feedback">Please input.</div>   
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <!-- <div class="col-md-4"> <label class="form-label">Nature of Event: </label>
                         <input type="text" class="form-control" name="myData" [(ngModel)]="addData.title"
                             [ngClass]="validate.title?'is-invalid':''" oninput="this.value = this.value.toUpperCase()">
                         <div class="invalid-feedback">Please enter the activity.</div>
                     </div>
                     <div class="col-md-2"> <label class="form-label">No. of Participants: </label>
                         <input type="number" class="form-control" name="myData" [(ngModel)]="addData.participantNo">
-                    </div>
+                    </div> -->
 
                     <!-- <div class="col-md-4"> <label class="form-label">Category: </label>
                         <select class="form-select" aria-label="Default select example" name="myData"
@@ -91,7 +97,7 @@
                 <div *ngIf="account == compAccount? true:false" class="">
                     <!-- <button (click)="AddResFacilities()" type="button" class="btn btn-primary "><i
                             class="bi bi-plus-lg"></i>&nbsp;List</button> -->
-                    <button (click)="disableForm()" type="button" class="btn btn-success ">Save</button>
+                    <button (click)="AddClient()" type="button" class="btn btn-success ">Save</button>
                 </div>
                 <div class="row mt-3">
                     <!-- <div class="col-md-2"> <label class="form-label">Event Date: </label>
@@ -287,27 +293,40 @@
 
     <!-- ADD FACILITIES -->
     <div class="modal fade" id="facilities" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-2" id="exampleModalLabel">Scheduler</h1>
+                <div class="modal-header blue-modal-header">
+                    <h1 class="modal-title fs-2 text-black" id="exampleModalLabel"><i
+                            class="bi bi-person-circle text-black"></i>&nbsp;{{staticClient.clientName}}</h1>
                     <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="">
                         <div class="row mt-3">
-                                <div class="col-md-12"> <label class="form-label">Category: </label>
-                                    <select class="form-select" aria-label="Default select example" name="myData"
-                                        [(ngModel)]="selectedValue" (ngModelChange)="onSelectChange(selectedValue)"
-                                        [ngClass]="validate.facilityId?'is-invalid':''">
-                                        <option value="" disabled selected>Select Category</option>
-                                        <option *ngFor="let item of listfacilitycategory" [value]="item.categoryId">
-                                            {{ item.categoryName }}
-                                        </option>
-                                    </select>
-                                    <div class="invalid-feedback">Please select.</div>
-                                </div>
+                            <div class="col-md-6"> <label class="form-label">Nature of Event: </label>
+                                <input type="text" class="form-control" name="myData" [(ngModel)]="addData.title"
+                                    [ngClass]="validate.title?'is-invalid':''"
+                                    oninput="this.value = this.value.toUpperCase()">
+                                <div class="invalid-feedback">Please enter the activity.</div>
+                            </div>
+                            <div class="col-md-6"> <label class="form-label">No. of Participants: </label>
+                                <input type="number" class="form-control" name="myData"
+                                    [(ngModel)]="addData.participantNo">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12"> <label class="form-label">Category: </label>
+                                <select class="form-select" aria-label="Default select example" name="myData"
+                                    [(ngModel)]="selectedValue" (ngModelChange)="onSelectChange(selectedValue)"
+                                    [ngClass]="validate.facilityId?'is-invalid':''">
+                                    <option value="" disabled selected>Select Category</option>
+                                    <option *ngFor="let item of listfacilitycategory" [value]="item.categoryId">
+                                        {{ item.categoryName }}
+                                    </option>
+                                </select>
+                                <div class="invalid-feedback">Please select.</div>
+                            </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-12"> <label class="form-label">Facilities: </label>
@@ -358,7 +377,8 @@
                                     <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
                                         <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off"
                                             [(ngModel)]="isCheckScoreboard" [ngModelOptions]="{standalone: true}">
-                                        <label class="btn btn-outline-primary" for="btncheck1">Electronic Scoreboard</label>
+                                        <label class="btn btn-outline-primary" for="btncheck1">Electronic
+                                            Scoreboard</label>
                                         <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off"
                                             [(ngModel)]="isCheckSound" [ngModelOptions]="{standalone: true}">
                                         <label class="btn btn-outline-primary" for="btncheck2">Sound System</label>
@@ -366,13 +386,57 @@
                                 </div>
                             </div>
                         </div>
+                    </div><br>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="my-table table" *ngIf="filterListClient.length != 0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Category</th>
+                                            <th scope="col">Facility</th>
+                                            <th scope="col">Other Equipments</th>
+                                            <th scope="col">Event Date</th>
+                                            <th scope="col">Start Time</th>
+                                            <th scope="col">End Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let dataItem of filterListClient; let i = index">
+                                            <td>{{i+1}}</td>
+                                            <td>{{dataItem.categoryName}}</td>
+                                            <td>{{dataItem.facilityName}}</td>
+                                            <td>{{dataItem.othersId}}</td>
+                                            <td>{{dataItem.formattedDate}}</td>
+                                            <td>
+                                                <div *ngFor="let item of startTime">
+                                                    <span *ngIf="item.int === dataItem.startTime"> {{item.type}} </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div *ngFor="let item of endTime">
+                                                    <span *ngIf="item.int === dataItem.endTime"> {{item.type}} </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div *ngIf="filterListClient.length == 0">
+                                    <img src="assets/img/document.gif" alt="" width="200" height="200"
+                                        style="display: block; margin: 0 auto;">
+                                    <span style="display: flex; justify-content: center; align-items: center;">
+                                        <label><strong>No Data!</strong></label>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div><br>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        aria-hidden="true">Close</button>
-                    <button (click)="AddResFacilities()" type="button" class="btn btn-success"><i
-                            class="bi bi-save2"></i>&nbsp;Save</button>
+                    <button (click)="clearFields()" type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        aria-hidden="true">Done</button>
+                    <button (click)="AddResFacilities()" type="button" class="btn btn-primary">Add</button>
                 </div>
             </div>
         </div>

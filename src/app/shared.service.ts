@@ -11,6 +11,14 @@ export class SharedService {
 
   constructor(private http: HttpClient) { }
 
+  //client
+  GetClient():Observable<any[]>{
+    return this.http.get<any[]>(this.APIUrl+'/clients'); 
+  }
+  AddClient(add:any={}){
+    return this.http.post<any[]>(this.APIUrl+'/clients',add); 
+  }
+
   //resfacilities
   GetListResFacilities():Observable<any[]>{
     return this.http.get<any[]>(this.APIUrl+'/resFacilities'); 

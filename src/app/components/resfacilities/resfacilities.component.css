@@ -10,6 +10,11 @@
     height: 80px; /* Change this value to whatever height you want */
   }
 
+  .blue-modal-header {
+    background-color: #F0F0F0;
+    color: white;
+  }
+
   /* .search-box {
     position: relative;
     display: inline-block;

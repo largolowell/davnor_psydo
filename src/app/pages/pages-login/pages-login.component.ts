@@ -18,6 +18,11 @@ export class PagesLoginComponent implements OnInit {
 
   login:any = {};
   credential:boolean =false;
+
+  triggerButton() {
+    this.onLogin();
+  }
+
   onLogin(){
     // debugger;
 

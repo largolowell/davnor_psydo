@@ -594,7 +594,7 @@
 	font-weight: 600;
 	color: #4154f1;
 	transition: 0.3;
-	background: #f6f9ff;
+	background: #E8E8E8;
 	padding: 10px 15px;
 	border-radius: 4px;
   }
@@ -605,10 +605,10 @@
   }
   .sidebar-nav .nav-link.collapsed {
 	color: #012970;
-	background: #fff;
+	background: #E8E8E8;
   }
   .sidebar-nav .nav-link.collapsed i {
-	color: #899bbd;
+	color: #000000;
   }
   .sidebar-nav .nav-link:hover {
 	color: #4154f1;
@@ -1190,6 +1190,9 @@
 	position:absolute; right: 530px;
 	position:absolute; top: 5px;
   }
+
+
+  
 
 
   

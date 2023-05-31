@@ -65,6 +65,9 @@ import { CustomInterceptor } from './custom.interceptor';
 
 import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { ClientdetailsComponent } from './components/clientdetails/clientdetails.component';
+
+import { DatePipe } from '@angular/common';
 
  
 @NgModule({
@@ -112,7 +115,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     ResdavnorgymComponent,
     ReservationListComponent,
     LoginComponent,
-    ReservationsheetComponent
+    ReservationsheetComponent,
+    ClientdetailsComponent
 
   ],
   imports: [
@@ -129,7 +133,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     NgxPrintModule, Ng2SearchPipeModule
 
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi:true}, BnNgIdleService],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi:true}, BnNgIdleService,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

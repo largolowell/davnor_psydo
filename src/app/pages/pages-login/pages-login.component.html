@@ -1,5 +1,5 @@
 <main>
-    <div class="container">
+   <!-- <div class="container">
        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
           <div class="container">
              <div class="row justify-content-center">
@@ -33,5 +33,39 @@
              </div>
           </div>
        </section>
-    </div>
- </main>
+    </div> -->
+    <!DOCTYPE html>
+    <!-- Created By CodingNepal -->
+    <html lang="en" dir="ltr">
+       <head>
+          <meta charset="utf-8">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+       </head>
+       <body>
+          <div class="bg-img">
+             <div class="content">
+                <header>Login</header>
+                <form action="#">
+                   <div class="field">
+                      <span class="fa fa-user"></span>
+                      <input for="yourUsername" type="text" name="username" placeholder="User Name" class="form-control" id="yourUsername" (keyup.enter)="triggerButton()" [(ngModel)]="login.userName" required>
+                      <div class="invalid-feedback">Please enter your username.</div>
+                   </div>
+                   <div class="field space">
+                      <span class="fa fa-lock"></span>
+                      <input for="yourPassword" type="password" name="password" placeholder="Password" class="form-control" id="yourPassword" (keyup.enter)="triggerButton()" [(ngModel)]="login.password" required>
+                      <!-- <span class="show">SHOW</span> -->
+                      <div class="invalid-feedback">Please enter your password!</div>
+                   </div>
+                   <div class="pass">
+                      <a href="#"></a>
+                   </div>
+                   <div>
+                     <button class="field" type="submit"><input (click)="onLogin()" type="submit" value="LOGIN"></button>
+                   </div>
+                </form>
+             </div>
+          </div>
+       </body>
+    </html>
+</main>

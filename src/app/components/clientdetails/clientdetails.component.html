@@ -1,0 +1,59 @@
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Form</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+                <li class="breadcrumb-item">Reservation</li>
+                <li class="breadcrumb-item active">Client Details</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="card-title col-md-2"
+                    style="display: inline-block; margin-bottom: 3px; padding-bottom: 3px;">
+                    <h2 style="display: inline;">Client Details</h2>
+                    <hr
+                        style="display: inline-block; border: none; height: 10px; background-color: black; width: 100%; margin: 0; padding: 0;">
+                </div>
+                <div class="col-md-8">
+                </div>
+                <div class="col-md-2">
+
+
+                </div>
+            </div>
+            <form class="row g-3">
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Client Name:</label>
+                        <input type="text" class="form-control" name="myData" 
+                            oninput="this.value = this.value.toUpperCase()" >
+                    </div>
+                    <div class="col-md-6"> <label class="form-label">Address: </label>
+                        <input type="text" class="form-control" name="myData" 
+                            oninput="this.value = this.value.toUpperCase()">
+                    </div>
+                </div> 
+                <div class="row mt-3">
+                    <div class="col-md-4"> <label class="form-label">Authorized Representative/ Contact Person: </label>
+                        <input type="text" class="form-control" name="myData"
+                            oninput="this.value = this.value.toUpperCase()">
+                    </div>
+                    <div class="col-md-4"> <label class="form-label">Contact Nos.</label>
+                        <input type="text" class="form-control" name="myData" 
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')">
+                    </div>
+                    <div class="col-md-4"> <label class="form-label">Email Address: </label>
+                        <input type="text" class="form-control" name="myData" >
+                    </div>
+                </div>
+                <div  class="">
+                    <button  type="button" class="btn btn-success ">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>

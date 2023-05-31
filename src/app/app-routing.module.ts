@@ -42,6 +42,7 @@ import { ReservationListComponent } from './components/reservation-list/reservat
 import { LoginComponent } from './components/login/login.component';
 import { ReservationsheetComponent } from './components/reservationsheet/reservationsheet.component';
 import { AuthGuard } from './auth.guard';
+import { ClientdetailsComponent } from './components/clientdetails/clientdetails.component';
 
  
 
@@ -56,6 +57,7 @@ const routes: Routes = [
   { path: 'reservationlist', component: ReservationListComponent, canActivate:[AuthGuard]},
   { path: 'login', component: LoginComponent},
   { path: 'reservationsheet', component: ReservationsheetComponent},
+  { path: 'clientdetails', component: ClientdetailsComponent},
 
   { path: 'dashboard', component: DashboardComponent },
   { path: 'alerts', component: AlertsComponent },
