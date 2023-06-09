@@ -2,7 +2,7 @@
 
 .my-table th,
 .my-table td {
-  height: 50px; /* Change this value to whatever height you want */
+  height: 80px; /* Change this value to whatever height you want */
   vertical-align: middle;
 }
 
@@ -17,7 +17,16 @@
   margin-left: 100px;
   margin-right: 200px;
 }
+ 
+.blue-modal-header {
+  background-color: #F0F0F0;
+  color: white;
+}
 
+.table-header {
+  background-color: #4154F1; /* Replace with your desired color */
+  color: white; /* Replace with the text color you want */
+}
 
 
 

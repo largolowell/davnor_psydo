@@ -68,6 +68,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ClientdetailsComponent } from './components/clientdetails/clientdetails.component';
 
 import { DatePipe } from '@angular/common';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material'; 
 
  
 @NgModule({
@@ -130,7 +131,7 @@ import { DatePipe } from '@angular/common';
     FullCalendarModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgxPrintModule, Ng2SearchPipeModule
+    NgxPrintModule, Ng2SearchPipeModule, NgxDaterangepickerMd.forRoot()
 
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi:true}, BnNgIdleService,DatePipe],

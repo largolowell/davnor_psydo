@@ -1075,6 +1075,10 @@
 	font-size: 14px;
 	color:black;
   }
+  #detailsClient{
+	font-size: 14px;
+	color:black;
+  }
 
   #content{
 	font-weight: bold;
@@ -1171,6 +1175,21 @@
 	color:black;
 	font-size: 14px;
   }
+  #tablesub {
+	font-weight: normal;
+	color:black;
+	font-size: 12px;
+  }
+
+  #tableRShrs {
+	border: 1px solid black;
+	border-collapse: collapse;
+	font-weight: bold;
+	color:black;
+	font-size: 14px;
+	text-align: center;
+  }
+
 
   /* #numbered-list {
 	counter-reset: my-counter;
@@ -1190,6 +1209,8 @@
 	position:absolute; right: 530px;
 	position:absolute; top: 5px;
   }
+
+
 
 
   

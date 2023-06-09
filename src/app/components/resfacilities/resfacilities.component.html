@@ -9,224 +9,276 @@
             </ol>
         </nav>
     </div>
-    <div class="card" *ngIf="account == compAccount? true:false">
+    <div class="card" *ngIf="account == compAccount ? true : false">
         <div class="card-body">
             <div class="row">
-                <div class="card-title col-md-2"
-                    style="display: inline-block; margin-bottom: 3px; padding-bottom: 3px;">
-                    <h2 style="display: inline;">Reservation Form</h2>
-                    <hr
-                        style="display: inline-block; border: none; height: 10px; background-color: black; width: 100%; margin: 0; padding: 0;">
+                <div class="card-title col-md-2" style="display: inline-block; margin-bottom: 3px; padding-bottom: 3px">
+                    <h2 style="display: inline">Reservation Form</h2>
+                    <hr style="
+              display: inline-block;
+              border: none;
+              height: 10px;
+              background-color: black;
+              width: 100%;
+              margin: 0;
+              padding: 0;
+            " />
                 </div>
-                <div class="col-md-8">
-                </div>
+                <div class="col-md-8"></div>
                 <div class="col-md-2">
                     <label class="form-label"></label>
-                    <br>
-                    <!-- <button (click)="AddResFacilities()" type="button" class="btn btn-primary "><i
-                                class="bi bi-plus-lg"></i>&nbsp;List</button> -->
-                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                        data-bs-target="#facilities">
-                        <i class="bi bi-plus-lg"></i>&nbsp;Add Schedule
-                    </button>
-
+                    <br />
                 </div>
             </div>
             <form class="row g-3">
                 <div class="row mt-3">
                     <div class="col-md-6">
                         <label class="form-label">Client Name:</label>
-                        <input type="text" class="form-control" name="myData" [(ngModel)]="addClient.clientName " [ngClass]="validateListClient.clientName?'is-invalid':''"
-                            oninput="this.value = this.value.toUpperCase()" [disabled]="disableInputForm">
-                        <div class="invalid-feedback">Please input.</div>    
+                        <input type="text" class="form-control" name="myData" [(ngModel)]="addClient.clientName"
+                            [ngClass]="validateListClient.clientName ? 'is-invalid' : ''"
+                            oninput="this.value = this.value.toUpperCase()" [disabled]="disableInputForm" />
+                        <div class="invalid-feedback">Please input.</div>
                     </div>
-                    <div class="col-md-6"> <label class="form-label">Address: </label>
-                        <input type="text" class="form-control" name="myData" [(ngModel)]="addClient.address" [ngClass]="validateListClient.address?'is-invalid':''"
-                            oninput="this.value = this.value.toUpperCase()">
-                        <div class="invalid-feedback">Please input.</div>      
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-4"> <label class="form-label">Authorized Representative/ Contact Person: </label>
-                        <input type="text" class="form-control" name="myData" [(ngModel)]="addClient.contactPerson" [ngClass]="validateListClient.contactPerson?'is-invalid':''"
-                            oninput="this.value = this.value.toUpperCase()">
-                        <div class="invalid-feedback">Please input.</div>   
-                    </div>
-                    <div class="col-md-4"> <label class="form-label">Contact Nos.</label> 
-                        <input type="text" class="form-control" name="myData" [(ngModel)]="addClient.contactNo" [ngClass]="validateListClient.contactNo?'is-invalid':''"
-                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')">
-                        <div class="invalid-feedback">Please input.</div>   
-                    </div>
-                    <div class="col-md-4"> <label class="form-label">Email Address: </label>
-                        <input type="text" class="form-control" name="myData" [(ngModel)]="addClient.emailAd" [ngClass]="validateListClient.emailAd?'is-invalid':''">
-                    <div class="invalid-feedback">Please input.</div>   
+                    <div class="col-md-6">
+                        <label class="form-label">Address: </label>
+                        <input type="text" class="form-control" name="myData" [(ngModel)]="addClient.address"
+                            [ngClass]="validateListClient.address ? 'is-invalid' : ''"
+                            oninput="this.value = this.value.toUpperCase()" />
+                        <div class="invalid-feedback">Please input.</div>
                     </div>
                 </div>
                 <div class="row mt-3">
-                    <!-- <div class="col-md-4"> <label class="form-label">Nature of Event: </label>
+                    <div class="col-md-4">
+                        <label class="form-label">Authorized Representative/ Contact Person:
+                        </label>
+                        <input type="text" class="form-control" name="myData" [(ngModel)]="addClient.contactPerson"
+                            [ngClass]="validateListClient.contactPerson ? 'is-invalid' : ''"
+                            oninput="this.value = this.value.toUpperCase()" />
+                        <!-- <input type="text" matInput ngxDaterangepickerMd
+                            [locale]="{applyLabel: 'ok', format: 'YYYY-MM-DD'}" [(ngModel)]="selected"
+                            name="daterange" /> -->
+                        <div class="invalid-feedback">Please input.</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Contact Nos.</label>
+                        <input type="text" class="form-control" name="myData" [(ngModel)]="addClient.contactNo"
+                            [ngClass]="validateListClient.contactNo ? 'is-invalid' : ''"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')" />
+                        <div class="invalid-feedback">Please input.</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Email Address: </label>
+                        <input type="text" class="form-control" name="myData" [(ngModel)]="addClient.emailAd"
+                            [ngClass]="validateListClient.emailAd ? 'is-invalid' : ''" />
+                        <div class="invalid-feedback">Please input.</div>
+                    </div>
+                </div>
+                <div *ngIf="account == compAccount ? true : false" class="">
+                    <button *ngIf="hideSaveButton" (click)="AddClient()" type="button" class="btn btn-success">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div *ngIf="staticClient.clientName != null" class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="card-title col-md-4" style="display: inline-block; margin-bottom: 3px; padding-bottom: 3px">
+                    <h1 style="display: inline">
+                        <i class="bi bi-person-circle text-black"></i>&nbsp;{{
+                        staticClient.clientName
+                        }}
+                    </h1>
+                    <hr style="
+              display: inline-block;
+              border: none;
+              height: 10px;
+              background-color: black;
+              width: 100%;
+              margin: 0;
+              padding: 0;
+            " />
+                </div>
+            </div>
+            <div class="">
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Nature of Event: </label>
                         <input type="text" class="form-control" name="myData" [(ngModel)]="addData.title"
-                            [ngClass]="validate.title?'is-invalid':''" oninput="this.value = this.value.toUpperCase()">
+                            [ngClass]="validate.title ? 'is-invalid' : ''"
+                            oninput="this.value = this.value.toUpperCase()" />
                         <div class="invalid-feedback">Please enter the activity.</div>
                     </div>
-                    <div class="col-md-2"> <label class="form-label">No. of Participants: </label>
-                        <input type="number" class="form-control" name="myData" [(ngModel)]="addData.participantNo">
-                    </div> -->
-
-                    <!-- <div class="col-md-4"> <label class="form-label">Category: </label>
+                    <div class="col-md-2">
+                        <label class="form-label">No. of Participants: </label>
+                        <input type="number" class="form-control" name="myData" [(ngModel)]="addData.participantNo" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="font-weight-bold" for="exampleFormControlTextarea1">Other
+                            Equipments:</label>&nbsp;
+                        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                            <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off"
+                                [(ngModel)]="isCheckScoreboard" [ngModelOptions]="{ standalone: true }" />
+                            <label class="btn btn-outline-primary" for="btncheck1">Electronic Scoreboard</label>
+                            <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off"
+                                [(ngModel)]="isCheckSound" [ngModelOptions]="{ standalone: true }" />
+                            <label class="btn btn-outline-primary" for="btncheck2">Sound System</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <label class="form-label">Category: </label>
                         <select class="form-select" aria-label="Default select example" name="myData"
                             [(ngModel)]="selectedValue" (ngModelChange)="onSelectChange(selectedValue)"
-                            [ngClass]="validate.facilityId?'is-invalid':''">
+                            [ngClass]="validate.facilityId ? 'is-invalid' : ''">
                             <option value="" disabled selected>Select Category</option>
                             <option *ngFor="let item of listfacilitycategory" [value]="item.categoryId">
                                 {{ item.categoryName }}
                             </option>
                         </select>
                         <div class="invalid-feedback">Please select.</div>
-                    </div> -->
-                    <!-- <div class="col-md-4"> <label class="form-label">Facilities: </label>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <label class="form-label">Facilities: </label>
                         <select class="form-select" aria-label="Default select example" name="myData"
-                            [(ngModel)]="checker" [ngClass]="validate.facilityId?'is-invalid':''">
+                            [(ngModel)]="checker" [ngClass]="validate.facilityId ? 'is-invalid' : ''">
                             <option value="" disabled selected>Select Facility</option>
                             <option *ngFor="let item of dropdownPrice" [value]="item.facilityId">
-                                {{ item.categoryName }} - {{ item.facilityName }}
+                                {{ item.facilityName }}
                             </option>
                         </select>
                         <div class="invalid-feedback">Please select.</div>
-                    </div> -->
-                </div>
-                <div *ngIf="account == compAccount? true:false" class="">
-                    <!-- <button (click)="AddResFacilities()" type="button" class="btn btn-primary "><i
-                            class="bi bi-plus-lg"></i>&nbsp;List</button> -->
-                    <button (click)="AddClient()" type="button" class="btn btn-success ">Save</button>
+                    </div>
                 </div>
                 <div class="row mt-3">
-                    <!-- <div class="col-md-2"> <label class="form-label">Event Date: </label>
+                    <div class="col-md-12">
+                        <label class="form-check-label font-weight-bold"
+                            for="exampleCheckbox">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input class="form-check-input" type="checkbox" id="exampleCheckbox"
+                                [(ngModel)]="isCheckedRange" (change)="handleCheckboxChange($event)" />
+                            Consecutive Days of Event
+                        </label>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12" *ngIf="isCheckedRange == false">
                         <input type="date" class="form-control" name="myData" [(ngModel)]="addData.date"
-                            [ngClass]="validate.date?'is-invalid':''">
+                            [ngClass]="validate.date ? 'is-invalid' : ''" />
+                        <div class="invalid-feedback">Please select date.</div>
+                    </div>
+                    <div class="col-md-6" *ngIf="isCheckedRange == true">
+                        <label class="form-label">From: </label>
+                        <input type="date" class="form-control" name="myData" [(ngModel)]="addData.date"
+                            [ngClass]="validate.date ? 'is-invalid' : ''" />
+                        <div class="invalid-feedback">Please select date.</div>
+                    </div>
+                    <div class="col-md-6" *ngIf="isCheckedRange == true">
+                        <label class="form-label">To: </label>
+                        <input type="date" class="form-control" name="myData" [(ngModel)]="addData.dateEnd"
+                            [ngClass]="validate.date ? 'is-invalid' : ''" />
+                        <div class="invalid-feedback">Please select date.</div>
+                    </div>
+                    <!-- <div class="col-md-12">
+                        <input type="text" ngxDaterangepickerMd [locale]="{applyLabel: 'ok', format: 'YYYY-MM-DD'}"
+                            [(ngModel)]="selected" [ngClass]="validate.date ? 'is-invalid' : ''" name="daterange"
+                            class="form-control" />
                         <div class="invalid-feedback">Please select date.</div>
                     </div> -->
-                    <!-- <div class="col-md-2"> <label class="form-label">Start Time: </label>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Start Time: </label>
                         <select class="form-select" aria-label="Default select example" name="myData"
-                            [(ngModel)]="addData.startTime" [ngClass]="validate.startTime?'is-invalid':''">
+                            [(ngModel)]="addData.startTime" [ngClass]="validate.startTime ? 'is-invalid' : ''">
                             <option value="" disabled selected>Select time</option>
                             <option *ngFor="let item of startTime" [value]="item.int">
                                 {{ item.type }}
                             </option>
                         </select>
                         <div class="invalid-feedback">Please select time.</div>
-                    </div> -->
-                    <!-- <div class="col-md-2"> <label class="form-label">End Time: </label>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">End Time: </label>
                         <select class="form-select" aria-label="Default select example" name="myData"
-                            [(ngModel)]="addData.endTime" [ngClass]="validate.endTime?'is-invalid':''">
+                            [(ngModel)]="addData.endTime" [ngClass]="validate.endTime ? 'is-invalid' : ''">
                             <option value="" disabled selected>Select time</option>
                             <option *ngFor="let item of endTime" [value]="item.int">
                                 {{ item.type }}
                             </option>
                         </select>
                         <div class="invalid-feedback">Please select time.</div>
-                    </div> -->
-
-                    <!-- <div class="col-md-4">
-                        <label for="exampleFormControlTextarea1">Remarks:</label>
-                        <textarea class="form-control" id="" rows="4" name="myData"
-                            [(ngModel)]="addData.remarks"></textarea>
-                    </div> -->
+                    </div>
                 </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="card-title col-md-2"
-                    style="display: inline-block; margin-bottom: 3px; padding-bottom: 3px;">
-                    <h2 style="display: inline;">Reserved</h2>
-                    <hr
-                        style="display: inline-block; border: none; height: 10px; background-color: black; width: 100%; margin: 0; padding: 0;">
-                </div>
-                <div class="col-md-6">
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label"></label>
-                    <div class="input-group">
-                        <input type="text" placeholder="Search..." class="form-control" name="search"
-                            [(ngModel)]="searchText" style="border-right: white;">
-                        <div class="input-group-append">
-                            <span class="input-group-text " style="background-color: white; ">
-                                <i class="bi bi-x text-danger " (click)="clearSearch()"></i>
-                            </span>
-                            <span class="input-group-text">
-                                <i class="bi bi-search text-primary"></i>
+            </div>
+            <br />
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="my-table table" *ngIf="filterListClient.length != 0">
+                            <thead>
+                                <tr class="table-header">
+                                    <th scope="col">#</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Facility</th>
+                                    <th scope="col">Other Equipments</th>
+                                    <th scope="col">Event Date</th>
+                                    <th scope="col">End Date</th>
+                                    <th scope="col">Start Time</th>
+                                    <th scope="col">End Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let dataItem of filterListClient; let i = index">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>{{ dataItem.categoryName }}</td>
+                                    <td>{{ dataItem.facilityName }}</td>
+                                    <td>{{ dataItem.othersId }}</td>
+                                    <td>{{ dataItem.formattedDate }}</td>
+                                    <td>{{ dataItem.formattedDateEnd }}</td>
+                                    <td>
+                                        <div *ngFor="let item of startTime">
+                                            <span *ngIf="item.int === dataItem.startTime">
+                                                {{ item.type }}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div *ngFor="let item of endTime">
+                                            <span *ngIf="item.int === dataItem.endTime">
+                                                {{ item.type }}
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div *ngIf="filterListClient.length == 0">
+                            <img src="assets/img/document.gif" alt="" width="200" height="200"
+                                style="display: block; margin: 0 auto" />
+                            <span style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                ">
+                                <label><strong>No Data!</strong></label>
                             </span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="table-responsive">
-                <table class="my-table table" *ngIf="approvedList.length != 0">
-                    <thead>
-                        <tr>
-                            <th width="5%" scope="col">#</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Facility</th>
-                            <th scope="col">Other Equipments</th>
-                            <th scope="col">Event Date</th>
-                            <th scope="col">Start Time</th>
-                            <th scope="col">End Time</th>
-                            <th scope="col">Total</th>
-                            <th scope="col"></th>
-                            <th *ngIf="account == compAccount? true:false" width="12.6%"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let dataItem of approvedList | filter: searchText; let i = index">
-                            <td>{{i+1}}
-                                <button *ngIf="account == compAccount? true:false" (click)="editData = dataItem"
-                                    (click)="done()" type="button" class="btn btn-outline-danger border-0">
-                                    <i class="bi bi-patch-check"></i>
-                                </button>
-                            </td>
-                            <td>{{dataItem.categoryName}}</td>
-                            <td>{{dataItem.facilityName}}</td>
-                            <td>{{dataItem.othersId}}</td>
-                            <td>{{dataItem.formattedDate}}</td>
-                            <td>
-                                <div *ngFor="let item of startTime">
-                                    <span *ngIf="item.int === dataItem.startTime"> {{item.type}} </span>
-                                </div>
-                            </td>
-                            <td>
-                                <div *ngFor="let item of endTime">
-                                    <span *ngIf="item.int === dataItem.endTime"> {{item.type}} </span>
-                                </div>
-                            </td>
-                            <td>₱ {{dataItem.total}}</td>
-                            <td *ngIf="dataItem.done != null ?true: false"> <span
-                                    class="badge bg-primary text-white">DONE</span> </td>
-                            <td *ngIf="dataItem.done == null ?true: false"> <span
-                                    class="badge bg-warning text-black">RESERVED</span> </td>
-                            <td *ngIf="account == compAccount? true:false">
-                                <button (click)="editData = dataItem ; temp = dataItem" type="button"
-                                    class="btn btn-outline-success border-0" data-bs-toggle="modal"
-                                    data-bs-target="#edit">
-                                    <i class="bi bi-pencil"></i>&nbsp;Edit
-                                </button>
-                                &nbsp;
-                                <button (click)="editData = dataItem" class="btn btn-outline-danger border-0"
-                                    (click)="DeleteResFacilities(dataItem.resFacilitiesId)">
-                                    <i class="bi bi-x-octagon"></i>&nbsp;Cancel
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div *ngIf="approvedList.length == 0">
-                    <img src="assets/img/document.gif" alt="" width="200" height="200"
-                        style="display: block; margin: 0 auto;">
-                    <span style="display: flex; justify-content: center; align-items: center;">
-                        <label><strong>No Data!</strong></label>
-                    </span>
+            <br />
+            <div class="position-relative">
+                <div class="position-absolute bottom-0 end-0">
+                    <button (click)="clearFields()" type="button" class="btn btn-secondary">
+                        Done</button>&nbsp;&nbsp;
+                    <button (click)="AddResFacilities()" type="button" class="btn btn-primary">
+                        <i class="bi bi-plus-lg"></i>&nbsp;Add
+                    </button>
                 </div>
             </div>
         </div>
@@ -236,15 +288,16 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-2" id="exampleModalLabel">{{editData.title}} - Reserved</h1>
+                    <h1 class="modal-title fs-2" id="exampleModalLabel">
+                        {{ editData.title }} - Reserved
+                    </h1>
                     <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="">
-                        <div *ngIf="editData.facilityId ?? null" hidden class="col-md-12"> <label
-                                class="form-label">Facilities:
-                            </label>
+                        <div *ngIf="editData.facilityId ?? null" hidden class="col-md-12">
+                            <label class="form-label">Facilities: </label>
                             <select hidden class="form-select" aria-label="Default select example"
                                 [(ngModel)]="editData.facilityId">
                                 <option value="" disabled selected>Select Facility</option>
@@ -254,13 +307,15 @@
                             </select>
                         </div>
                         <div class="row mt-3">
-                            <div class="col-md-12"> <label class="form-label">Event Date: </label>
+                            <div class="col-md-12">
+                                <label class="form-label">Event Date: </label>
                                 <input type="date" class="form-control" [(ngModel)]="editData.date" name="date"
-                                    id="date">
+                                    id="date" />
                             </div>
                         </div>
                         <div class="row mt-3">
-                            <div class="col-md-6"> <label class="form-label">Start Time: </label>
+                            <div class="col-md-6">
+                                <label class="form-label">Start Time: </label>
                                 <select class="form-select" aria-label="Default select example" name="startTime"
                                     id="startTime" [(ngModel)]="editData.startTime">
                                     <option value="" disabled selected>Select time</option>
@@ -269,7 +324,8 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-md-6"> <label class="form-label">End Time: </label>
+                            <div class="col-md-6">
+                                <label class="form-label">End Time: </label>
                                 <select class="form-select" aria-label="Default select example" name="endTime"
                                     id="endTime" [(ngModel)]="editData.endTime">
                                     <option value="" disabled selected>Select time</option>
@@ -280,170 +336,17 @@
                             </div>
                         </div>
                     </div>
-                </div><br>
+                </div>
+                <br />
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        aria-hidden="true">Close</button>
-                    <button (click)="EditResFacilities()" type="button" class="btn btn-success"><i
-                            class="bi bi-save2"></i>&nbsp;Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">
+                        Close
+                    </button>
+                    <button (click)="EditResFacilities()" type="button" class="btn btn-success">
+                        <i class="bi bi-save2"></i>&nbsp;Save changes
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- ADD FACILITIES -->
-    <div class="modal fade" id="facilities" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header blue-modal-header">
-                    <h1 class="modal-title fs-2 text-black" id="exampleModalLabel"><i
-                            class="bi bi-person-circle text-black"></i>&nbsp;{{staticClient.clientName}}</h1>
-                    <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="">
-                        <div class="row mt-3">
-                            <div class="col-md-6"> <label class="form-label">Nature of Event: </label>
-                                <input type="text" class="form-control" name="myData" [(ngModel)]="addData.title"
-                                    [ngClass]="validate.title?'is-invalid':''"
-                                    oninput="this.value = this.value.toUpperCase()">
-                                <div class="invalid-feedback">Please enter the activity.</div>
-                            </div>
-                            <div class="col-md-6"> <label class="form-label">No. of Participants: </label>
-                                <input type="number" class="form-control" name="myData"
-                                    [(ngModel)]="addData.participantNo">
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-12"> <label class="form-label">Category: </label>
-                                <select class="form-select" aria-label="Default select example" name="myData"
-                                    [(ngModel)]="selectedValue" (ngModelChange)="onSelectChange(selectedValue)"
-                                    [ngClass]="validate.facilityId?'is-invalid':''">
-                                    <option value="" disabled selected>Select Category</option>
-                                    <option *ngFor="let item of listfacilitycategory" [value]="item.categoryId">
-                                        {{ item.categoryName }}
-                                    </option>
-                                </select>
-                                <div class="invalid-feedback">Please select.</div>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-12"> <label class="form-label">Facilities: </label>
-                                <select class="form-select" aria-label="Default select example" name="myData"
-                                    [(ngModel)]="checker" [ngClass]="validate.facilityId?'is-invalid':''">
-                                    <option value="" disabled selected>Select Facility</option>
-                                    <option *ngFor="let item of dropdownPrice" [value]="item.facilityId">
-                                        {{ item.categoryName }} - {{ item.facilityName }}
-                                    </option>
-                                </select>
-                                <div class="invalid-feedback">Please select.</div>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-12"> <label class="form-label">Event Date: </label>
-                                <input type="date" class="form-control" name="myData" [(ngModel)]="addData.date"
-                                    [ngClass]="validate.date?'is-invalid':''">
-                                <div class="invalid-feedback">Please select date.</div>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-6"> <label class="form-label">Start Time: </label>
-                                <select class="form-select" aria-label="Default select example" name="myData"
-                                    [(ngModel)]="addData.startTime" [ngClass]="validate.startTime?'is-invalid':''">
-                                    <option value="" disabled selected>Select time</option>
-                                    <option *ngFor="let item of startTime" [value]="item.int">
-                                        {{ item.type }}
-                                    </option>
-                                </select>
-                                <div class="invalid-feedback">Please select time.</div>
-                            </div>
-                            <div class="col-md-6"> <label class="form-label">End Time: </label>
-                                <select class="form-select" aria-label="Default select example" name="myData"
-                                    [(ngModel)]="addData.endTime" [ngClass]="validate.endTime?'is-invalid':''">
-                                    <option value="" disabled selected>Select time</option>
-                                    <option *ngFor="let item of endTime" [value]="item.int">
-                                        {{ item.type }}
-                                    </option>
-                                </select>
-                                <div class="invalid-feedback">Please select time.</div>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div *ngIf="purpose" class="row mt-3">
-                                <div class="col-md-4">
-                                    <label class="font-weight-bold" for="exampleFormControlTextarea1">Other
-                                        Equipments:</label>&nbsp;
-                                    <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                                        <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off"
-                                            [(ngModel)]="isCheckScoreboard" [ngModelOptions]="{standalone: true}">
-                                        <label class="btn btn-outline-primary" for="btncheck1">Electronic
-                                            Scoreboard</label>
-                                        <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off"
-                                            [(ngModel)]="isCheckSound" [ngModelOptions]="{standalone: true}">
-                                        <label class="btn btn-outline-primary" for="btncheck2">Sound System</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><br>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="my-table table" *ngIf="filterListClient.length != 0">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Category</th>
-                                            <th scope="col">Facility</th>
-                                            <th scope="col">Other Equipments</th>
-                                            <th scope="col">Event Date</th>
-                                            <th scope="col">Start Time</th>
-                                            <th scope="col">End Time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let dataItem of filterListClient; let i = index">
-                                            <td>{{i+1}}</td>
-                                            <td>{{dataItem.categoryName}}</td>
-                                            <td>{{dataItem.facilityName}}</td>
-                                            <td>{{dataItem.othersId}}</td>
-                                            <td>{{dataItem.formattedDate}}</td>
-                                            <td>
-                                                <div *ngFor="let item of startTime">
-                                                    <span *ngIf="item.int === dataItem.startTime"> {{item.type}} </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div *ngFor="let item of endTime">
-                                                    <span *ngIf="item.int === dataItem.endTime"> {{item.type}} </span>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div *ngIf="filterListClient.length == 0">
-                                    <img src="assets/img/document.gif" alt="" width="200" height="200"
-                                        style="display: block; margin: 0 auto;">
-                                    <span style="display: flex; justify-content: center; align-items: center;">
-                                        <label><strong>No Data!</strong></label>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div><br>
-                <div class="modal-footer">
-                    <button (click)="clearFields()" type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        aria-hidden="true">Done</button>
-                    <button (click)="AddResFacilities()" type="button" class="btn btn-primary">Add</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- <ng-template #not_done>
-        <span class="badge bg-primary text-black">RESERVED</span>
-    </ng-template> -->
 </main>

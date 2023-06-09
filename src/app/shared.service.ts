@@ -18,6 +18,9 @@ export class SharedService {
   AddClient(add:any={}){
     return this.http.post<any[]>(this.APIUrl+'/clients',add); 
   }
+  EditClient(val:any={}){
+    return this.http.put(this.APIUrl+'/clients',val, {responseType: 'text'})
+  }
 
   //resfacilities
   GetListResFacilities():Observable<any[]>{

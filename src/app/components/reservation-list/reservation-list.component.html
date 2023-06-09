@@ -11,62 +11,68 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <div class="card-title" style="display: inline-block; margin-bottom: 3px; padding-bottom: 3px;">
-                <h2 style="display: inline;">Reservation List</h2>&nbsp;
-                <span class="badge bg-warning text-black">PENDING</span>
-                <hr
-                    style="display: inline-block; border: none; height: 10px; background-color: black; width: 100%; margin: 0; padding: 0;">
+            <div class="card-title" style="display: inline-block; margin-bottom: 3px; padding-bottom: 3px">
+                <h2 style="display: inline">Reservation List</h2>
+                &nbsp;
+                <span class="badge bg-warning text-white">PENDING</span>
+                <hr style="
+            display: inline-block;
+            border: none;
+            height: 10px;
+            background-color: black;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+          " />
             </div>
             <div class="table-responsive">
                 <table class="my-table table" *ngIf="reservedList != 0">
                     <thead>
-                        <tr>
+                        <tr style="background-color: #f0f0f0">
                             <th scope="col">#</th>
-                            <th scope="col">Request</th>
                             <th scope="col">Client Name</th>
                             <th scope="col">Date of Reservation/Time</th>
                             <th scope="col">Address</th>
                             <th scope="col">Contact Person</th>
-                            <th scope="col">Contact Number</th>
-                            <th scope="col">Nature of Event</th>
-                            <th scope="col">Event Date</th>
-                            <th scope="col">Remarks</th>
-                            <th *ngIf="account == compAccount? true:false" width="13.3%"></th>
+                            <th scope="col">Contact No</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col"></th>
+                            <th *ngIf="account == compAccount ? true : false"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let dataItem of reservedList; let i = index">
-                            <td>{{i+1}}</td>
-                            <td>{{dataItem.categoryName}} - {{dataItem.facilityName}}</td>
-                            <td>{{dataItem.clientId}}</td>
-                            <td>{{dataItem.reservationDate}}</td>
-                            <td>{{dataItem.address}}</td>
-                            <td>{{dataItem.contactPerson}}</td>
-                            <td>{{dataItem.contactNo}}</td>
-                            <td>{{dataItem.title}}</td> 
-                            <td>{{dataItem.formattedDate}}</td>
-                            <td>{{dataItem.remarks}}</td>
-                            <td *ngIf="account == compAccount? true:false">
+                            <td>{{ i + 1 }}</td>
+                            <td [style.color]="'#4154F1'">
+                                <strong>{{ dataItem.clientName }}</strong>
+                            </td>
+                            <td>{{ dataItem.formattedDate }}</td>
+                            <td>{{ dataItem.address }}</td>
+                            <td>{{ dataItem.contactPerson }}</td>
+                            <td>{{ dataItem.contactNo }}</td>
+                            <td>{{ dataItem.emailAd }}</td>
+                            <td>
+                                <button type="button" (click)="editData = dataItem" (click)="filterdList()"
+                                    class="btn btn-outline-info border-0" data-bs-toggle="modal"
+                                    data-bs-target="#facilities">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </td>
+                            <td *ngIf="account == compAccount ? true : false">
                                 <button (click)="editData = dataItem; storage = dataItem.total" type="button"
                                     class="btn btn-outline-primary border-0" data-bs-toggle="modal"
                                     data-bs-target="#payment">
                                     <i class="bi bi-check-lg"></i>&nbsp;Approve
-                                </button> &nbsp;
-                                <!-- <button (click)="editData = dataItem" (click)="decline()" class="btn btn-outline-danger border-0">
-                                    <i class="bi bi-x-lg"></i>&nbsp;Decline
-                                </button> -->
-                                <button (click)="editData = dataItem" type="button"
-                                    class="btn btn-outline-success border-0" data-bs-toggle="modal"
-                                    data-bs-target="#edit">
-                                    <i class="bi bi-pencil"></i>&nbsp;Edit
                                 </button>
+                                &nbsp;
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div *ngIf="reservedList.length == 0">
-                    <img src="assets/img/document.gif" alt="" width="200" height="200" style="display: block; margin: 0 auto;">
-                    <span style="display: flex; justify-content: center; align-items: center;">
+                    <img src="assets/img/document.gif" alt="" width="200" height="200"
+                        style="display: block; margin: 0 auto" />
+                    <span style="display: flex; justify-content: center; align-items: center">
                         <label><strong>No Data!</strong></label>
                     </span>
                 </div>
@@ -76,21 +82,29 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="card-title col-md-2"
-                    style="display: inline-block; margin-bottom: 3px; padding-bottom: 3px;">
-                    <h2 style="display: inline;">Status</h2>
-                    <hr
-                        style="display: inline-block; border: none; height: 10px; background-color: black; width: 100%; margin: 0; padding: 0;">
+                <div class="card-title col-md-2" style="display: inline-block; margin-bottom: 3px; padding-bottom: 3px">
+                    <h2 style="display: inline">Status</h2>&nbsp;
+                    <span *ngIf="appr" class="badge bg-success text-white">APPROVED</span>
+                    <span *ngIf="decl" class="badge bg-danger text-white">CANCELED</span>
+                    <hr style="
+              display: inline-block;
+              border: none;
+              height: 10px;
+              background-color: black;
+              width: 100%;
+              margin: 0;
+              padding: 0;
+            " />
                 </div>
-                <div class="col-md-6">
-                </div>
+                <div class="col-md-6"></div>
                 <div class="col-md-4">
                     <label class="form-label"></label>
                     <div class="input-group">
-                        <input type="text" placeholder="Search..." class="form-control" name="search" [(ngModel)]="searchText" style="border-right: white;">
+                        <input type="text" placeholder="Search..." class="form-control" name="search"
+                            [(ngModel)]="searchText" style="border-right: white" />
                         <div class="input-group-append">
-                            <span class="input-group-text " style="background-color: white; " >
-                                <i class="bi bi-x text-danger "  (click)="clearSearch()"></i>
+                            <span class="input-group-text" style="background-color: white">
+                                <i class="bi bi-x text-danger" (click)="clearSearch()"></i>
                             </span>
                             <span class="input-group-text">
                                 <i class="bi bi-search text-primary"></i>
@@ -101,12 +115,16 @@
             </div>
             <nav>
                 <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
-                    <button class="nav-link active font-weight-bold" id="nav-home-tab" data-bs-toggle="tab"
-                        data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
-                        aria-selected="true">Approved</button>
-                    <button class="nav-link font-weight-bold" id="nav-profile-tab" data-bs-toggle="tab"
-                        data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile"
-                        aria-selected="false">Canceled</button>
+                    <button (click)="approveSwitch()" class="nav-link active font-weight-bold" id="nav-home-tab"
+                        data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab"
+                        aria-controls="nav-home" aria-selected="true">
+                        Approved
+                    </button>
+                    <button (click)="declineSwitch()" class="nav-link font-weight-bold" id="nav-profile-tab"
+                        data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab"
+                        aria-controls="nav-profile" aria-selected="false">
+                        Canceled
+                    </button>
                 </div>
             </nav>
             <div class="tab-content p-3 border bg-light" id="nav-tabContent">
@@ -114,65 +132,91 @@
                     <div class="table-responsive">
                         <table class="my-table table" *ngIf="approvedList != 0">
                             <thead>
-                                <tr>
+                                <tr style="background-color: #f0f0f0">
                                     <th width="5%" scope="col">#</th>
-                                    <th scope="col">Reserved</th>
                                     <th scope="col">Client Name</th>
-                                    <th width="6%" scope="col">Date of Reservation/Time</th>
                                     <th scope="col">Address</th>
                                     <th scope="col">Contact Person</th>
                                     <th scope="col">Contact Number</th>
-                                    <th scope="col">Nature of Event</th>
-                                    <th scope="col">Event Date</th>
+                                    <th scope="col">Email Address</th>
                                     <th width="6%" scope="col">Total</th>
                                     <th scope="col">Remarks</th>
                                     <th scope="col">Approved Date</th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th *ngIf="isNotShow && account == compAccount ? true : false"></th>
                                     <th></th>
-                                    <th *ngIf="isNotShow && account == compAccount? true:false"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let dataItem of approvedList | filter: searchText; let i = index">
-                                    <td>{{i+1}}
-                                        <button *ngIf="account == compAccount? true:false" (click)="editData = dataItem" (click)="print()" type="button"
+                                <tr *ngFor="
+                    let dataItem of approvedList | filter : searchText;
+                    let i = index
+                  ">
+                                    <td>
+                                        {{ i + 1 }}
+                                        <button *ngIf="account == compAccount ? true : false"
+                                            (click)="editData = dataItem" (click)="print()" type="button"
                                             class="btn btn-outline-danger border-0">
                                             <i class="bi bi-printer"></i>
                                         </button>
-                                        <!-- <button styleSheetFile="assets/css/style.css" (click)="editData = dataItem" printSectionId="print-section" ngxPrint>print</button>  -->
                                     </td>
-                                    <td>{{dataItem.categoryName}} - {{dataItem.facilityName}}</td>
-                                    <td>{{dataItem.clientId}}</td>
-                                    <td>{{dataItem.reservationDate}}</td>
-                                    <td>{{dataItem.address}}</td>
-                                    <td>{{dataItem.contactPerson}}</td>
-                                    <td>{{dataItem.contactNo}}</td>
-                                    <td>{{dataItem.title}}</td>
-                                    <td>{{dataItem.formattedDate}}</td>
-                                    <td>₱ {{dataItem.total}}</td>
-                                    <td>{{dataItem.remarks}}</td>
-                                    <td>{{dataItem.approvedDate}}</td>
-                                    <td *ngIf="dataItem.paid === 1"> <span
-                                            class="badge bg-success text-white">PAID</span></td>
-                                    <td *ngIf="dataItem.paid === -1"> <span class="badge bg-danger text-black">DUE FOR
-                                            COLLECTION</span></td>
-                                    <td *ngIf="dataItem.paid === null"> <span class="badge bg-warning text-black">FOR
-                                            PAYMENT</span></td>
-                                    <td  *ngIf="dataItem.paid != 1 && account == compAccount? true:false ">
+                                    <td [style.color]="'#4154F1'">
+                                        <strong>{{ dataItem.clientName }}</strong>
+                                    </td>
+                                    <td>{{ dataItem.address }}</td>
+                                    <td>{{ dataItem.contactPerson }}</td>
+                                    <td>{{ dataItem.contactNo }}</td>
+                                    <td>{{ dataItem.emailAd }}</td>
+                                    <td>₱ {{ dataItem.total }}</td>
+                                    <td>{{ dataItem.remarks }}</td>
+                                    <td>{{ dataItem.approvedDate }}</td>
+                                    <td>
+                                        <button type="button" (click)="editData = dataItem" (click)="filterdList()"
+                                            class="btn btn-outline-info border-0" data-bs-toggle="modal"
+                                            data-bs-target="#facilities">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="dataItem.paid === 1"
+                                            class="badge bg-success text-black">PAID</span>
+                                        <span *ngIf="dataItem.paid === -1" class="badge bg-danger text-black">DUE FOR
+                                            COLLECTION</span>
+                                        <span *ngIf="dataItem.paid === 0" class="badge bg-warning text-black">FOR
+                                            PAYMENT</span>
+                                    </td>
+                                    <td *ngIf="
+                      dataItem.paid != 1 && account == compAccount
+                        ? true
+                        : false
+                    ">
                                         <button (click)="editData = dataItem" data-bs-toggle="modal"
                                             data-bs-target="#orNo" class="btn btn-outline-primary border-0">
                                             <i class="bi bi-cash"></i>&nbsp;Paid
                                         </button>
                                         <button *ngIf="dataItem.paid != -1" (click)="editData = dataItem"
-                                            (click)="due()" class="btn btn-outline-danger border-0">
+                                            (click)="dueClient()" class="btn btn-outline-danger border-0">
                                             <i class="bi bi-x-octagon"></i>&nbsp;Due
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button (click)="editData = dataItem" (click)="DeleteResFacilities()"
+                                            class="btn btn-outline-danger border-0">
+                                            Cancel
                                         </button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                         <div *ngIf="approvedList.length == 0">
-                            <img src="assets/img/document.gif" alt="" width="200" height="200" style="display: block; margin: 0 auto;">
-                            <span style="display: flex; justify-content: center; align-items: center;">
+                            <img src="assets/img/document.gif" alt="" width="200" height="200"
+                                style="display: block; margin: 0 auto" />
+                            <span style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                ">
                                 <label><strong>No Data!</strong></label>
                             </span>
                         </div>
@@ -182,39 +226,59 @@
                     <div class="table-responsive">
                         <table class="my-table table" *ngIf="declinedList != 0">
                             <thead>
-                                <tr>
+                                <tr style="background-color: #f0f0f0">
                                     <th scope="col">#</th>
-                                    <th scope="col">Reserved</th>
                                     <th scope="col">Client Name</th>
-                                    <th scope="col">Date of Reservation/Time</th>
                                     <th scope="col">Address</th>
                                     <th scope="col">Contact Person</th>
                                     <th scope="col">Contact Number</th>
-                                    <th scope="col">Nature of Event</th>
-                                    <th scope="col">Event Date</th>
+                                    <th scope="col">Email Address</th>
+                                    <th width="6%" scope="col">Total</th>
                                     <th scope="col">Remarks</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let dataItem of declinedList; let i = index">
-                                    <td>{{i+1}}</td>
-                                    <td>{{dataItem.categoryName}} - {{dataItem.facilityName}}</td>
-                                    <td>{{dataItem.clientId}}</td>
-                                    <td>{{dataItem.reservationDate}}</td>
-                                    <td>{{dataItem.address}}</td>
-                                    <td>{{dataItem.contactPerson}}</td>
-                                    <td>{{dataItem.contactNo}}</td>
-                                    <td>{{dataItem.title}}</td>
-                                    <td>{{dataItem.formattedDate}}</td>
-                                    <td>{{dataItem.remarks}}</td>
-                                    <td><span class="badge bg-danger text-black">CANCELED</span></td>
+                                <tr *ngFor="
+                    let dataItem of declinedList | filter : searchText;
+                    let i = index
+                  ">
+                                    <td>
+                                        {{ i + 1 }}
+                                    </td>
+                                    <td [style.color]="'#4154F1'">
+                                        <strong>{{ dataItem.clientName }}</strong>
+                                    </td>
+                                    <td>{{ dataItem.address }}</td>
+                                    <td>{{ dataItem.contactPerson }}</td>
+                                    <td>{{ dataItem.contactNo }}</td>
+                                    <td>{{ dataItem.emailAd }}</td>
+                                    <td>₱ {{ dataItem.total }}</td>
+                                    <td>{{ dataItem.remarks }}</td>
+                                    <td>
+                                        <button type="button" (click)="editData = dataItem" (click)="filterdList()"
+                                            class="btn btn-outline-info border-0" data-bs-toggle="modal"
+                                            data-bs-target="#facilities">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="dataItem.status === -1"
+                                            class="badge bg-danger text-black">CANCELED</span>
+                                    </td>
+
                                 </tr>
                             </tbody>
                         </table>
                         <div *ngIf="declinedList.length == 0">
-                            <img src="assets/img/document.gif" alt="" width="200" height="200" style="display: block; margin: 0 auto;">
-                            <span style="display: flex; justify-content: center; align-items: center;">
+                            <img src="assets/img/document.gif" alt="" width="200" height="200"
+                                style="display: block; margin: 0 auto" />
+                            <span style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                ">
                                 <label><strong>No Data!</strong></label>
                             </span>
                         </div>
@@ -227,8 +291,10 @@
     <div class="modal fade" id="payment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-2" id="exampleModalLabel">Payment </h1>
+                <div class="modal-header blue-modal-header">
+                    <h1 class="modal-title fs-2 text-black" id="exampleModalLabel">
+                        Payment
+                    </h1>
                     <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
                         aria-label="Close"></button>
                 </div>
@@ -241,28 +307,32 @@
                             <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                                 [(ngModel)]="selectedValue" (ngModelChange)="onSelectChange(selectedValue)">
                                 <option disabled>Open this select menu</option>
-                                <option value="1">Regular payment</option>
-                                <option value="2">Free of use</option>
-                                <option value="3">Donation</option>
+                                <!-- <option value="1">Regular payment</option> -->
+                                <option value="2">Free of Use</option>
+                                <option value="3">Regular Use</option>
                             </select>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-12">
-                            <label class="font-weight-bold" for="exampleFormControlTextarea1">Total: </label>
-                            <!-- <span>{{editData.total}}</span> -->
+                            <label class="font-weight-bold" for="exampleFormControlTextarea1">Total:
+                            </label>
                             <input *ngIf="isRegular" type="text" class="form-control" name="myData"
-                                [(ngModel)]="editData.total" disabled>
+                                [(ngModel)]="editData.total" disabled />
                             <input *ngIf="isDonation" type="text" class="form-control" name="myData"
-                                [(ngModel)]="editData.total">
+                                [(ngModel)]="editData.total"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')" />
                         </div>
                     </div>
-                </div><br>
+                </div>
+                <br />
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        aria-hidden="true">Close</button>
-                    <button (click)="approve()" type="button" class="btn btn-success"><i
-                            class="bi bi-save2"></i>&nbsp;Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">
+                        Close
+                    </button>
+                    <button (click)="approve()" type="button" class="btn btn-success">
+                        <i class="bi bi-save2"></i>&nbsp;Save changes
+                    </button>
                 </div>
             </div>
         </div>
@@ -272,20 +342,24 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-2" id="exampleModalLabel">{{editData.title}} - Pending</h1>
+                    <h1 class="modal-title fs-2" id="exampleModalLabel">
+                        {{ editData.title }} - Pending
+                    </h1>
                     <button type="button" #closebuttonedit class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="">
                         <div class="row mt-3">
-                            <div class="col-md-12"> <label class="form-label">Event Date: </label>
+                            <div class="col-md-12">
+                                <label class="form-label">Event Date: </label>
                                 <input type="date" class="form-control" [(ngModel)]="editData.date" name="date"
-                                    id="date">
+                                    id="date" />
                             </div>
                         </div>
                         <div class="row mt-3">
-                            <div class="col-md-6"> <label class="form-label">Start Time: </label>
+                            <div class="col-md-6">
+                                <label class="form-label">Start Time: </label>
                                 <select class="form-select" aria-label="Default select example" name="startTime"
                                     id="startTime" [(ngModel)]="editData.startTime">
                                     <option value="" disabled selected>Select time</option>
@@ -294,7 +368,8 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-md-6"> <label class="form-label">End Time: </label>
+                            <div class="col-md-6">
+                                <label class="form-label">End Time: </label>
                                 <select class="form-select" aria-label="Default select example" name="endTime"
                                     id="endTime" [(ngModel)]="editData.endTime">
                                     <option value="" disabled selected>Select time</option>
@@ -305,12 +380,15 @@
                             </div>
                         </div>
                     </div>
-                </div><br>
+                </div>
+                <br />
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        aria-hidden="true">Close</button>
-                    <button (click)="EditResFacilities()" type="button" class="btn btn-success"><i
-                            class="bi bi-save2"></i>&nbsp;Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">
+                        Close
+                    </button>
+                    <button (click)="EditResFacilities()" type="button" class="btn btn-success">
+                        <i class="bi bi-save2"></i>&nbsp;Save changes
+                    </button>
                 </div>
             </div>
         </div>
@@ -320,169 +398,414 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-2" id="exampleModalLabel"><i
-                            class="bi bi-person-circle"></i>&nbsp;{{editData.clientId}}</h1>
+                    <h1 class="modal-title fs-2" id="exampleModalLabel">
+                        <i class="bi bi-person-circle"></i>&nbsp;{{ editData.clientName }}
+                    </h1>
                     <button type="button" #closebuttonpaid class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="">
                         <div class="row mt-3">
-                            <div class="col-md-12"> <label class="form-label">OR No. </label>
+                            <div class="col-md-12">
+                                <label class="form-label">OR No. </label>
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" [(ngModel)]="editData.orNo" name="orNo"
-                                    id="orNo">
+                                    id="orNo"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')" />
                             </div>
                         </div>
                     </div>
-                </div><br>
+                </div>
+                <br />
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        aria-hidden="true">Close</button>
-                    <button (click)="paid()" type="button" class="btn btn-success">
-                        <i class="bi bi-cash"></i>&nbsp;Paid</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">
+                        Close
+                    </button>
+                    <button (click)="paidClient()" type="button" class="btn btn-success">
+                        <i class="bi bi-cash"></i>&nbsp;Paid
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="print-section" hidden>
-        <div style="text-align: center;" id="headers">
-            <img id="logo" src="assets/img/ddn_logo.png" alt="Logo" width="70" height="70">
-            <h4>Provincial Economic Enterprise Development Office <br>
-                DAVAO DEL NORTE SPORTS AND TOURISM COMPLEX <br>
-                <span id="subheaders">Mankilam, Tagum City, Davao del Norte </span><br><br>
+    <!-- preview FACILITIES -->
+    <div class="modal fade" id="facilities" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header blue-modal-header">
+                    <h1 class="modal-title fs-2 " id="exampleModalLabel" style="color: blue">
+                        <i class="bi bi-journal-bookmark "></i>&nbsp;{{
+                        filterListClient[0]?.title
+                        }}
+                    </h1>
+                    <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="my-table table" *ngIf="filterListClient.length != 0">
+                                    <thead>
+                                        <tr class="table-header">
+                                            <th scope="col">#</th>
+                                            <th scope="col">Category</th>
+                                            <th scope="col">Facility</th>
+                                            <th scope="col">Other Equipments</th>
+                                            <th scope="col">Event Date</th>
+                                            <th scope="col">End Date</th>
+                                            <th scope="col">Start Time</th>
+                                            <th scope="col">End Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let dataItem of filterListClient; let i = index">
+                                            <td>{{ i + 1 }}</td>
+                                            <td>{{ dataItem.categoryName }}</td>
+                                            <td [style.color]="'#4154F1'">
+                                                <strong>{{ dataItem.facilityName }}</strong>
+                                            </td>
+                                            <td>{{ dataItem.othersId }}</td>
+                                            <td>{{ dataItem.formattedDate }}</td>
+                                            <td>{{ dataItem.formattedDateEnd }}</td>
+                                            <td>
+                                                <div *ngFor="let item of startTime">
+                                                    <span *ngIf="item.int === dataItem.startTime">
+                                                        {{ item.type }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div *ngFor="let item of endTime">
+                                                    <span *ngIf="item.int === dataItem.endTime">
+                                                        {{ item.type }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div *ngIf="filterListClient.length == 0">
+                                    <img src="assets/img/document.gif" alt="" width="200" height="200"
+                                        style="display: block; margin: 0 auto" />
+                                    <span style="
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    ">
+                                        <label><strong>No Data!</strong></label>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- print section -->
+    <div *ngIf="hourstrap" id="print-section" hidden>
+        <div style="text-align: center" id="headers">
+            <img id="logo" src="assets/img/ddn_logo.png" alt="Logo" width="70" height="70" />
+            <h4>
+                Provincial Economic Enterprise Development Office <br />
+                DAVAO DEL NORTE SPORTS AND TOURISM COMPLEX <br />
+                <span id="subheaders">Mankilam, Tagum City, Davao del Norte </span><br /><br />
                 <span id="subheaders_2">RESERVATION SHEET</span>
             </h4>
         </div>
         <div>
-            <label id="content">Client Name: </label>&nbsp;<span id="details">{{editData.clientId}}</span>
-            <label id="content" style="padding-left: 10px;">Address: </label><span
-                id="details">{{editData.address}}</span>
-            <label id="content" style="padding-left: 10px;">Fax No: </label><span
-                id="details">{{editData.faxNo}}</span>
-        </div> <br>
+            <label id="content">Client Name: </label>&nbsp;<span id="details">{{
+                editData.clientName
+                }}</span>
+            <label id="content" style="padding-left: 10px">Address: </label><span id="details">{{ editData.address
+                }}</span>
+        </div>
+        <br />
         <div>
-            <label id="content">Contact Person:</label>&nbsp;<span id="details">{{editData.contactPerson}}</span>
-            <label id="content" style="padding-left: 10px;">Contact No: </label><span
-                id="details">{{editData.contactNo}}</span>
-            <label id="content" style="padding-left: 10px;">Event Date: </label><span
-                id="details">{{editData.formattedDate}}</span>
-        </div> <br>
+            <label id="content">Contact Person:</label>&nbsp;<span id="details">{{
+                editData.contactPerson
+                }}</span>
+            <label id="content" style="padding-left: 10px">Contact No: </label><span id="details">{{ editData.contactNo
+                }}</span>
+            <label id="content" style="padding-left: 10px">Email Address: </label><span id="details">{{ editData.emailAd
+                }}</span>
+        </div>
+        <br />
         <div>
-            <label id="content">Date of Reservation & Time: </label><span
-                id="details">{{editData.reservationDate}}</span>
-            <label id="content" style="padding-left: 10px;">Nature of Event: </label><span
-                id="details">{{editData.title}}</span>
-            <label id="content" style="padding-left: 10px;">No. of Participants: </label><span
-                id="details">{{editData.participantNo}}</span>
-        </div> <br>
-        <div >
-            <table style="width:100%" id="tableRS">
-                <tr>
-                  <th id="tableRS">FACILITIES</th>
-                  <th id="tableRS">DAY (5am-5pm)</th> 
-                  <th id="tableRS">NIGHT (5pm-9pm)</th>
-                  <th id="tableRS">TOTAL</th>
+            <label id="content">Date of Reservation & Time: </label><span id="details">{{ editData.formattedDate
+                }}</span>
+            <label id="content" style="padding-left: 10px">Nature of Event: </label><span id="details">{{
+                filterListClient[0]?.title }}</span>
+            <label id="content" style="padding-left: 10px">No. of Participants: </label><span id="details">{{
+                filterListClient[0]?.participantNo }}</span>
+        </div>
+        <br />
+        <div>
+            <!-- <table style="width:100%" id="tableRS">
+                    <tr>
+                        <th id="tableRS">FACILITIES</th>
+                        <th id="tableRS">NUMBER OF HOURS</th>
+                        <th id="tableRS">RATES</th>
+                        <th id="tableRS">TOTAL</th>
+                    </tr>
+                    <tr>
+                        <td>OVAL AND GRANDSTAND</td>
+                        <td>asd</td>
+                        <td>asd</td>
+                        <td>asd</td>
+                    </tr>
+            </table> -->
+            <table style="border-collapse: collapse; width: 100%" id="tableRS">
+                <tr style="background-color: #f2f2f2">
+                    <th id="tableRS">FACILITIES</th>
+                    <th colspan="2" id="tableRS"># OF HOURS</th>
+                    <th colspan="2" id="tableRS">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RATES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </th>
+                    <th id="tableRS">TOTAL</th>
                 </tr>
-              </table>
-        </div><br><br>
+                <tr>
+                    <td id="tableRS">I. OVAL AND GRANDSTAND</td>
+                    <td id="tableRShrs">{{hrs('FAC230601151526')}}</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRS">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="tableRS" rowspan="3">
+                        II. FOOTBALL FIELD:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a id="tablesub">-PITCH A CENTERFIELD</a><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a id="tablesub">-PITCH B</a><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a id="tablesub">-PITCH C</a>
+                    </td>
+                    <td id="tableRShrs">{{hrs('FAC230601151603')}} </td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRS">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="tableRShrs">{{hrs('FAC230601151645')}}</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRS">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="tableRShrs">{{hrs('FAC230601151817')}}</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRS">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="tableRS" rowspan="2">
+                        III. SWIMMING POOLS:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a id="tablesub">-OLYMPIC-SIZE POOL</a><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a id="tablesub">-WARM-UP POOL</a>
+                    </td>
+                    <td id="tableRShrs">{{hrs('FAC230601151838')}}</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRS">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="tableRShrs">{{hrs('FAC230601151900')}}</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRS">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="tableRS">
+                        IV. OUTSIDE COURTS:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a id="tablesub">-TENNIS COURT</a>
+                    </td>
+                    <td id="tableRShrs">{{hrs('FAC230601151912')}}</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRS">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="tableRS" rowspan="2">
+                        V. TRAINING ROOMS:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a id="tablesub">-TABLE TENNIS</a><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a id="tablesub">-BILLIARDS</a>
+                    </td>
+                    <td id="tableRShrs">{{hrs('FAC230601151930')}}</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRS">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="tableRShrs">{{hrs('FAC230601151946')}}</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRS">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="tableRS">VI. CLUB HOUSE</td>
+                    <td id="tableRShrs">{{hrs('FAC230601152035')}}</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRS">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="tableRS">VII. PAVILLION</td>
+                    <td id="tableRShrs">{{hrs('FAC230601152045')}}</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRS">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="tableRS">VIII. DAVNOR GYM</td>
+                    <td id="tableRShrs">{{hrs('FAC230601152059')}}</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRS">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="tableRS">IX. ENTIRE SPORTS AND TOURISM COMPLEX</td>
+                    <td id="tableRShrs">{{hrs('FAC230601152122')}}</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRS">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="tableRS">X. DAVNOR COLISEUM</td>
+                    <td id="tableRShrs">{{hrs('FAC230601152310')}}</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRS">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="tableRS" rowspan="2">
+                        XI. DAVNOR TRAINING CENTER:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a id="tablesub">-COURT 1</a><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a id="tablesub">-COURT 2</a>
+                    </td>
+                    <td id="tableRShrs">{{hrs('FAC230601152319')}}</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRS">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                    <td id="tableRShrs">{{hrs('FAC230601152324')}}</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRShrs">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td id="tableRS">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+        <br /><br />
         <div id="headers">
-            <label id="content">REMARKS/OTHER ARRANGEMENTS:</label>&nbsp;<span id="details">{{editData.remarks}}</span>
-        </div><br>
+            <label id="content">REMARKS/OTHER ARRANGEMENTS:</label>&nbsp;<span id="details">{{ editData.remarks
+                }}</span>
+        </div>
+        <br />
         <div>
-            <label> <span id="policy">POLICIES GUIDELINES ON USE OF A SPORTS FACILITY</span><br><br>
-                <span id="policy_sub">1. No person, including the client, his/her representatives or emplyees, sponsors,
-                    guests, organizers, members of the audience or its partcipants, is allowed 
-                    to set up any tent, booth, stall or station at any place within the DNSTC witout securing prior
-                    approval. This should be indicated in the Reservation Sheet.</span><br>
-                <span id="policy_sub">2. The client may bring provisions for the consumption of its own personnel, but,
-                    limited to packed meals in styrofoam or small lunch boxes only. And, no person, including the
-                    client,
-                    his/her representatives or employees, sponsors, guests, organizers, members of the audience or its
-                    participants, shall place, show, offer, distribute, sell, or vend any kind of food,
-                    water or beverage at any place within the DNSTC.</span><br>
-                <span id="policy_sub">3. No streamer, placard, billboard, poster, or sign, notice of advertisement of
-                    any kind shall be placed by the client, its sponsors, organizers or other persons identified with
-                    the
-                    client without prior approval. Signs placed in violation of this rule will be removed by DNSTC
-                    personnel</span><br>
-                <span id="policy_sub">4. Unless otherwise agreed upon, the client shall be responsible for policing its
-                    own security force during the preparations and conduct of its events, and ensuring peace and order
-                    during such times. DNSTC shall not be reponsible for any injury, damage, or loss to the client, its
-                    representatives or employees, sponsors, guets, or other persons.</span><br>
-                <span id="policy_sub">5. The client shall be responsible for its garbage disposal and shall assist in
-                    maintaining order and cleanliness of the facility after the event.
-                </span><br>
-                <span id="policy_sub">6. As a general rule, eating and drinking of any kind of food or liquid, except
-                    water is strictly prohibited inside the oval track, centerfield, swimming pool area and RDR gym.
-                </span><br>
-                <span id="policy_sub">7. All kinds of vehicles should be parked in designated parking areas.
-                </span><br>
-                <span id="policy_sub">8. The DNSTC is a smoke-free-zone. Anybody caught smoking shall be meted
-                    disciplinary action as Civil Service Commission Memorandum Circular No. 17, s. 2009 and/or penalized
-                    according to the provisions of Republic Act No. 9211.
+            <label>
+                <span id="policy">POLICIES GUIDELINES ON USE OF A SPORTS FACILITY</span><br /><br />
+                <span id="policy_sub">1. No person, including the client, his/her representatives or
+                    emplyees, sponsors, guests, organizers, members of the audience or its
+                    partcipants, is allowed to set up any tent, booth, stall or station at
+                    any place within the DNSTC witout securing prior approval. This should
+                    be indicated in the Reservation Sheet.</span><br />
+                <span id="policy_sub">2. The client may bring provisions for the consumption of its own
+                    personnel, but, limited to packed meals in styrofoam or small lunch
+                    boxes only. And, no person, including the client, his/her
+                    representatives or employees, sponsors, guests, organizers, members of
+                    the audience or its participants, shall place, show, offer,
+                    distribute, sell, or vend any kind of food, water or beverage at any
+                    place within the DNSTC.</span><br />
+                <span id="policy_sub">3. No streamer, placard, billboard, poster, or sign, notice of
+                    advertisement of any kind shall be placed by the client, its sponsors,
+                    organizers or other persons identified with the client without prior
+                    approval. Signs placed in violation of this rule will be removed by
+                    DNSTC personnel</span><br />
+                <span id="policy_sub">4. Unless otherwise agreed upon, the client shall be responsible for
+                    policing its own security force during the preparations and conduct of
+                    its events, and ensuring peace and order during such times. DNSTC
+                    shall not be reponsible for any injury, damage, or loss to the client,
+                    its representatives or employees, sponsors, guets, or other
+                    persons.</span><br />
+                <span id="policy_sub">5. The client shall be responsible for its garbage disposal and shall
+                    assist in maintaining order and cleanliness of the facility after the
+                    event. </span><br />
+                <span id="policy_sub">6. As a general rule, eating and drinking of any kind of food or
+                    liquid, except water is strictly prohibited inside the oval track,
+                    centerfield, swimming pool area and RDR gym. </span><br />
+                <span id="policy_sub">7. All kinds of vehicles should be parked in designated parking
+                    areas. </span><br />
+                <span id="policy_sub">8. The DNSTC is a smoke-free-zone. Anybody caught smoking shall be
+                    meted disciplinary action as Civil Service Commission Memorandum
+                    Circular No. 17, s. 2009 and/or penalized according to the provisions
+                    of Republic Act No. 9211.
                 </span>
-                <span id="policy_sub">9. Vandalism inside the DNSTC will be dealt with accordingly. The cost to repair,
-                    refabricate, reinstall or reacquire, the damaged sports
-                    facility or sections thereof, equipment and properties, as determnined by the Provincial Engineering
-                    Office(PEO) or the Provincial General Services Office (PGSO),
-                    shall be paid for by the offender.
+                <span id="policy_sub">9. Vandalism inside the DNSTC will be dealt with accordingly. The
+                    cost to repair, refabricate, reinstall or reacquire, the damaged
+                    sports facility or sections thereof, equipment and properties, as
+                    determnined by the Provincial Engineering Office(PEO) or the
+                    Provincial General Services Office (PGSO), shall be paid for by the
+                    offender.
                 </span>
             </label>
-            <!-- <ol id="numbered-list">
-                <li>No person, including the client, his/her representatives or emplyees, sponsors,
-                    guests, organizers, members of the audience or its partcipants, is allowed 
-                    to set up any tent, booth, stall or station at any place within the DNSTC witout securing prior
-                    approval. This should be indicated in the Reservation Sheet</li>
-                <li>The client may bring provisions for the consumption of its own personnel, but,
-                    limited to packed meals in styrofoam or small lunch boxes only. And, no person, including the
-                    client,
-                    his/her representatives or employees, sponsors, guests, organizers, members of the audience or its
-                    participants, shall place, show, offer, distribute, sell, or vend any kind of food,
-                    water or beverage at any place within the DNSTC</li>
-                <li>Third item</li>
-              </ol> -->
-        </div><br>
+        </div>
+        <br />
         <div id="box">
-            <div style="text-align: center;">
+            <div style="text-align: center">
                 <label>
                     <span id="policy_cancel">
-                        CANCELLATION POLICY<br>
-                        The client must notify DNSTC of any cancellation or change in the date of its event at least 
-                        seven days before the scheduled date/s. Non-compliance with this requirements will result in the 
-                        forfeiture of the client's contribution/donation unless reason is valid or due to extraordinary
+                        CANCELLATION POLICY<br />
+                        The client must notify DNSTC of any cancellation or change in the
+                        date of its event at least seven days before the scheduled date/s.
+                        Non-compliance with this requirements will result in the forfeiture
+                        of the client's contribution/donation unless reason is valid or due
+                        to extraordinary
                     </span>
-                </label>  
+                </label>
             </div>
-        </div><br>
+        </div>
+        <br />
         <div id="conforme_position">
             <label>
-                <span id="conforme">
-                    CONFORME:
-                </span><br><br><br>
-                <span id="signature">
-                    CLIENT'S SIGNATURE OVER PRINTED NAME
-                </span>
+                <span id="conforme"> CONFORME: </span><br /><br />
+                <div>
+                    <span id="detailsClient">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ editData.clientName
+                        }}</span>
+                </div>
+                <span id="signature"> CLIENT'S SIGNATURE OVER PRINTED NAME </span>
             </label>
         </div>
         <div id="conforme_position2">
             <label>
-                <span id="conforme">
-                    NOTED BY:
-                </span><br><br><br>
-                <span id="signature">
-                    GIOVANNI I. GULANES
-                </span><br>
-                <span id="signatur2">
-                    PG Department Head, PSYDO 
-                </span>
+                <span id="conforme"> NOTED BY: </span><br /><br /><br />
+                <span id="signature"> GIOVANNI I. GULANES </span><br />
+                <span id="signatur2"> PG Department Head, PSYDO </span>
             </label>
         </div>
     </div>
 
-    <button hidden #printRes styleSheetFile="assets/css/style.css" printSectionId="print-section"
-        ngxPrint>print</button>
-
+    <button hidden #printRes styleSheetFile="assets/css/style.css" printSectionId="print-section" ngxPrint>
+        print
+    </button>
 </main>
