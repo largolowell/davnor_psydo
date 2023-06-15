@@ -9,7 +9,7 @@
             </ol>
         </nav>
     </div>
-    <div class="card">
+    <!-- <div class="card">
         <div class="card-body">
             <div class="card-title" style="display: inline-block; margin-bottom: 3px; padding-bottom: 3px">
                 <h2 style="display: inline">Reservation List</h2>
@@ -78,14 +78,15 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="card-title col-md-2" style="display: inline-block; margin-bottom: 3px; padding-bottom: 3px">
-                    <h2 style="display: inline">Status</h2>&nbsp;
+                <div class="card-title col-md-4" style="display: inline-block; margin-bottom: 3px; padding-bottom: 3px">
+                    <h2 style="display: inline">Reservation List</h2>&nbsp;
                     <span *ngIf="appr" class="badge bg-success text-white">APPROVED</span>
                     <span *ngIf="decl" class="badge bg-danger text-white">CANCELED</span>
+                    <span *ngIf="pend" class="badge bg-warning text-white">PENDING</span>
                     <hr style="
               display: inline-block;
               border: none;
@@ -96,7 +97,7 @@
               padding: 0;
             " />
                 </div>
-                <div class="col-md-6"></div>
+                <div class="col-md-4"></div>
                 <div class="col-md-4">
                     <label class="form-label"></label>
                     <div class="input-group">
@@ -114,7 +115,13 @@
                 </div>
             </div>
             <nav>
+                <!-- <br> -->
                 <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+                    <button (click)="pendingSwitch()" class="nav-link font-weight-bold" id="nav-pending-tab"
+                        data-bs-toggle="tab" data-bs-target="#nav-pending" type="button" role="tab"
+                        aria-controls="nav-pending" aria-selected="false">
+                        Pending
+                    </button>
                     <button (click)="approveSwitch()" class="nav-link active font-weight-bold" id="nav-home-tab"
                         data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab"
                         aria-controls="nav-home" aria-selected="true">
@@ -127,6 +134,7 @@
                     </button>
                 </div>
             </nav>
+            <!-- APPROVED -->
             <div class="tab-content p-3 border bg-light" id="nav-tabContent">
                 <div class="tab-pane fade active show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                     <div class="table-responsive">
@@ -201,10 +209,28 @@
                                         </button>
                                     </td>
                                     <td>
-                                        <button (click)="editData = dataItem" (click)="DeleteResFacilities()"
+                                        <button *ngIf="account == compAccount ? true : false"
+                                            (click)="editData = dataItem" (click)="DeleteResFacilities()"
                                             class="btn btn-outline-danger border-0">
                                             Cancel
                                         </button>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="(approvedList | filter: searchText).length === 0">
+                                    <td colspan="10">
+                                        <div style="
+                                        display: flex;
+                                        flex-direction: column;
+                                        align-items: center;
+                                        justify-content: center;
+                                        height: 100%;
+                                        text-align: center;
+                                      ">
+                                            <img src="assets/img/document.gif" alt="" width="200" height="200" />
+                                            <span style="margin-top: 10px;">
+                                                <label><strong>No Data Found!</strong></label>
+                                            </span>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -222,6 +248,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- CANCELED -->
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                     <div class="table-responsive">
                         <table class="my-table table" *ngIf="declinedList != 0">
@@ -267,7 +294,23 @@
                                         <span *ngIf="dataItem.status === -1"
                                             class="badge bg-danger text-black">CANCELED</span>
                                     </td>
-
+                                </tr>
+                                <tr *ngIf="(declinedList | filter: searchText).length === 0">
+                                    <td colspan="10">
+                                        <div style="
+                                        display: flex;
+                                        flex-direction: column;
+                                        align-items: center;
+                                        justify-content: center;
+                                        height: 100%;
+                                        text-align: center;
+                                      ">
+                                            <img src="assets/img/document.gif" alt="" width="200" height="200" />
+                                            <span style="margin-top: 10px;">
+                                                <label><strong>No Data Found!</strong></label>
+                                            </span>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -279,6 +322,78 @@
                   justify-content: center;
                   align-items: center;
                 ">
+                                <label><strong>No Data!</strong></label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- PENDING -->
+                <div class="tab-pane fade" id="nav-pending" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <div class="table-responsive">
+                        <table class="my-table table" *ngIf="reservedList != 0">
+                            <thead>
+                                <tr style="background-color: #f0f0f0">
+                                    <th scope="col">#</th>
+                                    <th scope="col">Client Name</th>
+                                    <th scope="col">Date of Reservation/Time</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Contact Person</th>
+                                    <th scope="col">Contact No</th>
+                                    <th scope="col">Email Address</th>
+                                    <th scope="col"></th>
+                                    <th *ngIf="account == compAccount ? true : false"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let dataItem of reservedList | filter : searchText; let i = index">
+                                    <td>{{ i + 1 }}</td>
+                                    <td [style.color]="'#4154F1'">
+                                        <strong>{{ dataItem.clientName }}</strong>
+                                    </td>
+                                    <td>{{ dataItem.formattedDate }}</td>
+                                    <td>{{ dataItem.address }}</td>
+                                    <td>{{ dataItem.contactPerson }}</td>
+                                    <td>{{ dataItem.contactNo }}</td>
+                                    <td>{{ dataItem.emailAd }}</td>
+                                    <td>
+                                        <button type="button" (click)="editData = dataItem" (click)="filterdList()"
+                                            class="btn btn-outline-info border-0" data-bs-toggle="modal"
+                                            data-bs-target="#facilities">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </td>
+                                    <td *ngIf="account == compAccount ? true : false">
+                                        <button (click)="editData = dataItem; storage = dataItem.total" type="button"
+                                            class="btn btn-outline-primary border-0" data-bs-toggle="modal"
+                                            data-bs-target="#payment">
+                                            <i class="bi bi-check-lg"></i>&nbsp;Approve
+                                        </button>
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                                <tr *ngIf="(reservedList | filter: searchText).length === 0">
+                                    <td colspan="10">
+                                        <div style="
+                                        display: flex;
+                                        flex-direction: column;
+                                        align-items: center;
+                                        justify-content: center;
+                                        height: 100%;
+                                        text-align: center;
+                                      ">
+                                            <img src="assets/img/document.gif" alt="" width="200" height="200" />
+                                            <span style="margin-top: 10px;">
+                                                <label><strong>No Data Found!</strong></label>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div *ngIf="reservedList.length == 0">
+                            <img src="assets/img/document.gif" alt="" width="200" height="200"
+                                style="display: block; margin: 0 auto" />
+                            <span style="display: flex; justify-content: center; align-items: center">
                                 <label><strong>No Data!</strong></label>
                             </span>
                         </div>

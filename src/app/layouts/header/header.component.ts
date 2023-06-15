@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common'
+import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import { timer } from 'rxjs';
 import * as moment from 'moment';
 import { BnNgIdleService } from 'bn-ng-idle'; // import it to your component
@@ -9,14 +9,17 @@ import { BnNgIdleService } from 'bn-ng-idle'; // import it to your component
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-
-  constructor(@Inject(DOCUMENT) private document: Document, private route: Router, private bnIdle: BnNgIdleService) { }
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    private route: Router,
+    private bnIdle: BnNgIdleService
+  ) {}
 
   ngOnInit(): void {
-    if(localStorage.getItem('token')!= null){
+    if (localStorage.getItem('token') != null) {
       this.bnIdle.startWatching(3600).subscribe((isTimedOut: boolean) => {
         if (isTimedOut) {
           this.logOut();
@@ -28,16 +31,16 @@ export class HeaderComponent implements OnInit {
     this.performActionWithTimeout();
   }
 
-  userName:any = localStorage.getItem('userName');
-  sidebarToggle()
-  {
+  userName: any = localStorage.getItem('userName');
+  fName: any = localStorage.getItem('fName');
+  sidebarToggle() {
     //toggle sidebar function
     this.document.body.classList.toggle('toggle-sidebar');
   }
- 
 
-  logOut(){
+  logOut() {
     localStorage.removeItem('token');
+    localStorage.removeItem('fName');
     localStorage.removeItem('userName');
     localStorage.removeItem('account');
     localStorage.removeItem('expire');
@@ -49,27 +52,25 @@ export class HeaderComponent implements OnInit {
       timer: 3000,
       timerProgressBar: true,
       didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
-    })
-    
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
+
     Toast.fire({
       icon: 'success',
-      title: 'Logout successfully'
-    })
+      title: 'Logout successfully',
+    });
   }
 
   // This method will be called after a timeout of 3 seconds
   performActionWithTimeout(): void {
     const expireDate = new Date().toString();
     const expireDateFinal = moment(expireDate).format('MMM Do YYYY');
-    if(localStorage.getItem('token') != null){
-      if(localStorage.getItem('expire') != expireDateFinal){
-      this.logOut();
-    }
+    if (localStorage.getItem('token') != null) {
+      if (localStorage.getItem('expire') != expireDateFinal) {
+        this.logOut();
+      }
     }
   }
-
-
 }

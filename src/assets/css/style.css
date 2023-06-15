@@ -332,11 +332,11 @@
 	}
   }
   .logo img {
-	max-height: 26px;
-	margin-right: 6px;
+	width: 70px;
+	height: 70px;
   }
   .logo span {
-	font-size: 26px;
+	font-size: 22px;
 	font-weight: 700;
 	color: #012970;
 	font-family: "Nunito", sans-serif;

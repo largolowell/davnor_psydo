@@ -88,14 +88,22 @@ export class ReservationListComponent implements OnInit {
 
   appr: boolean = true;
   decl: boolean = false;
+  pend: boolean = false;
 
+  pendingSwitch() {
+    this.appr = false;
+    this.decl = false;
+    this.pend = true;
+  }
   approveSwitch() {
     this.appr = true;
     this.decl = false;
+    this.pend = false;
   }
   declineSwitch() {
     this.appr = false;
     this.decl = true;
+    this.pend = false;
   }
 
   ViewListResFacilities() {

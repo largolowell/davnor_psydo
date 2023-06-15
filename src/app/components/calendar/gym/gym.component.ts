@@ -92,8 +92,10 @@ export class GymComponent implements OnInit {
     this.finalStepReserved();
     this.finalStepCancel();
   }
+  nameColor: number | any;
   finalStepCancel() {
     this.cancelFinalList.forEach((item: any) => {
+      this.nameColor = 3;
       this.object.color = 'red';
       this.object.textColor = 'black';
       this.object.start = item.date;
@@ -110,6 +112,7 @@ export class GymComponent implements OnInit {
   }
   finalStepReserved() {
     this.reservedFinalList.forEach((item: any) => {
+      this.nameColor = 2;
       this.object.color = 'yellow';
       this.object.textColor = 'black';
       this.object.start = item.date;
@@ -127,6 +130,7 @@ export class GymComponent implements OnInit {
   finalStep() {
     this.finalList.forEach((item: any) => {
       // this.object.color = 'green';
+      this.nameColor = 1;
       this.object.start = item.date;
       this.object.end = item.dateEndplus;
       this.object.textColor = 'black';

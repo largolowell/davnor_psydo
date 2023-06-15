@@ -1,4 +1,13 @@
 .blue-modal-header {
-    background-color: #F0F0F0;
+    background-color: blue;
+    color: white;
+  }
+.yellow-modal-header {
+    background-color: yellow;
+    color: white;
+  }
+  
+.red-modal-header {
+    background-color: red;
     color: white;
   }

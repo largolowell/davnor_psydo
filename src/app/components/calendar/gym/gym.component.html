@@ -33,8 +33,20 @@
   <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog ">
       <div class="modal-content">
-        <div class="modal-header blue-modal-header">
-          <h1 class="modal-title fs-3" id="exampleModalLabel" style="color: blue"><i
+        <div *ngIf="nameColor == 1" class="modal-header blue-modal-header">
+          <h1 class="modal-title fs-3" id="exampleModalLabel" style="color: black"><i
+              class="bi bi-person-circle"></i>&nbsp;{{object.clientName}}</h1>
+          <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
+            aria-label="Close"></button>
+        </div>
+        <div *ngIf="nameColor == 2" class="modal-header yellow-modal-header">
+          <h1 class="modal-title fs-3" id="exampleModalLabel" style="color: black"><i
+              class="bi bi-person-circle"></i>&nbsp;{{object.clientName}}</h1>
+          <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
+            aria-label="Close"></button>
+        </div>
+        <div *ngIf="nameColor == 3" class="modal-header red-modal-header">
+          <h1 class="modal-title fs-3" id="exampleModalLabel" style="color: black"><i
               class="bi bi-person-circle"></i>&nbsp;{{object.clientName}}</h1>
           <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
             aria-label="Close"></button>

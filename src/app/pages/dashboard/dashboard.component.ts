@@ -4,125 +4,204 @@ import { SharedService } from 'src/app/shared.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-
-  constructor(private elementRef: ElementRef, private service: SharedService) { }
+  constructor(private elementRef: ElementRef, private service: SharedService) {}
 
   ngOnInit(): void {
-
-    var s = document.createElement("script");
-    s.type = "text/javascript";
-    s.src = "../assets/js/main.js";
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.src = '../assets/js/main.js';
     this.elementRef.nativeElement.appendChild(s);
     this.GetListResFacilities();
   }
 
-  dataListResFacilities:any = [];
-  GetListResFacilities(){
-    this.service.ViewListResFacilities().subscribe(data=>{
-      this.dataListResFacilities = (<any>data);
-      this.filter();
+  dataListResFacilities: any = [];
+  GetListResFacilities() {
+    this.service.ViewListResFacilities().subscribe((data) => {
+      this.dataListResFacilities = <any>data;
+      // this.filter();
       this.finalStep();
-    }) 
+    });
   }
 
-  approvedList:any = [];
-  filter(){
-    this.dataListResFacilities.forEach((item : any)=>{
-      if(item.status === 1){
+  approvedList: any = [];
+  filter() {
+    this.dataListResFacilities.forEach((item: any) => {
+      if (item.status === 1) {
         this.approvedList.push(item);
       }
-    })
-  }
-  davnorgymCounter_res: number =0 ;
-  totalCounter_davnorgym:number = 0
-  davnorgymCounter_done: number =0 ;
-
-  stComplexCounter_res:number = 0;
-  totalCounter_stComplex:number = 0
-  stComplexCounter_done:number = 0;
-
-  clubhouseCounter_res:number = 0;
-  totalCounter_clubhouse:number = 0
-  clubhouseCounter_done:number = 0;
-
-  outsideCounter_res: number = 0;
-  totalCounter_outside:number = 0
-  outsideCounter_done: number = 0;
-
-  swimmingCounter_res: number = 0;
-  totalCounter_swimming:number = 0
-  swimmingCounter_done: number = 0;
-
-  footballCounter_res: number = 0;
-  totalCounter_football:number = 0
-  footballCounter_done: number = 0;
-
-  ovalCounter_res: number = 0;
-  totalCounter_oval:number = 0
-  ovalCounter_done:number = 0;
-  finalStep(){
-    this.approvedList.forEach((item:any)=>{
-      if(item.categoryId === "C230425161142"){
-        this.totalCounter_davnorgym ++;
-        if(item.done == 1){
-          this.davnorgymCounter_done ++;
-        }else{
-          this.davnorgymCounter_res ++;
-        }
-      }
-      if(item.categoryId === "C230425092351"){
-        this.totalCounter_stComplex ++;
-        if(item.done == 1){
-          this.stComplexCounter_done ++;
-        }else{
-          this.stComplexCounter_res ++;
-        }
-      }
-      if(item.categoryId === "C230425092314"){
-        this.totalCounter_clubhouse ++;
-        if(item.done == 1){
-          this.clubhouseCounter_done ++;
-        }else{
-          this.clubhouseCounter_res ++;
-        }
-      }
-      if(item.categoryId === "C230425092226"){
-        this.totalCounter_outside ++;
-        if(item.done == 1){
-          this.outsideCounter_done ++;
-        }else{
-          this.outsideCounter_res ++;
-        }
-      }
-      if(item.categoryId === "C230425092213"){
-        this.totalCounter_swimming ++;
-        if(item.done == 1){
-          this.swimmingCounter_done ++;
-        }else{
-          this.swimmingCounter_res ++;
-        }
-      }
-      if(item.categoryId === "C230425092153"){
-        this.totalCounter_football ++;
-        if(item.done == 1){
-          this.footballCounter_done ++;
-        }else{
-          this.footballCounter_res ++;
-        }
-      }
-      if(item.categoryId === "C230425092142"){
-        this.totalCounter_oval ++;
-        if(item.done == 1){
-          this.ovalCounter_done ++;
-        }else{
-          this.ovalCounter_res ++;
-        }
-      }
-    })
+    });
   }
 
+  ovalPending: number = 0;
+  ovalApprove: number = 0;
+  ovalCancel: number = 0;
 
+  footPending: number = 0;
+  footApprove: number = 0;
+  footCancel: number = 0;
+
+  swimPending: number = 0;
+  swimApprove: number = 0;
+  swimCancel: number = 0;
+
+  outPending: number = 0;
+  outApprove: number = 0;
+  outCancel: number = 0;
+
+  trainPending: number = 0;
+  trainApprove: number = 0;
+  trainCancel: number = 0;
+
+  clubPending: number = 0;
+  clubApprove: number = 0;
+  clubCancel: number = 0;
+
+  pavPending: number = 0;
+  pavApprove: number = 0;
+  pavCancel: number = 0;
+
+  davgymPending: number = 0;
+  davgymApprove: number = 0;
+  davgymCancel: number = 0;
+
+  entiresportscomplexPending: number = 0;
+  entiresportscomplexApprove: number = 0;
+  entiresportscomplexCancel: number = 0;
+
+  davcolPending: number = 0;
+  davcolApprove: number = 0;
+  davcolCancel: number = 0;
+
+  davtrainPending: number = 0;
+  davtrainApprove: number = 0;
+  davtrainCancel: number = 0;
+
+  finalStep() {
+    this.dataListResFacilities.forEach((item: any) => {
+      if (item.categoryId === 'C230425092142') {
+        if (item.status == 1) {
+          this.ovalApprove++;
+        }
+        if (item.status == -1) {
+          this.ovalCancel++;
+        }
+        if (item.status == null) {
+          this.ovalPending++;
+        }
+      }
+      if (item.categoryId === 'C230425092153') {
+        if (item.status == 1) {
+          this.footApprove++;
+        }
+        if (item.status == -1) {
+          this.footCancel++;
+        }
+        if (item.status == null) {
+          this.footPending++;
+        }
+      }
+      if (item.categoryId === 'C230425092213') {
+        if (item.status == 1) {
+          this.swimApprove++;
+        }
+        if (item.status == -1) {
+          this.swimCancel++;
+        }
+        if (item.status == null) {
+          this.swimPending++;
+        }
+      }
+      if (item.categoryId === 'C230425092226') {
+        if (item.status == 1) {
+          this.outApprove++;
+        }
+        if (item.status == -1) {
+          this.outCancel++;
+        }
+        if (item.status == null) {
+          this.outPending++;
+        }
+      }
+      if (item.categoryId === 'C230425092239') {
+        if (item.status == 1) {
+          this.trainApprove++;
+        }
+        if (item.status == -1) {
+          this.trainCancel++;
+        }
+        if (item.status == null) {
+          this.trainPending++;
+        }
+      }
+      if (item.categoryId === 'C230425092314') {
+        if (item.status == 1) {
+          this.clubApprove++;
+        }
+        if (item.status == -1) {
+          this.clubCancel++;
+        }
+        if (item.status == null) {
+          this.clubPending++;
+        }
+      }
+      if (item.categoryId === 'C230425092327') {
+        if (item.status == 1) {
+          this.pavApprove++;
+        }
+        if (item.status == -1) {
+          this.pavCancel++;
+        }
+        if (item.status == null) {
+          this.pavPending++;
+        }
+      }
+      if (item.categoryId === 'C230425092351') {
+        if (item.status == 1) {
+          this.davgymApprove++;
+        }
+        if (item.status == -1) {
+          this.davgymCancel++;
+        }
+        if (item.status == null) {
+          this.davgymPending++;
+        }
+      }
+      if (item.categoryId === 'C230425161142') {
+        if (item.status == 1) {
+          this.entiresportscomplexApprove++;
+        }
+        if (item.status == -1) {
+          this.entiresportscomplexCancel++;
+        }
+        if (item.status == null) {
+          this.entiresportscomplexPending++;
+        }
+      }
+      if (item.categoryId === 'C230601151302') {
+        if (item.status == 1) {
+          this.davcolApprove++;
+        }
+        if (item.status == -1) {
+          this.davcolCancel++;
+        }
+        if (item.status == null) {
+          this.davcolPending++;
+        }
+      }
+      if (item.categoryId === 'C230601152231') {
+        if (item.status == 1) {
+          this.trainApprove++;
+        }
+        if (item.status == -1) {
+          this.trainCancel++;
+        }
+        if (item.status == null) {
+          this.trainPending++;
+        }
+      }
+    });
+  }
 }
